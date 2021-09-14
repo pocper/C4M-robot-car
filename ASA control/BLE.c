@@ -38,66 +38,46 @@ ISR(USART1_RX_vect)
 
 ISR(TIMER0_COMP_vect)
 {
-    //#1_+30#ASDWA#2_-30#
-
     char *findHash_1 = strchr(receiveData, '#');
     char *findHash_2 = strchr(findHash_1 + 1, '#');
 
     char *findExclamation_1 = strchr(receiveData, '!');
     char *findExclamation_2 = strchr(findExclamation_1 + 1, '!');
 
-    // printf("receiveData = %s\n", receiveData);
+    if (receiveData[0] != '\0')
+        printf("receiveData = %s\n", receiveData);
 
-    /*
-        清除receiveData條件如下
-        1)  僅找到一個'#'
-        2)  僅找到一個'!'
-        3)  字串長度>0 且 找不到'#'和'!'
-     */
+    char *findUnderscore = strchr(findHash_1, '_');
 
-    if (
-        ((findHash_1 != NULL && findHash_2 == NULL) ||
-         (findHash_1 == NULL && findHash_2 != NULL) ||
-         (findExclamation_1 != NULL && findExclamation_2 == NULL) ||
-         (findExclamation_1 == NULL && findExclamation_2 != NULL)) ||
-        (strlen(receiveData) > 0 &&
-         findHash_1 == NULL && findHash_2 == NULL &&
-         findExclamation_1 == NULL && findExclamation_2 == NULL))
+    if (findHash_1 != NULL && findHash_2 != NULL)
     {
-        memset(receiveData, 0, sizeof(receiveData));
-    }
-    else
-    {
-        if (findHash_1 != NULL && findHash_2 != NULL)
+        if ((findHash_2 - findHash_1) == 6)
         {
-            char ServoSentence[8];
-            strncpy(ServoSentence, findHash_1, findHash_2 - findHash_1 + 1);
-            ServoSentence[findHash_2 - findHash_1 + 1] = '\0';
-            // printf("ServoSentence = %s\n", ServoSentence);
-
-            if (strlen(ServoSentence) == 7 &&
-                ServoSentence[0] == '#' &&
-                ServoSentence[2] == '_' &&
-                ServoSentence[6] == '#')
+            if (findUnderscore != NULL && (findUnderscore - findHash_1) == 2)
             {
-                char str_channel, str_val[3];
-                str_channel = ServoSentence[1];
-
-                for (int i = 0; i < sizeof(str_val); i++)
-                    str_val[i] = ServoSentence[3 + i];
+                char ServoSentence[8];
+                strncpy(ServoSentence, findHash_1, 7);
+                ServoSentence[7] = '\0';
+                // printf("ServoSentence = %s\n", ServoSentence);
 
                 int param[2];
-                param[0] = str_channel - '0';
-                param[1] = atoi(str_val);
-
+                sscanf(ServoSentence, "#%d_%d#", &param[0], &param[1]);
                 // printf("param[0] = %d param[1] = %d\n", param[0], param[1]);
                 Rotation_update(param[0], param[1]);
             }
 
             memmove(findHash_1, findHash_2 + 1, strlen(receiveData) - (findHash_2 + 1 - receiveData) + 1);
         }
+        else
+        {
+            //清除'#'
+            memmove(findHash_1, findHash_1 + 1, strlen(receiveData) - (findHash_1 - receiveData));
+        }
+    }
 
-        if (findExclamation_1 != NULL && findExclamation_2 != NULL)
+    if (findExclamation_1 != NULL && findExclamation_2 != NULL)
+    {
+        if ((findExclamation_2 - findExclamation_1) == 2)
         {
             char Dir = *(findExclamation_1 + 1);
             char *findDir = strchr(movement_key, Dir);
@@ -107,7 +87,22 @@ ISR(TIMER0_COMP_vect)
                 Movement_condition(findDir - movement_key);
             }
 
-            memmove(findExclamation_1, findExclamation_2 + 1, strlen(receiveData) - (findExclamation_2 + 1 - receiveData) + 1);
+            memmove(findExclamation_1, findExclamation_2 + 1, strlen(receiveData) - (findExclamation_2 - receiveData));
+        }
+    }
+
+    if (strlen(receiveData) > 0)
+    {
+        if (findHash_1 != NULL && (findHash_1 - receiveData) == strlen(receiveData))
+        {
+            //清除'#'
+            memmove(findHash_1, findHash_1 + 1, strlen(receiveData) - (findHash_1 - receiveData));
+        }
+
+        //清除字串 若'#'之後找不到'_'
+        if (strchr(findHash_1, '_') == NULL)
+        {
+            memset(receiveData, 0, sizeof(receiveData));
         }
     }
 }
