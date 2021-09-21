@@ -34,9 +34,6 @@ namespace Bluetooth
         public Material material = new Material();
     }
 
-
-
-
     class objLoader
     {
 
@@ -361,7 +358,7 @@ namespace Bluetooth
             updateMatrix();
         }
 
-        private int Idx(string partName)
+        public int Idx(string partName)
         {
             return Array.IndexOf(partsName, partName);
         }
@@ -370,10 +367,14 @@ namespace Bluetooth
         {
             Position = new Vector3[DOF];
 
-            Position[Idx("hand")] = new Vector3(-30.50f, 70.00f, 27.50f);
-            Position[Idx("first_arm")] = new Vector3(0.00f, 0.00f, 0.00f);
-            Position[Idx("second_arm")] = new Vector3(0.00f, 67.50f, 27.50f);
-            Position[Idx("third_arm")] = new Vector3(0.00f, 171.90f, 27.50f);
+            Position[Idx("hand_left")] = new Vector3(-83.40f, -3.00f, 12.10f);
+            Position[Idx("hand_right")] = new Vector3(-83.40f, -3.00f, -11.90f);
+            Position[Idx("third_arm")] = new Vector3(-30.50f, 70.00f, 27.50f);
+            Position[Idx("rotate_arm")] = new Vector3(0.00f, 0.00f, 0.00f);
+            Position[Idx("first_arm")] = new Vector3(0.00f, 67.50f, 27.50f);
+            Position[Idx("second_arm")] = new Vector3(0.00f, 171.90f, 27.50f);
+
+            Position[Idx("cargo")] = new Vector3(165.00f, 3.90f, -15.60f);
 
             for (int i = 0; i < DOF; i++)
                 Position[i] *= 0.001f;
@@ -383,10 +384,14 @@ namespace Bluetooth
         {
             rotateAxis = new Vector3[DOF];
 
-            rotateAxis[Idx("hand")] = new Vector3(0, 0, 1.0f);
-            rotateAxis[Idx("first_arm")] = new Vector3(0, 1.0f, 0);
-            rotateAxis[Idx("second_arm")] = new Vector3(0, 0, 1.0f);
+            rotateAxis[Idx("hand_left")] = new Vector3(0, 1.0f, 0);
+            rotateAxis[Idx("hand_right")] = new Vector3(0, 1.0f, 0);
             rotateAxis[Idx("third_arm")] = new Vector3(0, 0, 1.0f);
+            rotateAxis[Idx("rotate_arm")] = new Vector3(0, 1.0f, 0);
+            rotateAxis[Idx("first_arm")] = new Vector3(0, 0, 1.0f);
+            rotateAxis[Idx("second_arm")] = new Vector3(0, 0, 1.0f);
+
+            rotateAxis[Idx("cargo")] = new Vector3(0, 0, 1.0f);
         }
 
         private void Init_Matrix()
@@ -406,20 +411,29 @@ namespace Bluetooth
 
             modelMat[Idx("body")] = Matrix4.Identity;
 
-            modelMat[Idx("first_arm")] = transMat[1] * rotateMat[1];
+            modelMat[Idx("rotate_arm")] = transMat[Idx("rotate_arm")] * rotateMat[Idx("rotate_arm")];
 
-            modelMat[Idx("second_arm")] = rotateMat[2] *
-                                          Matrix4.CreateTranslation(Position[2] - Position[1]) *
-                                          rotateMat[1];
+            modelMat[Idx("first_arm")] = rotateMat[Idx("first_arm")] *
+                                          Matrix4.CreateTranslation(Position[Idx("first_arm")] - Position[Idx("rotate_arm")]) *
+                                          rotateMat[Idx("rotate_arm")];
 
+            modelMat[Idx("second_arm")] = rotateMat[Idx("second_arm")] *
+                                         Matrix4.CreateTranslation(Position[Idx("second_arm")] - Position[Idx("first_arm")]) *
+                                         modelMat[Idx("first_arm")];
 
-            modelMat[Idx("third_arm")] = rotateMat[3] *
-                                         Matrix4.CreateTranslation(Position[3] - Position[2]) *
-                                         modelMat[2];
+            modelMat[Idx("third_arm")] = rotateMat[Idx("third_arm")] *
+                                        Matrix4.CreateTranslation(Position[Idx("third_arm")] - Position[Idx("second_arm")]) *
+                                        modelMat[Idx("second_arm")];
 
-            modelMat[Idx("hand")] = rotateMat[0] *
-                                    Matrix4.CreateTranslation(Position[0] - Position[3]) *
-                                    modelMat[3];
+            modelMat[Idx("hand_left")] = rotateMat[Idx("hand_left")] *
+                                         Matrix4.CreateTranslation(Position[Idx("hand_left")] - Position[Idx("third_arm")]) *
+                                         modelMat[Idx("third_arm")];
+
+            modelMat[Idx("hand_right")] = rotateMat[Idx("hand_right")]*
+                                          Matrix4.CreateTranslation(Position[Idx("hand_right")] - Position[Idx("third_arm")]) *
+                                          modelMat[Idx("third_arm")];
+
+            modelMat[Idx("cargo")] = rotateMat[Idx("cargo")] * transMat[Idx("cargo")];
         }
     }
 
