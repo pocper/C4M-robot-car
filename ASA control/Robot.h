@@ -8,6 +8,8 @@
 #include "servo.h"
 #endif
 
+#define interpolation_split 100
+
 /**
  * @brief 存放輪子順逆時針之結構體
  *        若為正，則順時針
@@ -81,3 +83,11 @@ void Movement_update();
  * @return uint8_t 錯誤代碼：
  */
 uint8_t Rotation_update(uint8_t channel, int8_t Degree);
+
+/**
+ * @brief 由起點至終點進行內插法並輸出至伺服機
+ * 
+ * @param channel 設定角度之腳位1(PB1)~7(PB7)
+ * @param dest_Degree 設定終點之角度(單位：度)
+ */
+void interpolation(uint8_t channel, int8_t dest_Degree);

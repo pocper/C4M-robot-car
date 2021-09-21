@@ -114,6 +114,7 @@ void Movement_update()
 
 uint8_t Rotation_update(uint8_t channel, int8_t Degree)
 {
+
     printf("channel = %d val = %d\n", channel, Degree);
 
     if (channel < 1 || channel > 7)
@@ -134,8 +135,35 @@ uint8_t Rotation_update(uint8_t channel, int8_t Degree)
     else
     {
         Servo_Degree_set(channel, Degree);
+        // interpolation(channel, Degree);
+
         // task.counter[2] = 0;
     }
 
     return 0;
+}
+
+void interpolation(uint8_t channel, int8_t dest_Degree)
+{
+    static int begin_Degree[7];
+    static char isFirstRotate[7] = {1, 1, 1, 1, 1, 1, 1};
+
+    if (isFirstRotate[channel])
+    {
+        Servo_Degree_set(channel, dest_Degree);
+        begin_Degree[channel] = dest_Degree;
+        isFirstRotate[channel] = 0;
+    }
+    else
+    {
+        float temp_Degree;
+
+        for (int split = 0; split < interpolation_split; split++)
+        {
+            temp_Degree = (float)(split * (dest_Degree - begin_Degree[channel])) / interpolation_split;
+            Servo_Degree_set(channel, temp_Degree);
+        }
+
+        begin_Degree[channel] = dest_Degree;
+    }
 }

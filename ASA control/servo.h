@@ -68,7 +68,7 @@ void timer3_init();
  * @param degree 設定之角度(單位：度)
  * @return uint8_t 錯誤代碼：
  */
-uint8_t Servo_Degree_set(uint8_t channel, int8_t degree);
+uint8_t Servo_Degree_set(uint8_t channel, float degree);
 
 /**
  * @brief 無限角伺服機數值輸出函式
@@ -85,7 +85,7 @@ uint8_t Servo_Speed_set(uint8_t channel, int8_t speed);
  * @param Degree 角度(單位：度)
  * @return uint8_t 錯誤代碼：
  */
-uint8_t Degree2Width(int8_t Degree);
+uint8_t Degree2Width(float Degree);
 
 /**
  * @brief RPM換算成PWM波寬數值轉換函式

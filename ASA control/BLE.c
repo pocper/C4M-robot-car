@@ -49,6 +49,15 @@ ISR(TIMER0_COMP_vect)
 
     char *findUnderscore = strchr(findHash_1, '_');
 
+    if ((strlen(receiveData) > 0 && findHash_1 == NULL && findExclamation_1 == NULL) ||
+        (findHash_1 - receiveData + 1) == strlen(receiveData) ||
+        (findHash_1 != NULL && findHash_2 == NULL &&
+         (findHash_1 - receiveData) > 7))
+    {
+        memset(receiveData, 0, sizeof(receiveData));
+        printf("clean\n");
+    }
+
     if (findHash_1 != NULL && findHash_2 != NULL)
     {
         if ((findHash_2 - findHash_1) == 6)
@@ -70,8 +79,7 @@ ISR(TIMER0_COMP_vect)
         }
         else
         {
-            //清除'#'
-            memmove(findHash_1, findHash_1 + 1, strlen(receiveData) - (findHash_1 - receiveData));
+            receiveData[findHash_1 - receiveData] = '$';
         }
     }
 
@@ -90,21 +98,6 @@ ISR(TIMER0_COMP_vect)
             memmove(findExclamation_1, findExclamation_2 + 1, strlen(receiveData) - (findExclamation_2 - receiveData));
         }
     }
-
-    if (strlen(receiveData) > 0)
-    {
-        if (findHash_1 != NULL && (findHash_1 - receiveData) == strlen(receiveData))
-        {
-            //清除'#'
-            memmove(findHash_1, findHash_1 + 1, strlen(receiveData) - (findHash_1 - receiveData));
-        }
-
-        //清除字串 若'#'之後找不到'_'
-        if (strchr(findHash_1, '_') == NULL)
-        {
-            memset(receiveData, 0, sizeof(receiveData));
-        }
-    }
 }
 
 void UART_init()
@@ -119,4 +112,15 @@ void UART_init()
 
     //設定RX/TX 致能
     UCSR1B |= (1 << RXEN1) | (1 << TXEN1);
+}
+
+void timer0_init()
+{
+    REGFPT(&TCCR0, 0x08, 3, 1); /*CTC*/
+    REGFPT(&TCCR0, 0x07, 0, 7); /*除頻1024*/
+
+    OCR0 = 255;
+    //時間：0.1s
+    // DDRD = (DDRD & (~(0xf0))) | 0x00;
+    REGFPT(&TIMSK, 0x02, 1, 1); /*致能中斷*/
 }

@@ -125,16 +125,7 @@ ISR(TIMER2_COMP_vect)
     }
 }
 
-void timer0_init()
-{
-    REGFPT(&TCCR0, 0x08, 3, 1); /*CTC*/
-    REGFPT(&TCCR0, 0x07, 0, 7); /*除頻1024*/
 
-    OCR0 = 107;
-    //時間：0.01s
-    // DDRD = (DDRD & (~(0xf0))) | 0x00;
-    REGFPT(&TIMSK, 0x02, 1, 1); /*致能中斷*/
-}
 
 void timer1_init()
 {
@@ -184,7 +175,7 @@ void Task_init()
     task.counter[2] = task.Target[2] + 1; //初始化
 }
 
-uint8_t Servo_Degree_set(uint8_t channel, int8_t Degree)
+uint8_t Servo_Degree_set(uint8_t channel, float Degree)
 {
     uint8_t PulseWidth = Degree2Width(Degree);
 
@@ -230,7 +221,7 @@ uint8_t Servo_Speed_set(uint8_t channel, int8_t speed)
     return 0; // Set successfully
 }
 
-uint8_t Degree2Width(int8_t Degree)
+uint8_t Degree2Width(float Degree)
 {
     /*
     順時針是正方向
@@ -248,7 +239,7 @@ uint8_t Degree2Width(int8_t Degree)
     if (Degree > 90 || Degree < -90)
         return 255;
 
-    float pwm = (2.5 - 0.5) * ((float)Degree - (-112.5)) / 225; //單位[ms]
+    float pwm = (2.5 - 0.5) * (Degree - (-112.5)) / 225; //單位[ms]
     // printf("PWM = %f, split = %d\n", pwm + 0.5, (uint8_t)(pwm / 0.01));
     return pwm / 0.01;
 }
