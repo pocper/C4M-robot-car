@@ -1,14 +1,59 @@
-#include "Robot.h"
+#include "car.h"
+#include "timer.h"
+#include "c4mlib/C4MBios/hardware/src/isr.h"
 
-#ifndef _SERVO_H
-#define _SERVO_H
-#include "servo.h"
-#endif
-
+Task task;
 Wheel wheelVal = {-1, 1, -1, 1};
 int RPM = 58;
 
-extern Task task;
+ISR(TIMER0_COMP_vect)
+{
+    for (int task_num = 0; task_num < TotalTask; task_num++)
+    {
+        if (task.Counter[task_num] < task.Target[task_num] + 1)
+        {
+            task.Counter[task_num]++;
+        }
+
+        if (task.Counter[task_num] == task.Target[task_num])
+        {
+            //車斗禁能
+            if (task_num == 0)
+            {
+                for (int servo_num = 0; servo_num < 2; task_num++)
+                    servo_Enable(servo_num, DISABLE);
+            }
+
+            //輪子禁能
+            if (task_num == 1)
+            {
+                for (int servo_num = 7; servo_num < 11; task_num++)
+                    servo_Enable(servo_num, DISABLE);
+            }
+        }
+    }
+}
+
+void task_init()
+{
+    // 時間： 0.05 [s]
+    timer0_init();
+
+    // 車輪
+    task.Target[0] = 20;
+    task.Counter[0] = task.Target[0] + 1; //初始化
+
+    // 車斗
+    // 持續時間
+    // S1 -> 574.335 [ms]
+    // S2 -> 396.543 [ms]
+
+    // 啟動相差時間
+    // S1 Then S2 -> 256.812 [ms]
+
+    task.Target[1] = 20;
+    task.Counter[1] = task.Target[1] + 1; //初始化
+}
 
 void Movement_condition(int Dir)
 {
@@ -95,52 +140,41 @@ void Movement_update()
     /*
             ---front---
             ___________
-    3 -     |         |   - 1
+    9 -     |         |   - 7
             |         |
             |         |
             |         |
-            |         |   - 2
-    4 -     |_________|
+            |         |   - 8
+    10 -    |_________|
             ---back---
     */
 
-    Servo_Speed_set(4, RPM * wheelVal.right_front);
-    Servo_Speed_set(5, RPM * wheelVal.right_rear);
-    Servo_Speed_set(6, RPM * wheelVal.left_rear);
-    Servo_Speed_set(7, RPM * wheelVal.left_front);
+    servo_update(7, RPM * wheelVal.right_front);
+    servo_update(8, RPM * wheelVal.right_rear);
+    servo_update(9, RPM * wheelVal.left_rear);
+    servo_update(10, RPM * wheelVal.left_front);
 
-    task.counter[0] = 0;
+    task.Counter[1] = 0;
 }
 
-uint8_t Rotation_update(uint8_t channel, int8_t Degree)
+void Rotation_update(uint8_t channel, int8_t Degree)
 {
-
     printf("channel = %d val = %d\n", channel, Degree);
 
-    if (channel < 1 || channel > 7)
-        return 255;
-
-    if (Degree > 90 || Degree < -90)
-        return 254;
-
-    if (channel == 1 || channel == 2)
+    if (channel == 0 || channel == 1)
     {
         //- 3 degree is the best horizontal set
         //-60 degree is vertical set
-        Servo_Degree_set(1, Degree);
-        Servo_Degree_set(2, Degree);
+        servo_update(0, Degree);
+        servo_update(1, Degree);
 
-        task.counter[1] = 0;
+        task.Counter[0] = 0;
     }
     else
     {
-        Servo_Degree_set(channel, Degree);
+        servo_update(channel, Degree);
         // interpolation(channel, Degree);
-
-        // task.counter[2] = 0;
     }
-
-    return 0;
 }
 
 void interpolation(uint8_t channel, int8_t dest_Degree)
@@ -150,7 +184,7 @@ void interpolation(uint8_t channel, int8_t dest_Degree)
 
     if (isFirstRotate[channel])
     {
-        Servo_Degree_set(channel, dest_Degree);
+        servo_update(channel, dest_Degree);
         begin_Degree[channel] = dest_Degree;
         isFirstRotate[channel] = 0;
     }
@@ -161,7 +195,7 @@ void interpolation(uint8_t channel, int8_t dest_Degree)
         for (int split = 0; split < interpolation_split; split++)
         {
             temp_Degree = (float)(split * (dest_Degree - begin_Degree[channel])) / interpolation_split;
-            Servo_Degree_set(channel, temp_Degree);
+            servo_update(channel, temp_Degree);
         }
 
         begin_Degree[channel] = dest_Degree;

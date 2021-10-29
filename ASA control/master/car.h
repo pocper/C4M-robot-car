@@ -1,20 +1,29 @@
-#ifndef _C4MLIB_H
-#define _C4MLIB_H
-#include "c4mlib.h"
-#endif
-
-#ifndef _SERVO_H
-#define _SERVO_H
 #include "servo.h"
-#endif
+#include <stdio.h>
 
+#define TotalTask 2 //車斗 | 車輪
 #define interpolation_split 100
+
+#define ENABLE 1
+#define DISABLE 0
+
+/**
+ * @brief 暫停結構體
+ * @param Counter[TotalTask] 計數器目前數值
+ * @param Target[TotalTask]  計數器上限數值
+ *
+ */
+typedef struct
+{
+    uint8_t Counter[TotalTask];
+    uint8_t Target[TotalTask];
+} Task;
 
 /**
  * @brief 存放輪子順逆時針之結構體
  *        若為正，則順時針
  *        若為負，則逆時針
- * 
+ *
  */
 typedef struct
 {
@@ -26,7 +35,7 @@ typedef struct
 
 /**
  * @brief 方便測試用之列舉(enum)
- * 
+ *
  */
 enum
 {
@@ -44,7 +53,7 @@ enum
 
 /**
  * @brief 更新輪子轉向函式
- * 
+ *
  * @param Dir 輸入0~9方向
  * 對應內容為：WASDQEZC
  *  - 1 -> W  前進
@@ -57,7 +66,7 @@ enum
  *  - 8 -> C  右後
  *  - 9 -> R  順時鐘轉
  *  -尚未設計　逆時鐘轉
- *  
+ *
  *   Q      W      E
  *     \    |    /
  *       \  |  /
@@ -70,24 +79,29 @@ void Movement_condition(int Dir);
 
 /**
  * @brief 輸出輪子順逆時針結構體
- * 
+ *
  */
 void Movement_update();
 
 /**
  * @brief 更新手臂角度位置及
  *        條件判斷避免超過伺服機可輸出之PWM範圍
- * 
+ *
  * @param channel 設定角度之腳位1(PB1)~7(PB7)
  * @param Degree 設定之角度(單位：度)
- * @return uint8_t 錯誤代碼：
  */
-uint8_t Rotation_update(uint8_t channel, int8_t Degree);
+void Rotation_update(uint8_t channel, int8_t Degree);
 
 /**
  * @brief 由起點至終點進行內插法並輸出至伺服機
- * 
+ *
  * @param channel 設定角度之腳位1(PB1)~7(PB7)
  * @param dest_Degree 設定終點之角度(單位：度)
  */
 void interpolation(uint8_t channel, int8_t dest_Degree);
+
+/**
+ * @brief 伺服機暫停功能方塊初始化
+ *
+ */
+void task_init();
