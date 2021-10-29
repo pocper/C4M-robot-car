@@ -8,12 +8,29 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
+
 namespace Bluetooth
 {
+
     public partial class Form1 : Form
     {
+        const byte SERVO_HEADER = 0xB0;
+        const byte SERVO_ENDING = 0xB0;
+        const byte SERVO_EN_HEADER = 0xB1;
+        const byte SERVO_EN_ENDING = 0xB1;
+        const byte MOVEMENT_HEADER = 0xB2;
+        const byte MOVEMENT_ENDING = 0xB2;
+        const byte SENSOR_HEADER = 0xB3;
+        const byte SENSOR_ENDING = 0xB3;
+
+        const byte SERVO_EN_REGADD_DISABLE_ARM= 0xFE;
+        const byte SERVO_EN_REGADD_DISABLE_WHEEL =0xFF;
+
+        const int Mode_HRDE = 0;
+        const int Mode_HDE = 1;
+
         //string[] myKeys = new string[] { "W", "A", "S", "D", "Q", "E", "C", "Z", "R", "Space", "ControlKey", "Up", "Down", "Left", "Right", "ShiftKey", "Return" };
-        string[] myKeys = new string[] { "W", "A", "S", "D", "Q", "E", "C", "Z", "R"};
+        char[] myKeys = new char[] { 'W', 'A', 'S', 'D', 'Q', 'E', 'C', 'Z', 'R' };
         int[] Arm_Init_Degree = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
         //TODO 校正
         // - 一個是v3丟資料伺服機角度需要校正
@@ -24,9 +41,10 @@ namespace Bluetooth
         // 想到一個校正的方法
         // 先用電腦控制到正前方校正
         // 再用電腦顯示的校正
-        
+
         //TODO 找到原因為何車斗從-3~-60就攤平
-        int[] Servo_Compensate_Degree = new int[7] { -3, -3, 0, 55, -60, 0, 0 };
+        //int[] Servo_Compensate_Degree = new int[7] { -3, -3, 0, 55, -60, 0, 0 };
+        int[] Servo_Compensate_Degree = new int[7] { 0, -0, 0, 0, 0, 0, 0 };
 
         string objFilePath = "./model_Robot/";
         string[] objName = { "hand_left", "hand_right", "third_arm", "rotate_arm", "first_arm", "second_arm", "cargo", "body" };
@@ -72,66 +90,115 @@ namespace Bluetooth
             string data = spl.ReadExisting();
             serialPort1.DiscardInBuffer();
 
-            if (data.Length == 4 && data[0] == '@' && data[2] == '@')
+            foreach (char c in data)
+            {
+                Console.WriteLine(String.Format("int = {0} char = {1}", Convert.ToInt32(c), c));
+            }
+
+            //Console.WriteLine("\n");
+
+            if (data.Length == 4 && data[0] == SENSOR_HEADER && data[2] == SENSOR_ENDING)
             {
                 updateSensorColor(Convert.ToInt32(data[1]));
             }
         }
 
+        //ERROR 還沒修正 15個Sensor
         private void updateSensorColor(int num)
         {
             string SensorData = Convert.ToString(num, 2);
             string SensorData_bin = SensorData.PadLeft(6, '0');
 
             if (SensorData_bin[0] == '1')
-                Sensor_right.BackColor = Color.Red;
+                Sensor_right_front_right.BackColor = Color.Red;
             else
-                Sensor_right.BackColor = Color.Green;
+                Sensor_right_front_right.BackColor = Color.Green;
 
             if (SensorData_bin[1] == '1')
-                Sensor_right_front.BackColor = Color.Red;
+                Sensor_right_front_front.BackColor = Color.Red;
             else
-                Sensor_right_front.BackColor = Color.Green;
+                Sensor_right_front_front.BackColor = Color.Green;
 
             if (SensorData_bin[2] == '1')
-                Sensor_right_behind.BackColor = Color.Red;
+                Sensor_right_behind_behind.BackColor = Color.Red;
             else
-                Sensor_right_behind.BackColor = Color.Green;
+                Sensor_right_behind_behind.BackColor = Color.Green;
 
             if (SensorData_bin[3] == '1')
-                Sensor_left_behind.BackColor = Color.Red;
+                Sensor_left_behind_behind.BackColor = Color.Red;
             else
-                Sensor_left_behind.BackColor = Color.Green;
+                Sensor_left_behind_behind.BackColor = Color.Green;
 
             if (SensorData_bin[4] == '1')
-                Sensor_left_front.BackColor = Color.Red;
+                Sensor_left_front_front.BackColor = Color.Red;
             else
-                Sensor_left_front.BackColor = Color.Green;
+                Sensor_left_front_front.BackColor = Color.Green;
 
             if (SensorData_bin[5] == '1')
-                Sensor_left.BackColor = Color.Red;
+                Sensor_left_front_left.BackColor = Color.Red;
             else
-                Sensor_left.BackColor = Color.Green;
+                Sensor_left_front_left.BackColor = Color.Green;
         }
 
-        public void SendData(string str)
+        public void SendData(int Mode, byte Header,byte RegAdd, byte Data,byte Ending)
         {
-            if (str != null && serialPort1.IsOpen)
+            if (serialPort1.IsOpen)
             {
                 serialPort1.DiscardOutBuffer();
-                serialPort1.Write(str);
+                byte[] sendData;
+                try
+                {
+                    switch (Mode)
+                    {
+                        // Data 高位元組 跟低位元組
+                        case Mode_HRDE:
+                            sendData = new byte[4];
+                            sendData[0] = Header;
+                            sendData[1] = RegAdd;
+                            sendData[2] = Data;
+                            sendData[3] = Ending;
+                            serialPort1.Write(sendData, 0, 4);
+                            break;
+                        case Mode_HDE:
+                            sendData = new byte[3];
+                            sendData[0] = Header;
+                            sendData[1] = Data;
+                            sendData[2] = Ending;
+                            serialPort1.Write(sendData, 0, 3);
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    btn_open.Enabled = true;
+                    btn_close.Enabled = false;
+
+                    close_comPort();
+
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            //這樣寫有問題
-            //若開啟的com port 不正常會故障
-            int index = Array.IndexOf(myKeys, e.KeyCode.ToString());
+            if (serialPort1.IsOpen)
+            {
+                int index = Array.IndexOf(myKeys, e.KeyCode.ToString().ToCharArray()[0]);
 
-            if (serialPort1.IsOpen && index > -1)
-                SendData("!" + myKeys[index] + "!");
+                if (index > -1)
+                    SendData(Mode_HDE, MOVEMENT_HEADER, 0, Convert.ToByte(myKeys[index]), MOVEMENT_ENDING);
 
+                if (e.KeyCode == Keys.F)
+                {
+                    SendData(Mode_HDE, MOVEMENT_HEADER, 0, SERVO_EN_REGADD_DISABLE_WHEEL, MOVEMENT_ENDING);
+                }
+
+                if (e.KeyCode == Keys.G)
+                {
+                    SendData(Mode_HDE, MOVEMENT_HEADER, 0, SERVO_EN_REGADD_DISABLE_ARM, MOVEMENT_ENDING);
+                }
+            }
 
             if (e.Control)
             {
@@ -192,6 +259,16 @@ namespace Bluetooth
                     btn_R.ForeColor = Color.Black;
                     break;
 
+                case Keys.F:
+                    btn_F.BackColor = Color.Yellow;
+                    btn_F.ForeColor = Color.Black;
+                    break;
+                
+                case Keys.G:
+                    btn_G.BackColor = Color.Yellow;
+                    btn_G.ForeColor = Color.Black;
+                    break;
+
                 case Keys.Enter:
                     btn_enter.BackColor = Color.Yellow;
                     btn_enter.ForeColor = Color.Black;
@@ -223,7 +300,6 @@ namespace Bluetooth
                     break;
             }
 
-            //e.Handled = true;
             if (!isEntercsvFileName)
                 label1.Focus();
             else
@@ -258,6 +334,12 @@ namespace Bluetooth
 
             btn_R.BackColor = Color.Black;
             btn_R.ForeColor = Color.White;
+            
+            btn_F.BackColor = Color.Black;
+            btn_F.ForeColor = Color.White;
+            
+            btn_G.BackColor = Color.Black;
+            btn_G.ForeColor = Color.White;
 
             btn_ctrl.BackColor = Color.Black;
             btn_ctrl.ForeColor = Color.White;
@@ -292,6 +374,8 @@ namespace Bluetooth
                 serialPort1.BaudRate = 38400;
                 serialPort1.DataBits = 8;
                 serialPort1.StopBits = StopBits.One;
+                serialPort1.WriteTimeout = 500;
+                serialPort1.ReadTimeout = 500;
 
                 try
                 {
@@ -303,9 +387,6 @@ namespace Bluetooth
                         btn_close.Enabled = true;
 
                         serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
-
-                        timer1.Interval = 10000;
-                        //timer1.Start();
                     }
                 }
                 catch (Exception ex)
@@ -359,15 +440,6 @@ namespace Bluetooth
             RefreshComport();
         }
 
-        private void textBox_log_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
-
         private void Init_textBox_value()
         {
             textBox_cargo.Text = trackBar_cargo.Value.ToString();
@@ -396,8 +468,7 @@ namespace Bluetooth
         private void trackBar_rotateArm_Scroll(object sender, EventArgs e)
         {
             textBox_rotateArm.Text = trackBar_rotateArm.Value.ToString();
-            SendData("#3_" + deg2Data(trackBar_rotateArm.Value + Servo_Compensate_Degree[2]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 2, deg2Byte(trackBar_rotateArm.Value + Servo_Compensate_Degree[2]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("rotate_arm")] = -90 - trackBar_rotateArm.Value;
 
             robot.updateMatrix();
@@ -409,8 +480,7 @@ namespace Bluetooth
         private void trackBar_1stArm_Scroll(object sender, EventArgs e)
         {
             textBox_1stArm.Text = trackBar_1stArm.Value.ToString();
-            SendData("#4_" + deg2Data(trackBar_1stArm.Value + Servo_Compensate_Degree[3]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 3, deg2Byte(trackBar_1stArm.Value + Servo_Compensate_Degree[3]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("first_arm")] = -trackBar_1stArm.Value;
 
             robot.updateMatrix();
@@ -421,8 +491,7 @@ namespace Bluetooth
         private void trackBar_2ndArm_Scroll(object sender, EventArgs e)
         {
             textBox_2ndArm.Text = trackBar_2ndArm.Value.ToString();
-            SendData("#5_" + deg2Data(trackBar_2ndArm.Value + Servo_Compensate_Degree[4]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 4, deg2Byte(trackBar_2ndArm.Value + Servo_Compensate_Degree[4]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("second_arm")] = -trackBar_2ndArm.Value;
 
             robot.updateMatrix();
@@ -433,8 +502,7 @@ namespace Bluetooth
         private void trackBar_3rdArm_Scroll(object sender, EventArgs e)
         {
             textBox_3rdArm.Text = trackBar_3rdArm.Value.ToString();
-            SendData("#6_" + deg2Data(trackBar_3rdArm.Value + Servo_Compensate_Degree[5]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 5, deg2Byte(trackBar_3rdArm.Value + Servo_Compensate_Degree[5]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("third_arm")] = -trackBar_3rdArm.Value;
 
             robot.updateMatrix();
@@ -445,8 +513,7 @@ namespace Bluetooth
         private void trackBar_hand_Scroll(object sender, EventArgs e)
         {
             textBox_hand.Text = trackBar_hand.Value.ToString();
-            SendData("#7_" + deg2Data(trackBar_hand.Value + Servo_Compensate_Degree[6]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 6, deg2Byte(trackBar_hand.Value + Servo_Compensate_Degree[6]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("hand_left")] = trackBar_hand.Value;
             robot.rotateDegree[robot.Idx("hand_right")] = -robot.rotateDegree[robot.Idx("hand_left")];
 
@@ -458,8 +525,7 @@ namespace Bluetooth
         private void trackBar_cargo_Scroll(object sender, EventArgs e)
         {
             textBox_cargo.Text = trackBar_cargo.Value.ToString();
-            SendData("#1_" + deg2Data(trackBar_cargo.Value + Servo_Compensate_Degree[0]) + "#");
-
+            SendData(Mode_HRDE, SERVO_HEADER, 0, deg2Byte(trackBar_cargo.Value + Servo_Compensate_Degree[0]), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("cargo")] = trackBar_cargo.Value;
 
             robot.updateMatrix();
@@ -467,24 +533,16 @@ namespace Bluetooth
             model_topView_Draw();
         }
 
-        private string deg2Data(int num)
+        private byte deg2Byte(int num)
         {
-            string Data_str;
-
-            if (num >= 0)
-                Data_str = String.Format("+{0:00}", num);
-            else
-                Data_str = String.Format("{0:00}", num);
-
-            return Data_str;
+            return Convert.ToByte(num + 128);
         }
 
         private void btn_ResetArm_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < Arm_Init_Degree.Length; i++)
+            for (byte i = 0; i < Arm_Init_Degree.Length; i++)
             {
-                string str = String.Format("#{0}_{1}#", i + 1, deg2Data(Arm_Init_Degree[i] + Servo_Compensate_Degree[i]));
-                SendData(str);
+                SendData(Mode_HRDE, SERVO_HEADER, i, deg2Byte(Arm_Init_Degree[i] + Servo_Compensate_Degree[i]), SERVO_ENDING);
                 Thread.Sleep(50);
             }
 
@@ -886,8 +944,7 @@ namespace Bluetooth
                                 continue;
 
                             val[i] = int.Parse(split_line[i]);
-                            string str = String.Format("#{0}_{1}#", i + 1, deg2Data(int.Parse(split_line[i])));
-                            SendData(str);
+                            SendData(Mode_HRDE, SERVO_HEADER, Convert.ToByte(i), deg2Byte(int.Parse(split_line[i])), SERVO_ENDING);
                         }
 
                         update_Degree(val[2], val[3], val[4], val[5], val[6], val[1]);
