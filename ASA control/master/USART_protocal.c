@@ -9,7 +9,7 @@
 uint8_t receiveData[maxReceieveBuffer];
 uint8_t receiveDataLength = 0;
 
-uint8_t movement_key[] = "WASDQEZCR";
+uint8_t movement_key[] = "WASDQEZCRV";
 
 ISR(USART0_RX_vect)
 {

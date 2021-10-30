@@ -163,8 +163,6 @@ void Rotation_update(uint8_t channel, int8_t Degree)
 
     if (channel == 0 || channel == 1)
     {
-        //- 3 degree is the best horizontal set
-        //-60 degree is vertical set
         servo_update(0, Degree);
         servo_update(1, Degree);
 
