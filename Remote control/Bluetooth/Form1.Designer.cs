@@ -36,21 +36,11 @@ namespace Bluetooth
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_port = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
-            this.btn_shift = new System.Windows.Forms.Button();
-            this.btn_ctrl = new System.Windows.Forms.Button();
-            this.btn_enter = new System.Windows.Forms.Button();
-            this.btn_down = new System.Windows.Forms.Button();
-            this.btn_up = new System.Windows.Forms.Button();
-            this.btn_left = new System.Windows.Forms.Button();
-            this.btn_right = new System.Windows.Forms.Button();
-            this.btn_space = new System.Windows.Forms.Button();
             this.btn_A = new System.Windows.Forms.Button();
             this.btn_W = new System.Windows.Forms.Button();
             this.btn_S = new System.Windows.Forms.Button();
             this.btn_D = new System.Windows.Forms.Button();
             this.groupBox_control = new System.Windows.Forms.GroupBox();
-            this.btn_G = new System.Windows.Forms.Button();
-            this.btn_F = new System.Windows.Forms.Button();
             this.btn_R = new System.Windows.Forms.Button();
             this.btn_Z = new System.Windows.Forms.Button();
             this.btn_C = new System.Windows.Forms.Button();
@@ -142,6 +132,17 @@ namespace Bluetooth
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.btn_chooseActionListFolder = new System.Windows.Forms.Button();
             this.textBox_ActionListFolder = new System.Windows.Forms.TextBox();
+            this.btn_V = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this.groupBox_connect.SuspendLayout();
             this.groupBox_control.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_rotateArm)).BeginInit();
@@ -242,124 +243,12 @@ namespace Bluetooth
             this.btn_close.UseVisualStyleBackColor = true;
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
-            // btn_shift
-            // 
-            this.btn_shift.BackColor = System.Drawing.Color.Black;
-            this.btn_shift.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_shift.ForeColor = System.Drawing.Color.White;
-            this.btn_shift.Location = new System.Drawing.Point(963, 170);
-            this.btn_shift.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_shift.Name = "btn_shift";
-            this.btn_shift.Size = new System.Drawing.Size(328, 90);
-            this.btn_shift.TabIndex = 30;
-            this.btn_shift.TabStop = false;
-            this.btn_shift.Text = "shift";
-            this.btn_shift.UseVisualStyleBackColor = false;
-            // 
-            // btn_ctrl
-            // 
-            this.btn_ctrl.BackColor = System.Drawing.Color.Black;
-            this.btn_ctrl.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_ctrl.ForeColor = System.Drawing.Color.White;
-            this.btn_ctrl.Location = new System.Drawing.Point(776, 280);
-            this.btn_ctrl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_ctrl.Name = "btn_ctrl";
-            this.btn_ctrl.Size = new System.Drawing.Size(141, 115);
-            this.btn_ctrl.TabIndex = 29;
-            this.btn_ctrl.TabStop = false;
-            this.btn_ctrl.Text = "ctrl";
-            this.btn_ctrl.UseVisualStyleBackColor = false;
-            // 
-            // btn_enter
-            // 
-            this.btn_enter.BackColor = System.Drawing.Color.Black;
-            this.btn_enter.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_enter.ForeColor = System.Drawing.Color.White;
-            this.btn_enter.Location = new System.Drawing.Point(963, 45);
-            this.btn_enter.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_enter.Name = "btn_enter";
-            this.btn_enter.Size = new System.Drawing.Size(328, 90);
-            this.btn_enter.TabIndex = 28;
-            this.btn_enter.TabStop = false;
-            this.btn_enter.Text = "Enter";
-            this.btn_enter.UseVisualStyleBackColor = false;
-            // 
-            // btn_down
-            // 
-            this.btn_down.BackColor = System.Drawing.Color.Black;
-            this.btn_down.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_down.ForeColor = System.Drawing.Color.White;
-            this.btn_down.Location = new System.Drawing.Point(1080, 340);
-            this.btn_down.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_down.Name = "btn_down";
-            this.btn_down.Size = new System.Drawing.Size(96, 55);
-            this.btn_down.TabIndex = 27;
-            this.btn_down.TabStop = false;
-            this.btn_down.Text = "↓";
-            this.btn_down.UseVisualStyleBackColor = false;
-            // 
-            // btn_up
-            // 
-            this.btn_up.BackColor = System.Drawing.Color.Black;
-            this.btn_up.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_up.ForeColor = System.Drawing.Color.White;
-            this.btn_up.Location = new System.Drawing.Point(1080, 280);
-            this.btn_up.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_up.Name = "btn_up";
-            this.btn_up.Size = new System.Drawing.Size(96, 55);
-            this.btn_up.TabIndex = 26;
-            this.btn_up.TabStop = false;
-            this.btn_up.Text = "↑";
-            this.btn_up.UseVisualStyleBackColor = false;
-            // 
-            // btn_left
-            // 
-            this.btn_left.BackColor = System.Drawing.Color.Black;
-            this.btn_left.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_left.ForeColor = System.Drawing.Color.White;
-            this.btn_left.Location = new System.Drawing.Point(963, 280);
-            this.btn_left.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_left.Name = "btn_left";
-            this.btn_left.Size = new System.Drawing.Size(96, 115);
-            this.btn_left.TabIndex = 25;
-            this.btn_left.TabStop = false;
-            this.btn_left.Text = "←";
-            this.btn_left.UseVisualStyleBackColor = false;
-            // 
-            // btn_right
-            // 
-            this.btn_right.BackColor = System.Drawing.Color.Black;
-            this.btn_right.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_right.ForeColor = System.Drawing.Color.White;
-            this.btn_right.Location = new System.Drawing.Point(1192, 280);
-            this.btn_right.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_right.Name = "btn_right";
-            this.btn_right.Size = new System.Drawing.Size(96, 115);
-            this.btn_right.TabIndex = 24;
-            this.btn_right.TabStop = false;
-            this.btn_right.Text = "→";
-            this.btn_right.UseVisualStyleBackColor = false;
-            // 
-            // btn_space
-            // 
-            this.btn_space.BackColor = System.Drawing.Color.Black;
-            this.btn_space.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_space.ForeColor = System.Drawing.Color.White;
-            this.btn_space.Location = new System.Drawing.Point(429, 305);
-            this.btn_space.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_space.Name = "btn_space";
-            this.btn_space.Size = new System.Drawing.Size(317, 90);
-            this.btn_space.TabIndex = 23;
-            this.btn_space.TabStop = false;
-            this.btn_space.Text = "︺";
-            this.btn_space.UseVisualStyleBackColor = false;
-            // 
             // btn_A
             // 
             this.btn_A.BackColor = System.Drawing.Color.Black;
             this.btn_A.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_A.ForeColor = System.Drawing.Color.White;
-            this.btn_A.Location = new System.Drawing.Point(45, 190);
+            this.btn_A.Location = new System.Drawing.Point(203, 190);
             this.btn_A.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_A.Name = "btn_A";
             this.btn_A.Size = new System.Drawing.Size(96, 90);
@@ -373,7 +262,7 @@ namespace Bluetooth
             this.btn_W.BackColor = System.Drawing.Color.Black;
             this.btn_W.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_W.ForeColor = System.Drawing.Color.White;
-            this.btn_W.Location = new System.Drawing.Point(168, 78);
+            this.btn_W.Location = new System.Drawing.Point(331, 77);
             this.btn_W.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_W.Name = "btn_W";
             this.btn_W.Size = new System.Drawing.Size(96, 90);
@@ -387,7 +276,7 @@ namespace Bluetooth
             this.btn_S.BackColor = System.Drawing.Color.Black;
             this.btn_S.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_S.ForeColor = System.Drawing.Color.White;
-            this.btn_S.Location = new System.Drawing.Point(168, 190);
+            this.btn_S.Location = new System.Drawing.Point(331, 303);
             this.btn_S.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_S.Name = "btn_S";
             this.btn_S.Size = new System.Drawing.Size(96, 90);
@@ -401,7 +290,7 @@ namespace Bluetooth
             this.btn_D.BackColor = System.Drawing.Color.Black;
             this.btn_D.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_D.ForeColor = System.Drawing.Color.White;
-            this.btn_D.Location = new System.Drawing.Point(288, 190);
+            this.btn_D.Location = new System.Drawing.Point(459, 190);
             this.btn_D.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_D.Name = "btn_D";
             this.btn_D.Size = new System.Drawing.Size(96, 90);
@@ -412,69 +301,42 @@ namespace Bluetooth
             // 
             // groupBox_control
             // 
-            this.groupBox_control.Controls.Add(this.btn_G);
-            this.groupBox_control.Controls.Add(this.btn_F);
+            this.groupBox_control.Controls.Add(this.label38);
+            this.groupBox_control.Controls.Add(this.label37);
+            this.groupBox_control.Controls.Add(this.label36);
+            this.groupBox_control.Controls.Add(this.label35);
+            this.groupBox_control.Controls.Add(this.label34);
+            this.groupBox_control.Controls.Add(this.label33);
+            this.groupBox_control.Controls.Add(this.label32);
+            this.groupBox_control.Controls.Add(this.label31);
+            this.groupBox_control.Controls.Add(this.label30);
+            this.groupBox_control.Controls.Add(this.label26);
+            this.groupBox_control.Controls.Add(this.btn_V);
             this.groupBox_control.Controls.Add(this.btn_R);
             this.groupBox_control.Controls.Add(this.btn_Z);
             this.groupBox_control.Controls.Add(this.btn_C);
             this.groupBox_control.Controls.Add(this.btn_Q);
             this.groupBox_control.Controls.Add(this.btn_E);
-            this.groupBox_control.Controls.Add(this.btn_shift);
-            this.groupBox_control.Controls.Add(this.btn_right);
-            this.groupBox_control.Controls.Add(this.btn_ctrl);
             this.groupBox_control.Controls.Add(this.btn_D);
-            this.groupBox_control.Controls.Add(this.btn_enter);
             this.groupBox_control.Controls.Add(this.btn_S);
-            this.groupBox_control.Controls.Add(this.btn_down);
             this.groupBox_control.Controls.Add(this.btn_W);
-            this.groupBox_control.Controls.Add(this.btn_up);
             this.groupBox_control.Controls.Add(this.btn_A);
-            this.groupBox_control.Controls.Add(this.btn_left);
-            this.groupBox_control.Controls.Add(this.btn_space);
             this.groupBox_control.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.groupBox_control.Location = new System.Drawing.Point(43, 1258);
             this.groupBox_control.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_control.Name = "groupBox_control";
             this.groupBox_control.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_control.Size = new System.Drawing.Size(1312, 428);
+            this.groupBox_control.Size = new System.Drawing.Size(1065, 428);
             this.groupBox_control.TabIndex = 31;
             this.groupBox_control.TabStop = false;
             this.groupBox_control.Text = "Keyboard";
-            // 
-            // btn_G
-            // 
-            this.btn_G.BackColor = System.Drawing.Color.Black;
-            this.btn_G.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_G.ForeColor = System.Drawing.Color.White;
-            this.btn_G.Location = new System.Drawing.Point(560, 190);
-            this.btn_G.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_G.Name = "btn_G";
-            this.btn_G.Size = new System.Drawing.Size(96, 90);
-            this.btn_G.TabIndex = 38;
-            this.btn_G.TabStop = false;
-            this.btn_G.Text = "G";
-            this.btn_G.UseVisualStyleBackColor = false;
-            // 
-            // btn_F
-            // 
-            this.btn_F.BackColor = System.Drawing.Color.Black;
-            this.btn_F.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_F.ForeColor = System.Drawing.Color.White;
-            this.btn_F.Location = new System.Drawing.Point(429, 190);
-            this.btn_F.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_F.Name = "btn_F";
-            this.btn_F.Size = new System.Drawing.Size(96, 90);
-            this.btn_F.TabIndex = 37;
-            this.btn_F.TabStop = false;
-            this.btn_F.Text = "F";
-            this.btn_F.UseVisualStyleBackColor = false;
             // 
             // btn_R
             // 
             this.btn_R.BackColor = System.Drawing.Color.Black;
             this.btn_R.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_R.ForeColor = System.Drawing.Color.White;
-            this.btn_R.Location = new System.Drawing.Point(429, 78);
+            this.btn_R.Location = new System.Drawing.Point(718, 77);
             this.btn_R.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_R.Name = "btn_R";
             this.btn_R.Size = new System.Drawing.Size(96, 90);
@@ -488,7 +350,7 @@ namespace Bluetooth
             this.btn_Z.BackColor = System.Drawing.Color.Black;
             this.btn_Z.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_Z.ForeColor = System.Drawing.Color.White;
-            this.btn_Z.Location = new System.Drawing.Point(45, 305);
+            this.btn_Z.Location = new System.Drawing.Point(203, 303);
             this.btn_Z.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_Z.Name = "btn_Z";
             this.btn_Z.Size = new System.Drawing.Size(96, 90);
@@ -502,7 +364,7 @@ namespace Bluetooth
             this.btn_C.BackColor = System.Drawing.Color.Black;
             this.btn_C.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_C.ForeColor = System.Drawing.Color.White;
-            this.btn_C.Location = new System.Drawing.Point(288, 305);
+            this.btn_C.Location = new System.Drawing.Point(459, 303);
             this.btn_C.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_C.Name = "btn_C";
             this.btn_C.Size = new System.Drawing.Size(96, 90);
@@ -516,7 +378,7 @@ namespace Bluetooth
             this.btn_Q.BackColor = System.Drawing.Color.Black;
             this.btn_Q.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_Q.ForeColor = System.Drawing.Color.White;
-            this.btn_Q.Location = new System.Drawing.Point(45, 78);
+            this.btn_Q.Location = new System.Drawing.Point(203, 77);
             this.btn_Q.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_Q.Name = "btn_Q";
             this.btn_Q.Size = new System.Drawing.Size(96, 90);
@@ -530,7 +392,7 @@ namespace Bluetooth
             this.btn_E.BackColor = System.Drawing.Color.Black;
             this.btn_E.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.btn_E.ForeColor = System.Drawing.Color.White;
-            this.btn_E.Location = new System.Drawing.Point(288, 78);
+            this.btn_E.Location = new System.Drawing.Point(459, 77);
             this.btn_E.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_E.Name = "btn_E";
             this.btn_E.Size = new System.Drawing.Size(96, 90);
@@ -661,7 +523,7 @@ namespace Bluetooth
             this.trackBar_cargo.Location = new System.Drawing.Point(200, 62);
             this.trackBar_cargo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.trackBar_cargo.Maximum = 0;
-            this.trackBar_cargo.Minimum = -60;
+            this.trackBar_cargo.Minimum = -90;
             this.trackBar_cargo.Name = "trackBar_cargo";
             this.trackBar_cargo.Size = new System.Drawing.Size(488, 60);
             this.trackBar_cargo.TabIndex = 48;
@@ -728,7 +590,7 @@ namespace Bluetooth
             this.trackBar_3rdArm.AutoSize = false;
             this.trackBar_3rdArm.Location = new System.Drawing.Point(200, 502);
             this.trackBar_3rdArm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.trackBar_3rdArm.Maximum = 55;
+            this.trackBar_3rdArm.Maximum = 60;
             this.trackBar_3rdArm.Minimum = -60;
             this.trackBar_3rdArm.Name = "trackBar_3rdArm";
             this.trackBar_3rdArm.Size = new System.Drawing.Size(488, 60);
@@ -755,13 +617,13 @@ namespace Bluetooth
             this.trackBar_1stArm.AutoSize = false;
             this.trackBar_1stArm.Location = new System.Drawing.Point(200, 282);
             this.trackBar_1stArm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.trackBar_1stArm.Maximum = 55;
-            this.trackBar_1stArm.Minimum = -90;
+            this.trackBar_1stArm.Maximum = 90;
             this.trackBar_1stArm.Name = "trackBar_1stArm";
             this.trackBar_1stArm.Size = new System.Drawing.Size(488, 60);
             this.trackBar_1stArm.TabIndex = 39;
             this.trackBar_1stArm.TabStop = false;
             this.trackBar_1stArm.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_1stArm.Value = 90;
             this.trackBar_1stArm.Scroll += new System.EventHandler(this.trackBar_1stArm_Scroll);
             // 
             // trackBar_hand
@@ -769,7 +631,7 @@ namespace Bluetooth
             this.trackBar_hand.AutoSize = false;
             this.trackBar_hand.Location = new System.Drawing.Point(200, 612);
             this.trackBar_hand.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.trackBar_hand.Maximum = 60;
+            this.trackBar_hand.Maximum = 90;
             this.trackBar_hand.Name = "trackBar_hand";
             this.trackBar_hand.Size = new System.Drawing.Size(488, 60);
             this.trackBar_hand.TabIndex = 42;
@@ -1585,6 +1447,110 @@ namespace Bluetooth
             this.textBox_ActionListFolder.TabIndex = 3;
             this.textBox_ActionListFolder.TabStop = false;
             // 
+            // btn_V
+            // 
+            this.btn_V.BackColor = System.Drawing.Color.Black;
+            this.btn_V.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btn_V.ForeColor = System.Drawing.Color.White;
+            this.btn_V.Location = new System.Drawing.Point(718, 303);
+            this.btn_V.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_V.Name = "btn_V";
+            this.btn_V.Size = new System.Drawing.Size(96, 90);
+            this.btn_V.TabIndex = 39;
+            this.btn_V.TabStop = false;
+            this.btn_V.Text = "V";
+            this.btn_V.UseVisualStyleBackColor = false;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(832, 103);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(167, 38);
+            this.label26.TabIndex = 40;
+            this.label26.Text = "順時針旋轉";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(832, 331);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(167, 38);
+            this.label30.TabIndex = 41;
+            this.label30.Text = "逆時針旋轉";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(590, 103);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(77, 38);
+            this.label31.TabIndex = 42;
+            this.label31.Text = "右前";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(590, 216);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(77, 38);
+            this.label32.TabIndex = 43;
+            this.label32.Text = "向右";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(590, 329);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(77, 38);
+            this.label33.TabIndex = 44;
+            this.label33.Text = "右後";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(92, 103);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(77, 38);
+            this.label34.TabIndex = 45;
+            this.label34.Text = "左前";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(92, 216);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(77, 38);
+            this.label35.TabIndex = 46;
+            this.label35.Text = "向左";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(92, 329);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(77, 38);
+            this.label36.TabIndex = 47;
+            this.label36.Text = "左後";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(342, 190);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(77, 38);
+            this.label37.TabIndex = 48;
+            this.label37.Text = "向前";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(342, 238);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(77, 38);
+            this.label38.TabIndex = 49;
+            this.label38.Text = "向後";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
@@ -1610,6 +1576,7 @@ namespace Bluetooth
             this.groupBox_connect.ResumeLayout(false);
             this.groupBox_connect.PerformLayout();
             this.groupBox_control.ResumeLayout(false);
+            this.groupBox_control.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_rotateArm)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1649,14 +1616,6 @@ namespace Bluetooth
         private System.Windows.Forms.GroupBox groupBox_connect;
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btn_shift;
-        private System.Windows.Forms.Button btn_ctrl;
-        private System.Windows.Forms.Button btn_enter;
-        private System.Windows.Forms.Button btn_down;
-        private System.Windows.Forms.Button btn_up;
-        private System.Windows.Forms.Button btn_left;
-        private System.Windows.Forms.Button btn_right;
-        private System.Windows.Forms.Button btn_space;
         private System.Windows.Forms.Button btn_A;
         private System.Windows.Forms.Button btn_W;
         private System.Windows.Forms.Button btn_S;
@@ -1748,8 +1707,6 @@ namespace Bluetooth
         private System.Windows.Forms.Button btn_ActionList_play;
         private System.Windows.Forms.ListView listView_ActionList;
         private System.Windows.Forms.ColumnHeader FileName;
-        private System.Windows.Forms.Button btn_G;
-        private System.Windows.Forms.Button btn_F;
         private System.Windows.Forms.Button Sensor_right_front_ground;
         private System.Windows.Forms.Button Sensor_left_front_ground;
         private System.Windows.Forms.Button Sensor_right_behind_ground;
@@ -1757,6 +1714,17 @@ namespace Bluetooth
         private System.Windows.Forms.Button Sensor_left_behind_ground;
         private System.Windows.Forms.Button Sensor_left_behind_left;
         private System.Windows.Forms.GroupBox groupBox13;
+        private System.Windows.Forms.Button btn_V;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label label38;
     }
 }
 

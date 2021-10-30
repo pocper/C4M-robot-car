@@ -23,28 +23,11 @@ namespace Bluetooth
         const byte SENSOR_HEADER = 0xB3;
         const byte SENSOR_ENDING = 0xB3;
 
-        const byte SERVO_EN_REGADD_DISABLE_ARM= 0xFE;
-        const byte SERVO_EN_REGADD_DISABLE_WHEEL =0xFF;
-
         const int Mode_HRDE = 0;
         const int Mode_HDE = 1;
 
-        //string[] myKeys = new string[] { "W", "A", "S", "D", "Q", "E", "C", "Z", "R", "Space", "ControlKey", "Up", "Down", "Left", "Right", "ShiftKey", "Return" };
-        char[] myKeys = new char[] { 'W', 'A', 'S', 'D', 'Q', 'E', 'C', 'Z', 'R' };
-        int[] Arm_Init_Degree = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
-        //TODO 校正
-        // - 一個是v3丟資料伺服機角度需要校正
-        // - 一個是電腦資料到顯示需要校正
-
-        // - trackBar 能校正最好
-
-        // 想到一個校正的方法
-        // 先用電腦控制到正前方校正
-        // 再用電腦顯示的校正
-
-        //TODO 找到原因為何車斗從-3~-60就攤平
-        //int[] Servo_Compensate_Degree = new int[7] { -3, -3, 0, 55, -60, 0, 0 };
-        int[] Servo_Compensate_Degree = new int[7] { 0, -0, 0, 0, 0, 0, 0 };
+        char[] myKeys = new char[] { 'W', 'A', 'S', 'D', 'Q', 'E', 'C', 'Z', 'R', 'V' };
+        int[] Arm_Init_Degree = new int[7] { 0, 0, 0, 90, 0, 0, 0 };
 
         string objFilePath = "./model_Robot/";
         string[] objName = { "hand_left", "hand_right", "third_arm", "rotate_arm", "first_arm", "second_arm", "cargo", "body" };
@@ -140,7 +123,7 @@ namespace Bluetooth
                 Sensor_left_front_left.BackColor = Color.Green;
         }
 
-        public void SendData(int Mode, byte Header,byte RegAdd, byte Data,byte Ending)
+        public void SendData(int Mode, byte Header, byte RegAdd, byte Data, byte Ending)
         {
             if (serialPort1.IsOpen)
             {
@@ -182,34 +165,12 @@ namespace Bluetooth
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (serialPort1.IsOpen)
+            if (serialPort1.IsOpen && !isEntercsvFileName)
             {
                 int index = Array.IndexOf(myKeys, e.KeyCode.ToString().ToCharArray()[0]);
 
                 if (index > -1)
                     SendData(Mode_HDE, MOVEMENT_HEADER, 0, Convert.ToByte(myKeys[index]), MOVEMENT_ENDING);
-
-                if (e.KeyCode == Keys.F)
-                {
-                    SendData(Mode_HDE, MOVEMENT_HEADER, 0, SERVO_EN_REGADD_DISABLE_WHEEL, MOVEMENT_ENDING);
-                }
-
-                if (e.KeyCode == Keys.G)
-                {
-                    SendData(Mode_HDE, MOVEMENT_HEADER, 0, SERVO_EN_REGADD_DISABLE_ARM, MOVEMENT_ENDING);
-                }
-            }
-
-            if (e.Control)
-            {
-                btn_ctrl.BackColor = Color.Yellow;
-                btn_ctrl.ForeColor = Color.Black;
-            }
-
-            if (e.Shift)
-            {
-                btn_shift.BackColor = Color.Yellow;
-                btn_shift.ForeColor = Color.Black;
             }
 
             switch (e.KeyCode)
@@ -259,44 +220,9 @@ namespace Bluetooth
                     btn_R.ForeColor = Color.Black;
                     break;
 
-                case Keys.F:
-                    btn_F.BackColor = Color.Yellow;
-                    btn_F.ForeColor = Color.Black;
-                    break;
-                
-                case Keys.G:
-                    btn_G.BackColor = Color.Yellow;
-                    btn_G.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Enter:
-                    btn_enter.BackColor = Color.Yellow;
-                    btn_enter.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Up:
-                    btn_up.BackColor = Color.Yellow;
-                    btn_up.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Down:
-                    btn_down.BackColor = Color.Yellow;
-                    btn_down.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Left:
-                    btn_left.BackColor = Color.Yellow;
-                    btn_left.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Right:
-                    btn_right.BackColor = Color.Yellow;
-                    btn_right.ForeColor = Color.Black;
-                    break;
-
-                case Keys.Space:
-                    btn_space.BackColor = Color.Yellow;
-                    btn_space.ForeColor = Color.Black;
+                case Keys.V:
+                    btn_V.BackColor = Color.Yellow;
+                    btn_V.ForeColor = Color.Black;
                     break;
             }
 
@@ -334,36 +260,9 @@ namespace Bluetooth
 
             btn_R.BackColor = Color.Black;
             btn_R.ForeColor = Color.White;
-            
-            btn_F.BackColor = Color.Black;
-            btn_F.ForeColor = Color.White;
-            
-            btn_G.BackColor = Color.Black;
-            btn_G.ForeColor = Color.White;
 
-            btn_ctrl.BackColor = Color.Black;
-            btn_ctrl.ForeColor = Color.White;
-
-            btn_enter.BackColor = Color.Black;
-            btn_enter.ForeColor = Color.White;
-
-            btn_space.BackColor = Color.Black;
-            btn_space.ForeColor = Color.White;
-
-            btn_shift.BackColor = Color.Black;
-            btn_shift.ForeColor = Color.White;
-
-            btn_left.BackColor = Color.Black;
-            btn_left.ForeColor = Color.White;
-
-            btn_up.BackColor = Color.Black;
-            btn_up.ForeColor = Color.White;
-
-            btn_right.BackColor = Color.Black;
-            btn_right.ForeColor = Color.White;
-
-            btn_down.BackColor = Color.Black;
-            btn_down.ForeColor = Color.White;
+            btn_V.BackColor = Color.Black;
+            btn_V.ForeColor = Color.White;
         }
 
         private void btn_open_Click(object sender, EventArgs e)
@@ -395,7 +294,6 @@ namespace Bluetooth
                 }
             }
         }
-
         private void close_comPort()
         {
             try
@@ -452,8 +350,8 @@ namespace Bluetooth
 
         private void update_Degree(int rotate_arm, int first_arm, int second_arm, int third_arm, int hand_left, int cargo)
         {
-            robot.rotateDegree[robot.Idx("rotate_arm")] = -90 - rotate_arm;
-            robot.rotateDegree[robot.Idx("first_arm")] = -first_arm;
+            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 + rotate_arm;
+            robot.rotateDegree[robot.Idx("first_arm")] = 90 - first_arm;
             robot.rotateDegree[robot.Idx("second_arm")] = -second_arm;
             robot.rotateDegree[robot.Idx("third_arm")] = third_arm;
             robot.rotateDegree[robot.Idx("hand_left")] = hand_left;
@@ -468,8 +366,8 @@ namespace Bluetooth
         private void trackBar_rotateArm_Scroll(object sender, EventArgs e)
         {
             textBox_rotateArm.Text = trackBar_rotateArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 2, deg2Byte(trackBar_rotateArm.Value + Servo_Compensate_Degree[2]), SERVO_ENDING);
-            robot.rotateDegree[robot.Idx("rotate_arm")] = -90 - trackBar_rotateArm.Value;
+            SendData(Mode_HRDE, SERVO_HEADER, 2, deg2Byte(trackBar_rotateArm.Value), SERVO_ENDING);
+            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 + trackBar_rotateArm.Value;
 
             robot.updateMatrix();
             model_sideView_Draw();
@@ -480,8 +378,8 @@ namespace Bluetooth
         private void trackBar_1stArm_Scroll(object sender, EventArgs e)
         {
             textBox_1stArm.Text = trackBar_1stArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 3, deg2Byte(trackBar_1stArm.Value + Servo_Compensate_Degree[3]), SERVO_ENDING);
-            robot.rotateDegree[robot.Idx("first_arm")] = -trackBar_1stArm.Value;
+            SendData(Mode_HRDE, SERVO_HEADER, 3, deg2Byte(trackBar_1stArm.Value), SERVO_ENDING);
+            robot.rotateDegree[robot.Idx("first_arm")] = 90 - trackBar_1stArm.Value;
 
             robot.updateMatrix();
             model_sideView_Draw();
@@ -491,7 +389,7 @@ namespace Bluetooth
         private void trackBar_2ndArm_Scroll(object sender, EventArgs e)
         {
             textBox_2ndArm.Text = trackBar_2ndArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 4, deg2Byte(trackBar_2ndArm.Value + Servo_Compensate_Degree[4]), SERVO_ENDING);
+            SendData(Mode_HRDE, SERVO_HEADER, 4, deg2Byte(trackBar_2ndArm.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("second_arm")] = -trackBar_2ndArm.Value;
 
             robot.updateMatrix();
@@ -502,7 +400,7 @@ namespace Bluetooth
         private void trackBar_3rdArm_Scroll(object sender, EventArgs e)
         {
             textBox_3rdArm.Text = trackBar_3rdArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 5, deg2Byte(trackBar_3rdArm.Value + Servo_Compensate_Degree[5]), SERVO_ENDING);
+            SendData(Mode_HRDE, SERVO_HEADER, 5, deg2Byte(trackBar_3rdArm.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("third_arm")] = -trackBar_3rdArm.Value;
 
             robot.updateMatrix();
@@ -513,7 +411,7 @@ namespace Bluetooth
         private void trackBar_hand_Scroll(object sender, EventArgs e)
         {
             textBox_hand.Text = trackBar_hand.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 6, deg2Byte(trackBar_hand.Value + Servo_Compensate_Degree[6]), SERVO_ENDING);
+            SendData(Mode_HRDE, SERVO_HEADER, 6, deg2Byte(trackBar_hand.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("hand_left")] = trackBar_hand.Value;
             robot.rotateDegree[robot.Idx("hand_right")] = -robot.rotateDegree[robot.Idx("hand_left")];
 
@@ -525,7 +423,7 @@ namespace Bluetooth
         private void trackBar_cargo_Scroll(object sender, EventArgs e)
         {
             textBox_cargo.Text = trackBar_cargo.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 0, deg2Byte(trackBar_cargo.Value + Servo_Compensate_Degree[0]), SERVO_ENDING);
+            SendData(Mode_HRDE, SERVO_HEADER, 0, deg2Byte(trackBar_cargo.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("cargo")] = trackBar_cargo.Value;
 
             robot.updateMatrix();
@@ -542,7 +440,7 @@ namespace Bluetooth
         {
             for (byte i = 0; i < Arm_Init_Degree.Length; i++)
             {
-                SendData(Mode_HRDE, SERVO_HEADER, i, deg2Byte(Arm_Init_Degree[i] + Servo_Compensate_Degree[i]), SERVO_ENDING);
+                SendData(Mode_HRDE, SERVO_HEADER, i, deg2Byte(Arm_Init_Degree[i]), SERVO_ENDING);
                 Thread.Sleep(50);
             }
 
