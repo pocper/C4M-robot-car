@@ -7,6 +7,15 @@
 
 #include <stdio.h>
 
+// TODO
+// Interpolation 原切分100等份
+// 改為越小角度切分越小 -> 最小一次1度
+
+// 降低Master -> Slave 的資料長度
+// 原為16通道資料一起送
+// 改為單一通道送
+// 輪子的話一次四顆更新
+
 int main()
 {
     C4M_STDIO_init();
