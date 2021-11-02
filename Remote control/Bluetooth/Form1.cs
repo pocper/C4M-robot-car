@@ -142,6 +142,7 @@ namespace Bluetooth
                             sendData[3] = Ending;
                             serialPort1.Write(sendData, 0, 4);
                             break;
+
                         case Mode_HDE:
                             sendData = new byte[3];
                             sendData[0] = Header;
@@ -440,8 +441,11 @@ namespace Bluetooth
         {
             for (byte i = 0; i < Arm_Init_Degree.Length; i++)
             {
+                //車斗 i=0 和 i=1 數值相同在Master會做處理
+                if (i == 1)
+                    continue;
+
                 SendData(Mode_HRDE, SERVO_HEADER, i, deg2Byte(Arm_Init_Degree[i]), SERVO_ENDING);
-                Thread.Sleep(50);
             }
 
 
