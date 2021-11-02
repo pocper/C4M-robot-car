@@ -64,6 +64,8 @@ void servo_str_split();
  */
 void servo_enable_str_split();
 
+void servo_enable_str_concat(uint8_t RegAdd, uint8_t Enable);
+
 /**
  * @brief 處理字串中輪子動作函式
  *

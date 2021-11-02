@@ -9,7 +9,7 @@
 uint8_t receiveData[maxReceieveBuffer];
 uint8_t receiveDataLength = 0;
 
-uint8_t movement_key[] = "WASDQEZCRV";
+char movement_key[] = "WASDQEZCRV";
 
 ISR(USART0_RX_vect)
 {
@@ -56,9 +56,6 @@ void servo_str_split()
 
     uint8_t RegAdd = receiveData[Idx_Header_1 + SERVO_POS_REGADD];
     uint8_t Data = receiveData[Idx_Header_1 + SERVO_POS_DATA];
-
-    printf("RegAdd = %d\n", RegAdd);
-    printf("Data = %d\n", Data);
 
     if (Data > (128 + 90) || Data < (128 - 90))
     {
@@ -126,23 +123,20 @@ void servo_enable_str_split()
         return;
     }
 
-    if (RegAdd == SERVO_EN_REGADD_DISABLE_WHEEL)
-    {
-        for (int i = 0; i < 7; i++)
-            servo_Enable(i, Data);
-    }
-    else if (RegAdd == SERVO_EN_REGADD_DISABLE_ARM)
-    {
-        for (int i = 7; i < Servo_num; i++)
-            servo_Enable(i, Data);
-    }
-    else
-    {
-        servo_Enable(RegAdd, Data);
-    }
+    servo_Enable(RegAdd, Data);
 
     memmove(receiveData + Idx_Header_1, receiveData + Idx_Header_2 + 1, receiveDataLength - Idx_Header_2);
     receiveDataLength -= StrLength + 1;
+}
+
+void servo_enable_str_concat(uint8_t RegAdd, uint8_t Enable)
+{
+    receiveData[receiveDataLength + SERVO_EN_POS_HEADER] = SERVO_EN_HEADER;
+    receiveData[receiveDataLength + SERVO_EN_POS_REGADD] = RegAdd;
+    receiveData[receiveDataLength + SERVO_EN_POS_DATA] = Enable;
+    receiveData[receiveDataLength + SERVO_EN_POS_ENDING] = SERVO_EN_ENDING;
+
+    receiveDataLength += 4;
 }
 
 void movement_str_split()
@@ -190,9 +184,12 @@ void movement_str_split()
 void str_Remove()
 {
     uint8_t Idx_Header_1, Idx_Header_2;
+    uint8_t chk_sum = 0;
 
     // #define SERVO_HEADER 0xB0
     Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_HEADER, receiveData);
+    chk_sum += (Idx_Header_1 != ERR_NFIND);
+
     if (Idx_Header_1 != ERR_NFIND)
     {
         Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, SERVO_ENDING, receiveData);
@@ -202,6 +199,8 @@ void str_Remove()
 
     // #define SERVO_EN_HEADER 0xB1
     Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_EN_HEADER, receiveData);
+    chk_sum += (Idx_Header_1 != ERR_NFIND);
+
     if (Idx_Header_1 != ERR_NFIND)
     {
         Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, SERVO_EN_ENDING, receiveData);
@@ -211,11 +210,20 @@ void str_Remove()
 
     // #define MOVEMENT_HEADER 0xB2
     Idx_Header_1 = findStr(receiveDataLength, 0, MOVEMENT_HEADER, receiveData);
+    chk_sum += (Idx_Header_1 != ERR_NFIND);
+
     if (Idx_Header_1 != ERR_NFIND)
     {
         Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, MOVEMENT_ENDING, receiveData);
         if ((Idx_Header_2 - Idx_Header_1) > (MOVEMENT_POS_ENDING - MOVEMENT_POS_HEADER))
             receiveData[Idx_Header_1] = ERR_HEADER;
+    }
+
+    if (chk_sum == 0)
+    {
+        memset(receiveData, 0, sizeof(receiveData));
+        receiveDataLength = 0;
+        return;
     }
 
     Idx_Header_1 = findStr(receiveDataLength, 0, ERR_HEADER, receiveData);

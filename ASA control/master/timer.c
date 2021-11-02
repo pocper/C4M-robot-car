@@ -22,8 +22,6 @@ void timer1_init()
 
     //頻率：  5.00 [Hz]
     //時間：200.00 [ms]
-
-    //使用 UARTM_trm
 }
 
 void timer2_init()

@@ -7,6 +7,7 @@
 #define BIT_SET(p, m) ((p) |= (BIT(m)))
 #define BIT_PUT(c, p, m) \
     (c ? BIT_SET(p, m) : BIT_CLEAR(p, m)) //將c蓋寫變數p的第m位元
+#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
 
 #define ENABLE 1
 #define DISABLE 0
@@ -30,7 +31,7 @@ void servo_init()
 
     // servo_Enable_Protect = 0x7ff;
     Servo_Enable_Channel = 0x7ff;
-    // servo_Power(ENABLE);
+
     //  TODO
     //  將手臂歸位置特定位置
     //  先伸展到不會撞到任何牆壁
@@ -46,56 +47,66 @@ void servo_Power(uint8_t Enable)
 void servo_Enable(uint8_t channel, uint8_t Enable)
 {
     printf("channel = %d En = %d\n", channel, Enable);
-    printf("Servo_Enable_Channel = %d\n", Servo_Enable_Channel);
     BIT_PUT(Enable, Servo_Enable_Channel, channel);
     UART1_trm(RegAdd_Enable_Channel, sizeof(Servo_Enable_Channel), sizeof(uint16_t), &Servo_Enable_Channel);
 }
 
-uint8_t servo_update(uint8_t channel, float val)
+void servo_update(uint8_t channel, float val)
 {
-    printf("val = %f\n", val);
+    if (channel > 10)
+        return;
 
-    Servo_Enable_Power = ENABLE;
-    servo_Power(ENABLE);
-    servo_Enable(channel, ENABLE);
+    printf("channel = %d val = %f\n", channel, val);
+
+    if (Servo_Enable_Power == DISABLE)
+        servo_Power(ENABLE);
+
+    if (CheckBit(Servo_Enable_Channel, channel) == DISABLE)
+        servo_Enable(channel, ENABLE);
+
     float PWM;
     if (channel < 7)
+    {
         PWM = Deg2PWM(val);
+    }
     else if (channel < 11)
-        PWM = RPM2PWM(val);
-    else
-        PWM = 255;
+    {
+        if (val == 0)
+        {
+            servo_Enable(channel, DISABLE);
+            return;
+        }
+        else
+            PWM = RPM2PWM(val);
+    }
 
     if (PWM == 255)
-        return 255;
+        return;
 
-    printf("PWM = %f\n", PWM);
+    printf("PWM_Tick = %f\n", PWM);
+
     Servo_Value[channel] = PWM2Tick(PWM);
 
     if (Servo_Value[channel] == 65535)
-        return 255;
-
-    // Servo_Value[channel] = PWM2Tick(val);
+        return;
 
     printf("Servo_Value = %d\n", Servo_Value[channel]);
 
-    UART1_trm(RegAdd_Val, sizeof(Servo_Value), sizeof(Servo_Value[0]), &Servo_Value);
-
-    return 0;
+    // UART1_trm(RegAdd_Multi_Val, sizeof(Servo_Value), sizeof(Servo_Value[0]), &Servo_Value);
+    UART1_trm(RegAdd_Single_Val + channel, sizeof(Servo_Value[0]), sizeof(Servo_Value[0]), &Servo_Value[channel]);
 }
 
 uint16_t PWM2Tick(float PWM)
 {
     /*
-    0.50 [ms] ->   0 等份
-    0.85 [ms] ->  72 等份
-    2.15 [ms] -> 338 等份
-    2.50 [ms] -> 410 等份
+    0.925975 [ms] ->  90 等份
+    1.480875 [ms] -> 205 等份
+    2.035125 [ms] -> 320 等份
     */
     if (PWM > 2.5 || PWM < 0.5)
         return 65535;
 
-    return (PWM - 0.5) / (2.5 - 0.5) * (410 - 0) + 0;
+    return 90 + (320 - 90) * (PWM - 0.925975) / (2.035125 - 0.925975);
 }
 
 float Deg2PWM(int8_t Degree)
@@ -113,39 +124,53 @@ float Deg2PWM(int8_t Degree)
     return 0.925975 + (2.035125 - 0.925975) * (Degree - (-90)) / 180; //單位[ms]
 }
 
-uint8_t RPM2PWM(int8_t RPM)
+float RPM2PWM(int8_t RPM)
 {
-    if (RPM > 58 || RPM < -58)
-        return 255;
+    uint8_t val = RPM2ControllableTable(RPM);
+    return 0.5 + (float)(val) / 50;
+}
 
-    uint8_t PWM = 0;
+uint8_t RPM2ControllableTable(int8_t RPM)
+{
+    // split how many pieces from 0 ~ 75 to 0.5ms ~ 2.5ms
+    /*
+     *  Value range : 0 ~ 75
+     *  Frequency   : 50Hz per value
+     *
+     *  Value      PWM [ms]
+     *    0    ->  0.5 [ms]
+     *   75    ->  2.5 [ms]
+     */
+
+    uint8_t Controllable_val = 0;
     if (RPM <= 58 && RPM >= 48)
     {
-        PWM = 17.745 * RPM - 801 + 0.5;
-        if (PWM >= 69)
+        Controllable_val = 17.745 * RPM - 801 + 0.5;
+        if (Controllable_val >= 69)
         {
-            PWM = 75;
+            Controllable_val = 75;
         }
     }
     if (RPM <= 47 && RPM >= 0)
     {
-        PWM = 0.26 * RPM + 38 + 0.5;
+        Controllable_val = 0.26 * RPM + 38 + 0.5;
     }
     if (RPM <= -1 && RPM >= -47)
     {
-        PWM = 0.26 * RPM + 38 + 0.5;
+        Controllable_val = 0.26 * RPM + 38 + 0.5;
     }
     if (RPM <= -48 && RPM >= -58)
     {
         int ans = 17.745 * RPM + 845;
         if (ans < 0)
         {
-            RPM = 0;
+            Controllable_val = 0;
         }
         else
         {
-            RPM = ans;
+            Controllable_val = ans;
         }
     }
-    return PWM;
+
+    return Controllable_val;
 }

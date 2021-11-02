@@ -44,7 +44,6 @@ void UART1_buf_trm(uint8_t data)
     while (!(UCSR1A & (1 << UDRE1)))
         ;
     UDR1 = data;
-
     // DELAY(WAITTICK);
 }
 

@@ -61,9 +61,20 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
     uint8_t *data_p = Data_p;
     uint8_t dataCount;
 
+    if (RegAdd >= RegAdd_Single_Val && RegAdd <= RegAdd_Single_Val + Servo_num)
+    {
+        if (Bytes != sizeof(uint16_t))
+            return;
+
+        if (SingleDataBytes != sizeof(uint16_t))
+            return;
+
+        Servo_Value[RegAdd - RegAdd_Single_Val] = (data_p[0] << 8) + data_p[1];
+    }
+
     switch (RegAdd)
     {
-    case RegAdd_Val:
+    case RegAdd_Multi_Val:
         if (Bytes != 22)
             return;
 
@@ -163,5 +174,12 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
             Servo_Enable_Protect += (uint16_t)(data_p[Byte]) << 8 * (SingleDataBytes - Byte - 1);
         }
         break;
+
+    case RegAdd_Single_Val:
+        if (Bytes != 2)
+            return;
+
+        if (SingleDataBytes != sizeof(uint16_t))
+            return;
     }
 }

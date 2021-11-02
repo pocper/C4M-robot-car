@@ -11,12 +11,14 @@
 
 #define ERR_HEADER 0xFF
 
-#define RegAdd_Val 1
+#define RegAdd_Multi_Val 1
 #define RegAdd_L_Lim 2
 #define RegAdd_U_Lim 3
 #define RegAdd_Enable_Channel 4
 #define RegAdd_Enable_Power 5
 #define RegAdd_Enable_Protect 6
+
+#define RegAdd_Single_Val 10
 
 #define Servo_num 11
 #define SERVO_LIMIT_MIN 72

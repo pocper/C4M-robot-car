@@ -2,55 +2,55 @@
 #include "timer.h"
 #include "c4mlib/C4MBios/hardware/src/isr.h"
 
+#include "USART_protocal.h"
+
+#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
+#define BIT_CLEAR(data, bit) ((data) &= ~(0x01 << (bit)))
+
 Task task;
 Wheel wheelVal = {-1, 1, -1, 1};
 int RPM = 58;
 
-ISR(TIMER0_COMP_vect)
+ISR(TIMER1_COMPA_vect)
 {
     for (int task_num = 0; task_num < TotalTask; task_num++)
     {
-        if (task.Counter[task_num] < task.Target[task_num] + 1)
-        {
-            task.Counter[task_num]++;
-        }
-
         if (task.Counter[task_num] == task.Target[task_num])
         {
             //車斗禁能
             if (task_num == 0)
             {
-                for (int servo_num = 0; servo_num < 2; task_num++)
-                    servo_Enable(servo_num, DISABLE);
+                servo_enable_str_concat(0, DISABLE);
+                servo_enable_str_concat(1, DISABLE);
             }
 
             //輪子禁能
             if (task_num == 1)
             {
-                for (int servo_num = 7; servo_num < 11; task_num++)
-                    servo_Enable(servo_num, DISABLE);
+                servo_enable_str_concat(7, DISABLE);
+                servo_enable_str_concat(8, DISABLE);
+                servo_enable_str_concat(9, DISABLE);
+                servo_enable_str_concat(10, DISABLE);
             }
         }
+
+        if (task.Counter[task_num] <= task.Target[task_num])
+            task.Counter[task_num]++;
     }
 }
 
 void task_init()
 {
-    // 時間： 0.05 [s]
-    timer0_init();
-
-    // 車輪
-    task.Target[0] = 20;
-    task.Counter[0] = task.Target[0] + 1; //初始化
+    //時間：200.00 [ms]
+    timer1_init();
 
     // 車斗
-    // 持續時間
-    // S1 -> 574.335 [ms]
-    // S2 -> 396.543 [ms]
+    //經過時間 : 1.129393 [s]
+    task.Target[0] = 10;
+    task.Counter[0] = task.Target[0] + 1; //初始化
 
-    // 啟動相差時間
-    // S1 Then S2 -> 256.812 [ms]
-
+    // 車輪
+    //經過時間 : 2.113597 [s]
     task.Target[1] = 20;
     task.Counter[1] = task.Target[1] + 1; //初始化
 }
@@ -170,30 +170,43 @@ void Rotation_update(uint8_t channel, int8_t Degree)
     }
     else
     {
-        servo_update(channel, Degree);
-        // interpolation(channel, Degree);
+        // servo_update(channel, Degree);
+        interpolation(channel, Degree);
     }
 }
 
 void interpolation(uint8_t channel, int8_t dest_Degree)
 {
     static int begin_Degree[7];
-    static char isFirstRotate[7] = {1, 1, 1, 1, 1, 1, 1};
+    static char isFirstRotate = 0x7f;
 
-    if (isFirstRotate[channel])
+    if (CheckBit(isFirstRotate, channel))
     {
         servo_update(channel, dest_Degree);
         begin_Degree[channel] = dest_Degree;
-        isFirstRotate[channel] = 0;
+        BIT_CLEAR(isFirstRotate, channel);
     }
     else
     {
-        float temp_Degree;
+        int delta = dest_Degree - begin_Degree[channel];
+        int abs_delta = delta > 0 ? delta : -delta;
+        int total_split;
 
-        for (int split = 0; split < interpolation_split; split++)
+        if (abs_delta > 45)
+            total_split = abs_delta / 15;
+        else
+            total_split = 1;
+
+        if (total_split == 1)
         {
-            temp_Degree = (float)(split * (dest_Degree - begin_Degree[channel])) / interpolation_split;
-            servo_update(channel, temp_Degree);
+            servo_update(channel, dest_Degree);
+        }
+        else
+        {
+            for (int split = 0; split < total_split; split++)
+            {
+                servo_update(channel, begin_Degree[channel] + (float)(delta) * (split + 1) / total_split);
+            }
         }
 
         begin_Degree[channel] = dest_Degree;
