@@ -1,20 +1,20 @@
 #include "USART_protocal.h"
+
+#include "pwm_def.h"
 #include "PCA9685.h"
 
+#include "src/isr.h"
 #include "src/stdio.h"
-#include <avr/iom328pb.h>
+#include "src/bits_op.h"
+
+#include <stdlib.h>
+#include <string.h>
+#include <avr/io.h>
 
 #define ERR_NFIND 255
 
 uint8_t receiveData[maxReceieveBuffer];
 uint8_t receiveDataLength = 0;
-
-extern uint16_t Servo_Value[16];
-extern uint16_t Servo_U_Limit[16];
-extern uint16_t Servo_L_Limit[16];
-extern uint16_t Servo_Enable_Channel;
-extern uint8_t Servo_Enable_Power;
-extern uint16_t Servo_Enable_Protect;
 
 ISR(USART0_RX_vect)
 {
@@ -44,6 +44,9 @@ void DataDisplay()
 
 void handle_rec_str()
 {
+    if (receiveDataLength == 0)
+        return;
+
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, M2S_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
         return;
@@ -52,7 +55,7 @@ void handle_rec_str()
     if (Idx_Header_2 == ERR_NFIND)
         return;
 
-    int StrLength = Idx_Header_2 - Idx_Header_1;
+    uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
     /*
      * Correct form
@@ -104,11 +107,15 @@ void str_Remove()
     // #define M2S_HEADER 0xAA
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, M2S_HEADER, receiveData);
 
-    //如果找不到Header就把全部字串清除
-    // 05 01 01 01 AA
     if ((Idx_Header_1 != ERR_NFIND && Idx_Header_1 == 0) ||
         (receiveDataLength > 1 && Idx_Header_1 != receiveDataLength - 1))
         return;
+
     memset(receiveData, 0, receiveDataLength);
     receiveDataLength = 0;
+}
+
+uint8_t DataLength()
+{
+    return receiveDataLength;
 }

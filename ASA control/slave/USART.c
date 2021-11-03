@@ -1,5 +1,7 @@
 #include "USART.h"
 #include "pwm_def.h"
+
+#include <avr/io.h>
 #define F_CPU 8000000UL
 
 void UART0_init()
@@ -35,39 +37,15 @@ void UART0_buf_trm(uint8_t data)
     while (!(UCSR0A & (1 << UDRE0)))
         ;
     UDR0 = data;
-
-    DELAY(WAITTICK);
+    // DELAY(WAITTICK);
 }
 
 void UART1_buf_trm(uint8_t data)
 {
-    // while (!(UCSR1A & (1 << UDRE1)))
-    //     ;
-    // UDR1 = data;
-    // printf("in 48\n");
-    // printf("data = %d\n", data);
-    int32_t counter = 0;
-    for (counter = 500000; counter >= 0; counter--)
-    {
-        if (UCSR1A & (1 << UDRE1))
-        {
-            // printf("counter = %ld\n", counter);
-            UDR1 = data;
-            break;
-        }
-    }
-    // printf("in 59\n");
-
-    if (counter == 0)
-    {
-        // printf("ERR_TIMEOUT\n");
-        return;
-    }
-
-    // printf("in 65\n");
-
-    DELAY(WAITTICK);
-    // printf("in 68\n");
+    while (!(UCSR1A & (1 << UDRE1)))
+        ;
+    UDR1 = data;
+    // DELAY(WAITTICK);
 }
 
 void UART1_trm(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataSize, void *Data_p)

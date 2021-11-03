@@ -1,10 +1,4 @@
-#include "USART_protocal.h"
-#include "PCA9685_protocal.h"
-
-// Basic function define:
-#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
-#define ClearBit(data, bit) (data &= ~(1 << bit))
-#define SetBit(data, bit) (data |= (1 << bit))
+#include <stdint.h>
 
 /**
  * @brief 對PCA9685晶片初始化函式

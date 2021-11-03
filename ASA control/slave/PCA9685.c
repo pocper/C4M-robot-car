@@ -1,4 +1,10 @@
+#include "pwm_def.h"
+#include "global_def.h"
+
 #include "PCA9685.h"
+#include "USART_protocal.h"
+#include "PCA9685_protocal.h"
+
 #include "src/stdio.h"
 
 #define SERVO_VAL_INIT 205
@@ -14,8 +20,8 @@ uint16_t Servo_Enable_Protect;
 void PCA9685_init()
 {
 
-    SetBit(DDRD, 7);
-    ClearBit(PORTD, 7); // Set Low: Open Power to Servo by Relay
+    BIT_SET(DDRD, 7);
+    BIT_CLEAR(PORTD, 7); // Set Low: Open Power to Servo by Relay
 
     PCA9685_Init(0, 50);
 
@@ -25,19 +31,19 @@ void PCA9685_init()
         PCA9685_ServoSet(i, Servo_Output_Value[i]);
     }
 
-    SetBit(DDRB, 0);
-    ClearBit(PORTB, 0); // PCA9685 Servo Output Enable
+    BIT_SET(DDRB, 0);
+    BIT_CLEAR(PORTB, 0); // PCA9685 Servo Output Enable
 
-    SetBit(PORTD, 7); // Set High: Close Power to Servo by Relay
+    BIT_SET(PORTD, 7); // Set High: Close Power to Servo by Relay
 }
 
 void PCA9685_update()
 {
     // 依命令控制伺服機電源總開關
     if (Servo_Enable_Power == 0)
-        SetBit(PORTD, 7); // Set High: Close Power to Servo by Relay
+        BIT_SET(PORTD, 7); // Set High: Close Power to Servo by Relay
     else
-        ClearBit(PORTD, 7); // Set Low: Open Power to Servo by Relay
+        BIT_CLEAR(PORTD, 7); // Set Low: Open Power to Servo by Relay
 
     // 依上下限設定及禁致能狀態更新伺服機真實輸出值
     for (int i = 0; i < 16; i++)

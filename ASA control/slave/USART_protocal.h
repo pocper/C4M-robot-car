@@ -1,14 +1,4 @@
-#include "src/bits_op.h"
-#include "pwm_def.h"
-
-#include "src/isr.h"
-#include <stdlib.h>
-#include <string.h>
-
-#define maxReceieveBuffer 200
-
-#define ENABLE 1
-#define DISABLE 0
+#include <stdint.h>
 
 uint8_t findStr(uint8_t Length, uint8_t start_idx, uint8_t find, void *Data_p);
 
@@ -32,3 +22,10 @@ void handle_rec_str();
  *
  */
 void str_Remove();
+
+/**
+ * @brief 返回接收暫存區長度函式
+ *
+ * @return uint8_t receiveDataLength
+ */
+uint8_t DataLength();
