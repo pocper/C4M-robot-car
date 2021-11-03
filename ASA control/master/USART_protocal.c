@@ -48,7 +48,7 @@ void servo_str_split()
     if (Idx_Header_2 == ERR_NFIND)
         return;
 
-    int StrLength = Idx_Header_2 - Idx_Header_1;
+    uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
     /*
      * Correct form
@@ -104,7 +104,7 @@ void servo_enable_str_split()
     if (Idx_Header_2 == ERR_NFIND)
         return;
 
-    int StrLength = Idx_Header_2 - Idx_Header_1;
+    uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
     /*
      * Correct form
@@ -164,7 +164,7 @@ void movement_str_split()
     if (Idx_Header_2 == ERR_NFIND)
         return;
 
-    int StrLength = Idx_Header_2 - Idx_Header_1;
+    uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
     /*
      * Correct form
      * [MOVEMENT_HEADER] [Data] [MOVEMENT_ENDING]

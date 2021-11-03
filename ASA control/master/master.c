@@ -45,7 +45,7 @@ int main()
         str_Remove();
 
         if (DataLength() == 0)
-            _delay_ms(50);
+            _delay_ms(20);
     }
 
     return 0;
