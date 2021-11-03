@@ -1,5 +1,3 @@
-#include <avr/io.h>
-#include <stdio.h>
 #include <stdint.h>
 
 #define WAITTICK 1

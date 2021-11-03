@@ -1,16 +1,12 @@
 #include "servo.h"
+#include "USART.h"
+
+#include "pwm_def.h"
+#include "global_def.h"
+
+#include "c4mlib/C4MBios/hardware/src/isr.h"
 
 #include <stdio.h>
-
-#define BIT(m) (0x01 << (m))
-#define BIT_CLEAR(p, m) ((p) &= ~(BIT(m)))
-#define BIT_SET(p, m) ((p) |= (BIT(m)))
-#define BIT_PUT(c, p, m) \
-    (c ? BIT_SET(p, m) : BIT_CLEAR(p, m)) //將c蓋寫變數p的第m位元
-#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
-
-#define ENABLE 1
-#define DISABLE 0
 
 uint16_t Servo_Value[11];
 uint16_t Servo_U_Limit[11];
@@ -31,11 +27,6 @@ void servo_init()
 
     // servo_Enable_Protect = 0x7ff;
     Servo_Enable_Channel = 0x7ff;
-
-    //  TODO
-    //  將手臂歸位置特定位置
-    //  先伸展到不會撞到任何牆壁
-    //  再伸到比賽要求位置
 }
 
 void servo_Power(uint8_t Enable)
@@ -67,6 +58,9 @@ void servo_update(uint8_t channel, float val)
     float PWM;
     if (channel < 7)
     {
+        if (val > 90 || val < -90)
+            return;
+
         PWM = Deg2PWM(val);
     }
     else if (channel < 11)
@@ -76,19 +70,16 @@ void servo_update(uint8_t channel, float val)
             servo_Enable(channel, DISABLE);
             return;
         }
-        else
-            PWM = RPM2PWM(val);
-    }
 
-    if (PWM == 255)
-        return;
+        PWM = RPM2PWM(val);
+    }
 
     printf("PWM_Tick = %f\n", PWM);
 
-    Servo_Value[channel] = PWM2Tick(PWM);
-
-    if (Servo_Value[channel] == 65535)
+    if (PWM > 2.5 || PWM < 0.5)
         return;
+
+    Servo_Value[channel] = PWM2Tick(PWM);
 
     printf("Servo_Value = %d\n", Servo_Value[channel]);
 
@@ -103,8 +94,6 @@ uint16_t PWM2Tick(float PWM)
     1.480875 [ms] -> 205 等份
     2.035125 [ms] -> 320 等份
     */
-    if (PWM > 2.5 || PWM < 0.5)
-        return 65535;
 
     return 90 + (320 - 90) * (PWM - 0.925975) / (2.035125 - 0.925975);
 }
@@ -117,9 +106,6 @@ float Deg2PWM(int8_t Degree)
       00.0 [Deg] -> 1.480875 [ms]
      +90.0 [Deg] -> 2.035125 [ms]
     */
-
-    if (Degree > 90 || Degree < -90)
-        return 255;
 
     return 0.925975 + (2.035125 - 0.925975) * (Degree - (-90)) / 180; //單位[ms]
 }

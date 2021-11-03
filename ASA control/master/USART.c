@@ -2,6 +2,8 @@
 
 #include "pwm_def.h"
 
+#include <avr/io.h>
+
 void UART0_init()
 {
     //設定UART通訊鮑率
@@ -35,8 +37,7 @@ void UART0_buf_trm(uint8_t data)
     while (!(UCSR0A & (1 << UDRE0)))
         ;
     UDR0 = data;
-
-    DELAY(WAITTICK);
+    // DELAY(WAITTICK);
 }
 
 void UART1_buf_trm(uint8_t data)

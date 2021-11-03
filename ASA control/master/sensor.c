@@ -1,8 +1,15 @@
+#include "pwm_def.h"
+#include "global_def.h"
+
 #include "sensor.h"
+#include "USART.h"
+#include "timer.h"
 
+#include "c4mlib/C4MBios/macro/src/bits_op.h"
+#include "c4mlib/C4MBios/hardware/src/isr.h"
+
+#include <avr/io.h>
 #include <stdio.h>
-
-#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
 
 ISR(TIMER2_COMP_vect)
 {

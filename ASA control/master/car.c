@@ -1,15 +1,17 @@
+#include "global_def.h"
+
 #include "car.h"
 #include "timer.h"
-#include "c4mlib/C4MBios/hardware/src/isr.h"
-
+#include "servo.h"
 #include "USART_protocal.h"
 
-#define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
-#define BIT_CLEAR(data, bit) ((data) &= ~(0x01 << (bit)))
+#include "c4mlib/C4MBios/hardware/src/isr.h"
+
+#include <stdio.h>
 
 Task task;
 Wheel wheelVal = {-1, 1, -1, 1};
-int RPM = 58;
+uint8_t RPM = 58;
 
 ISR(TIMER1_COMPA_vect)
 {
@@ -55,7 +57,7 @@ void task_init()
     task.Counter[1] = task.Target[1] + 1; //初始化
 }
 
-void Movement_condition(int Dir)
+void Movement_condition(uint8_t Dir)
 {
     printf("Dir =%d\n", Dir);
 
@@ -177,8 +179,8 @@ void Rotation_update(uint8_t channel, int8_t Degree)
 
 void interpolation(uint8_t channel, int8_t dest_Degree)
 {
-    static int begin_Degree[7];
-    static char isFirstRotate = 0x7f;
+    static int8_t begin_Degree[7];
+    static uint8_t isFirstRotate = 0x7f;
 
     if (CheckBit(isFirstRotate, channel))
     {
@@ -188,9 +190,9 @@ void interpolation(uint8_t channel, int8_t dest_Degree)
     }
     else
     {
-        int delta = dest_Degree - begin_Degree[channel];
-        int abs_delta = delta > 0 ? delta : -delta;
-        int total_split;
+        int8_t delta = dest_Degree - begin_Degree[channel];
+        uint8_t abs_delta = delta > 0 ? delta : -delta;
+        uint8_t total_split;
 
         if (abs_delta > 45)
             total_split = abs_delta / 15;

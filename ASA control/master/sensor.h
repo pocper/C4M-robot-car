@@ -1,12 +1,4 @@
-
-#include "pwm_def.h"
-#include "USART.h"
-#include "timer.h"
-
-#include "c4mlib/C4MBios/macro/src/bits_op.h"
-#include "c4mlib/C4MBios/hardware/src/isr.h"
-
-#include <avr/io.h>
+#include <stdint.h>
 
 /**
  * @brief 初始化感應器暫存器，
@@ -64,6 +56,6 @@ void sensorF_init();
  *
  * @return uint16_t 感應器資料
  * [Header] [SensorA1] [SensorA2] [SensorA3] ... [SensorF1] [SensorF2] [SensorF3] [Ending]
- * 
+ *
  */
 uint16_t sensor_rec();

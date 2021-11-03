@@ -1,9 +1,4 @@
-#include "USART.h"
-
-#include "pwm_def.h"
-
-#include <avr/interrupt.h>
-#include <avr/io.h>
+#include <stdint.h>
 
 /**
  * @brief 初始化擴充版硬體PWM函式
@@ -43,7 +38,7 @@ void servo_update(uint8_t channel, float val);
  *  - 0.50 [ms] ->   0 等份。
  *  - 2.50 [ms] -> 410 等份。
  * @param PWM 波寬調變數值
- * @return uint16_t 錯誤代碼：
+ * @return uint16_t Tick數值 0 ~ 410 
  */
 uint16_t PWM2Tick(float PWM);
 

@@ -1,6 +1,3 @@
-#include "c4mlib/C4MBios/macro/src/bits_op.h"
-#include <avr/io.h>
-
 /**
  * @brief 初始化timer0函式
  * 

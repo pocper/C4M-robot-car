@@ -1,5 +1,9 @@
 #include "timer.h"
 
+#include "c4mlib/C4MBios/macro/src/bits_op.h"
+
+#include <avr/io.h>
+
 void timer0_init()
 {
 
@@ -8,8 +12,8 @@ void timer0_init()
     REGFPT(&TIMSK, 0x02, OCIE0, 1); /*致能中斷*/
     OCR0 = 255;
 
-    //頻率：21.0900 [Hz]
-    //時間： 0.0474 [s]
+    //頻率：21.09 [Hz]
+    //時間：47.40 [ms]
 }
 
 void timer1_init()
@@ -30,5 +34,7 @@ void timer2_init()
     REGFPT(&TCCR2, 0x07, CS00, 5);  /*除頻1024*/
     REGFPT(&TIMSK, 0x80, OCIE2, 1); /*致能中斷*/
     OCR2 = 107;
-    //時間：0.01s
+
+    //頻率：50.00 [Hz]
+    //時間：20.00 [ms]
 }

@@ -1,11 +1,6 @@
-#include "servo.h"
-#include <stdio.h>
+#include <stdint.h>
 
 #define TotalTask 2 //車斗 | 車輪
-#define interpolation_split 100
-
-#define ENABLE 1
-#define DISABLE 0
 
 /**
  * @brief 暫停結構體
@@ -20,17 +15,18 @@ typedef struct
 } Task;
 
 /**
- * @brief 存放輪子順逆時針之結構體
- *        若為正，則順時針
- *        若為負，則逆時針
+ * @brief 存放輪子順逆時針之結構體。
+ *        若為 +1，則順時針。
+ *        若為  0，則停止。
+ *        若為 -1，則逆時針。
  *
  */
 typedef struct
 {
-    int left_front;  //左前輪
-    int right_front; //右前輪
-    int left_rear;   //左後輪
-    int right_rear;  //右後輪
+    int8_t left_front;  //左前輪
+    int8_t right_front; //右前輪
+    int8_t left_rear;   //左後輪
+    int8_t right_rear;  //右後輪
 } Wheel;
 
 /**
@@ -54,18 +50,18 @@ enum
 /**
  * @brief 更新輪子轉向函式
  *
- * @param Dir 輸入0~9方向
- * 對應內容為：WASDQEZC
- *  - 1 -> W  前進
- *  - 2 -> A  向左
- *  - 3 -> S  後退
- *  - 4 -> D  向右
- *  - 5 -> Q  左前
- *  - 6 -> E  右前
- *  - 7 -> Z  左後
- *  - 8 -> C  右後
- *  - 9 -> R  順時鐘轉
- *  -尚未設計　逆時鐘轉
+ * @param uint8_t Dir 輸入0 ~ 10方向。
+ * 對應內容為：WASDQEZCV。
+ *  - 1 -> W  前進。
+ *  - 2 -> A  向左。
+ *  - 3 -> S  後退。
+ *  - 4 -> D  向右。
+ *  - 5 -> Q  左前。
+ *  - 6 -> E  右前。
+ *  - 7 -> Z  左後。
+ *  - 8 -> C  右後。
+ *  - 9 -> R  順時鐘轉。
+ *  -10 -> V　逆時鐘轉。
  *
  *   Q      W      E
  *     \    |    /
@@ -75,7 +71,7 @@ enum
  *     /    |    \
  *   Z      S      C
  */
-void Movement_condition(int Dir);
+void Movement_condition(uint8_t Dir);
 
 /**
  * @brief 輸出輪子順逆時針結構體

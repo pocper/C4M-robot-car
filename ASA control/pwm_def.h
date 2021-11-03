@@ -24,6 +24,8 @@
 #define SERVO_LIMIT_MIN 72
 #define SERVO_LIMIT_MAX 338
 
+#define maxReceieveBuffer 200
+
 // Master
 
 #define SERVO_POS_HEADER 0
@@ -36,14 +38,11 @@
 #define SERVO_EN_POS_DATA 2
 #define SERVO_EN_POS_ENDING 3
 
-#define SERVO_EN_REGADD_DISABLE_ARM 0xFE
-#define SERVO_EN_REGADD_DISABLE_WHEEL 0xFF
-
 #define MOVEMENT_POS_HEADER 0
 #define MOVEMENT_POS_DATA 1
 #define MOVEMENT_POS_ENDING 2
 
-//Slave
+// Slave
 
 #define M2S_HEADER 0xAA
 #define M2S_ENDING 0xAA

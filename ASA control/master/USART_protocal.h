@@ -1,14 +1,4 @@
-#include "pwm_def.h"
-
-#include "c4mlib/C4MBios/macro/src/bits_op.h"
-#include "c4mlib/C4MBios/hardware/src/isr.h"
-
-#include <string.h>
-
-#define maxReceieveBuffer 200
-
-#define ENABLE 1
-#define DISABLE 0
+#include <stdint.h>
 
 uint8_t findStr(uint8_t Length, uint8_t start_idx, uint8_t find, void *Data_p);
 
@@ -100,3 +90,10 @@ void str_Remove();
  *
  */
 void DataDisplay();
+
+/**
+ * @brief 返回接收暫存區長度函式
+ *
+ * @return uint8_t receiveDataLength
+ */
+uint8_t DataLength();

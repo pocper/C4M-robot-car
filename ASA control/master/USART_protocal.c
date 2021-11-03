@@ -1,7 +1,14 @@
+#include "pwm_def.h"
+#include "global_def.h"
+
 #include "USART_protocal.h"
-
 #include "car.h"
+#include "servo.h"
 
+#include "c4mlib/C4MBios/macro/src/bits_op.h"
+#include "c4mlib/C4MBios/hardware/src/isr.h"
+
+#include <string.h>
 #include <stdio.h>
 
 #define ERR_NFIND 255
@@ -30,6 +37,9 @@ uint8_t findStr(uint8_t Length, uint8_t start_idx, uint8_t find, void *Data_p)
 
 void servo_str_split()
 {
+    if (receiveDataLength == 0)
+        return;
+
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
         return;
@@ -83,6 +93,9 @@ void servo_str_split()
 
 void servo_enable_str_split()
 {
+    if (receiveDataLength == 0)
+        return;
+
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_EN_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
         return;
@@ -109,8 +122,7 @@ void servo_enable_str_split()
 
     uint8_t RegAdd = receiveData[Idx_Header_1 + SERVO_EN_POS_REGADD];
 
-    if (RegAdd > (Servo_num - 1) &&
-        (RegAdd != SERVO_EN_REGADD_DISABLE_WHEEL || RegAdd != SERVO_EN_REGADD_DISABLE_ARM))
+    if (RegAdd > (Servo_num - 1))
     {
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
@@ -141,6 +153,9 @@ void servo_enable_str_concat(uint8_t RegAdd, uint8_t Enable)
 
 void movement_str_split()
 {
+    if (receiveDataLength == 0)
+        return;
+
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, MOVEMENT_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
         return;
@@ -183,6 +198,9 @@ void movement_str_split()
 // TODO LIST 我沒有替指令以外的清除 因為基本不會傳到指令以外的資料
 void str_Remove()
 {
+    if (receiveDataLength == 0)
+        return;
+
     uint8_t Idx_Header_1, Idx_Header_2;
     uint8_t chk_sum = 0;
 
@@ -245,4 +263,9 @@ void DataDisplay()
     for (int i = 0; i < receiveDataLength; i++)
         printf("%d ", receiveData[i]);
     printf("\n");
+}
+
+uint8_t DataLength()
+{
+    return receiveDataLength;
 }

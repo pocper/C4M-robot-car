@@ -1,15 +1,26 @@
-#include "c4mlib/C4MBios/device/src/device.h"
+#include "global_def.h"
 
+#include "USART.h"
 #include "USART_protocal.h"
 #include "sensor.h"
 #include "servo.h"
 #include "car.h"
+
+#include "c4mlib/C4MBios/device/src/device.h"
 
 #include <stdio.h>
 
 // TODO
 // Movement Master -> Slave RPM = -58 PWM =0.5 [ms]
 // 擴充版範圍為0.85ms -> 2.15 ms
+
+//  手臂初始化位置
+//  1) 將手臂歸位置特定位置
+//  2) 先伸展到不會撞到任何牆壁
+//  3) 再伸到比賽要求位置
+
+// 看要不要把Include 合併進car.h
+// slave端程式化簡
 
 int main()
 {
@@ -27,12 +38,14 @@ int main()
 
     while (1)
     {
-        DataDisplay();
+        // DataDisplay();
         servo_str_split();
         servo_enable_str_split();
         movement_str_split();
         str_Remove();
-        _delay_ms(50);
+
+        if (DataLength() == 0)
+            _delay_ms(50);
     }
 
     return 0;
