@@ -46,14 +46,26 @@ void servo_str_split()
     if (Idx_Header_1 == ERR_NFIND)
         return;
 
-    uint8_t Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, SERVO_ENDING, receiveData);
-    if (Idx_Header_2 == ERR_NFIND)
+    printf("Idx_Header_1 = %d\n", Idx_Header_1);
+
+    uint8_t Idx_Header_2 = Idx_Header_1 + SERVO_POS_ENDING;
+
+    printf("receiveData[%d] = %d\n", Idx_Header_2, receiveData[Idx_Header_2]);
+
+    if (receiveData[Idx_Header_2] != SERVO_ENDING)
+    {
+        printf("receiveData[Idx_Header_2] != SERVO_EN_ENDING\n");
+        receiveData[Idx_Header_1] = ERR_HEADER;
         return;
+    }
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
+    printf("StrLength = %d\n", StrLength);
+
     if (StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER))
     {
+        printf("StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER\n");
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
     }
@@ -96,9 +108,12 @@ void servo_enable_str_split()
     if (Idx_Header_1 == ERR_NFIND)
         return;
 
-    uint8_t Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, SERVO_EN_ENDING, receiveData);
-    if (Idx_Header_2 == ERR_NFIND)
+    uint8_t Idx_Header_2 = Idx_Header_1 + SERVO_EN_POS_ENDING;
+    if (receiveData[Idx_Header_2] != SERVO_EN_ENDING)
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
         return;
+    }
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
@@ -150,9 +165,12 @@ void movement_str_split()
     if (Idx_Header_1 == ERR_NFIND)
         return;
 
-    uint8_t Idx_Header_2 = findStr(receiveDataLength, Idx_Header_1 + 1, MOVEMENT_ENDING, receiveData);
-    if (Idx_Header_2 == ERR_NFIND)
+    uint8_t Idx_Header_2 = Idx_Header_1 + MOVEMENT_POS_ENDING;
+    if (receiveData[Idx_Header_2] != MOVEMENT_ENDING)
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
         return;
+    }
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 

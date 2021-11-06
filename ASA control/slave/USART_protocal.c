@@ -77,6 +77,12 @@ void handle_rec_str()
     if ((Idx_Header_2 + 1) > receiveDataLength)
         return;
 
+    if (receiveData[Idx_Header_2] != M2S_ENDING)
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
+        return;
+    }
+
     if (RegAdd == RegAdd_Clear_Buffer)
     {
         if (Bytes != 1)

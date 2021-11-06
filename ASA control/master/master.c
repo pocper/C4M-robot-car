@@ -42,7 +42,7 @@ int main()
     sei();
 
     Buffer_init();
-    _delay_ms(10); //等待擴充版初始化
+    _delay_ms(30); //等待擴充版初始化
 
     servo_init();
 
