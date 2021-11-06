@@ -41,6 +41,17 @@ namespace Bluetooth
             this.btn_S = new System.Windows.Forms.Button();
             this.btn_D = new System.Windows.Forms.Button();
             this.groupBox_control = new System.Windows.Forms.GroupBox();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.btn_V = new System.Windows.Forms.Button();
             this.btn_R = new System.Windows.Forms.Button();
             this.btn_Z = new System.Windows.Forms.Button();
             this.btn_C = new System.Windows.Forms.Button();
@@ -132,17 +143,6 @@ namespace Bluetooth
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.btn_chooseActionListFolder = new System.Windows.Forms.Button();
             this.textBox_ActionListFolder = new System.Windows.Forms.TextBox();
-            this.btn_V = new System.Windows.Forms.Button();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
             this.groupBox_connect.SuspendLayout();
             this.groupBox_control.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_rotateArm)).BeginInit();
@@ -331,6 +331,110 @@ namespace Bluetooth
             this.groupBox_control.TabStop = false;
             this.groupBox_control.Text = "Keyboard";
             // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(342, 238);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(77, 38);
+            this.label38.TabIndex = 49;
+            this.label38.Text = "向後";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(342, 190);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(77, 38);
+            this.label37.TabIndex = 48;
+            this.label37.Text = "向前";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(92, 329);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(77, 38);
+            this.label36.TabIndex = 47;
+            this.label36.Text = "左後";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(92, 216);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(77, 38);
+            this.label35.TabIndex = 46;
+            this.label35.Text = "向左";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(92, 103);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(77, 38);
+            this.label34.TabIndex = 45;
+            this.label34.Text = "左前";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(590, 329);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(77, 38);
+            this.label33.TabIndex = 44;
+            this.label33.Text = "右後";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(590, 216);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(77, 38);
+            this.label32.TabIndex = 43;
+            this.label32.Text = "向右";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(590, 103);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(77, 38);
+            this.label31.TabIndex = 42;
+            this.label31.Text = "右前";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(832, 331);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(167, 38);
+            this.label30.TabIndex = 41;
+            this.label30.Text = "逆時針旋轉";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(832, 103);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(167, 38);
+            this.label26.TabIndex = 40;
+            this.label26.Text = "順時針旋轉";
+            // 
+            // btn_V
+            // 
+            this.btn_V.BackColor = System.Drawing.Color.Black;
+            this.btn_V.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.btn_V.ForeColor = System.Drawing.Color.White;
+            this.btn_V.Location = new System.Drawing.Point(718, 303);
+            this.btn_V.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_V.Name = "btn_V";
+            this.btn_V.Size = new System.Drawing.Size(96, 90);
+            this.btn_V.TabIndex = 39;
+            this.btn_V.TabStop = false;
+            this.btn_V.Text = "V";
+            this.btn_V.UseVisualStyleBackColor = false;
+            // 
             // btn_R
             // 
             this.btn_R.BackColor = System.Drawing.Color.Black;
@@ -414,6 +518,7 @@ namespace Bluetooth
             this.trackBar_rotateArm.TabStop = false;
             this.trackBar_rotateArm.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_rotateArm.Scroll += new System.EventHandler(this.trackBar_rotateArm_Scroll);
+            this.trackBar_rotateArm.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_rotateArm_MouseUp);
             // 
             // label2
             // 
@@ -530,6 +635,7 @@ namespace Bluetooth
             this.trackBar_cargo.TabStop = false;
             this.trackBar_cargo.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_cargo.Scroll += new System.EventHandler(this.trackBar_cargo_Scroll);
+            this.trackBar_cargo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_cargo_MouseUp);
             // 
             // label7
             // 
@@ -591,26 +697,30 @@ namespace Bluetooth
             this.trackBar_3rdArm.Location = new System.Drawing.Point(200, 502);
             this.trackBar_3rdArm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.trackBar_3rdArm.Maximum = 60;
-            this.trackBar_3rdArm.Minimum = -60;
+            this.trackBar_3rdArm.Minimum = -90;
             this.trackBar_3rdArm.Name = "trackBar_3rdArm";
             this.trackBar_3rdArm.Size = new System.Drawing.Size(488, 60);
             this.trackBar_3rdArm.TabIndex = 41;
             this.trackBar_3rdArm.TabStop = false;
             this.trackBar_3rdArm.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_3rdArm.Scroll += new System.EventHandler(this.trackBar_3rdArm_Scroll);
+            this.trackBar_3rdArm.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_3rdArm_MouseUp);
             // 
             // trackBar_2ndArm
             // 
             this.trackBar_2ndArm.AutoSize = false;
             this.trackBar_2ndArm.Location = new System.Drawing.Point(200, 392);
             this.trackBar_2ndArm.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.trackBar_2ndArm.Maximum = 60;
+            this.trackBar_2ndArm.Maximum = 0;
+            this.trackBar_2ndArm.Minimum = -90;
             this.trackBar_2ndArm.Name = "trackBar_2ndArm";
             this.trackBar_2ndArm.Size = new System.Drawing.Size(488, 60);
             this.trackBar_2ndArm.TabIndex = 40;
             this.trackBar_2ndArm.TabStop = false;
             this.trackBar_2ndArm.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_2ndArm.Value = -90;
             this.trackBar_2ndArm.Scroll += new System.EventHandler(this.trackBar_2ndArm_Scroll);
+            this.trackBar_2ndArm.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_2ndArm_MouseUp);
             // 
             // trackBar_1stArm
             // 
@@ -625,6 +735,7 @@ namespace Bluetooth
             this.trackBar_1stArm.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_1stArm.Value = 90;
             this.trackBar_1stArm.Scroll += new System.EventHandler(this.trackBar_1stArm_Scroll);
+            this.trackBar_1stArm.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_1stArm_MouseUp);
             // 
             // trackBar_hand
             // 
@@ -632,12 +743,15 @@ namespace Bluetooth
             this.trackBar_hand.Location = new System.Drawing.Point(200, 612);
             this.trackBar_hand.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.trackBar_hand.Maximum = 90;
+            this.trackBar_hand.Minimum = 4;
             this.trackBar_hand.Name = "trackBar_hand";
             this.trackBar_hand.Size = new System.Drawing.Size(488, 60);
             this.trackBar_hand.TabIndex = 42;
             this.trackBar_hand.TabStop = false;
             this.trackBar_hand.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_hand.Value = 4;
             this.trackBar_hand.Scroll += new System.EventHandler(this.trackBar_hand_Scroll);
+            this.trackBar_hand.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_hand_MouseUp);
             // 
             // groupBox2
             // 
@@ -1446,110 +1560,6 @@ namespace Bluetooth
             this.textBox_ActionListFolder.Size = new System.Drawing.Size(567, 86);
             this.textBox_ActionListFolder.TabIndex = 3;
             this.textBox_ActionListFolder.TabStop = false;
-            // 
-            // btn_V
-            // 
-            this.btn_V.BackColor = System.Drawing.Color.Black;
-            this.btn_V.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.btn_V.ForeColor = System.Drawing.Color.White;
-            this.btn_V.Location = new System.Drawing.Point(718, 303);
-            this.btn_V.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_V.Name = "btn_V";
-            this.btn_V.Size = new System.Drawing.Size(96, 90);
-            this.btn_V.TabIndex = 39;
-            this.btn_V.TabStop = false;
-            this.btn_V.Text = "V";
-            this.btn_V.UseVisualStyleBackColor = false;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(832, 103);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(167, 38);
-            this.label26.TabIndex = 40;
-            this.label26.Text = "順時針旋轉";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(832, 331);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(167, 38);
-            this.label30.TabIndex = 41;
-            this.label30.Text = "逆時針旋轉";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(590, 103);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(77, 38);
-            this.label31.TabIndex = 42;
-            this.label31.Text = "右前";
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(590, 216);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(77, 38);
-            this.label32.TabIndex = 43;
-            this.label32.Text = "向右";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(590, 329);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(77, 38);
-            this.label33.TabIndex = 44;
-            this.label33.Text = "右後";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(92, 103);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(77, 38);
-            this.label34.TabIndex = 45;
-            this.label34.Text = "左前";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(92, 216);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(77, 38);
-            this.label35.TabIndex = 46;
-            this.label35.Text = "向左";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(92, 329);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(77, 38);
-            this.label36.TabIndex = 47;
-            this.label36.Text = "左後";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(342, 190);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(77, 38);
-            this.label37.TabIndex = 48;
-            this.label37.Text = "向前";
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(342, 238);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(77, 38);
-            this.label38.TabIndex = 49;
-            this.label38.Text = "向後";
             // 
             // Form1
             // 

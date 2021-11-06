@@ -14,20 +14,20 @@ namespace Bluetooth
 
     public partial class Form1 : Form
     {
-        const byte SERVO_HEADER = 0xB0;
-        const byte SERVO_ENDING = 0xB0;
-        const byte SERVO_EN_HEADER = 0xB1;
-        const byte SERVO_EN_ENDING = 0xB1;
-        const byte MOVEMENT_HEADER = 0xB2;
-        const byte MOVEMENT_ENDING = 0xB2;
-        const byte SENSOR_HEADER = 0xB3;
-        const byte SENSOR_ENDING = 0xB3;
+        const byte SERVO_HEADER = 0xF0;
+        const byte SERVO_ENDING = 0xF0;
+        const byte SERVO_EN_HEADER = 0xF1;
+        const byte SERVO_EN_ENDING = 0xF1;
+        const byte MOVEMENT_HEADER = 0xF2;
+        const byte MOVEMENT_ENDING = 0xF2;
+        const byte SENSOR_HEADER = 0xF3;
+        const byte SENSOR_ENDING = 0xF3;
 
         const int Mode_HRDE = 0;
         const int Mode_HDE = 1;
 
         char[] myKeys = new char[] { 'W', 'A', 'S', 'D', 'Q', 'E', 'C', 'Z', 'R', 'V' };
-        int[] Arm_Init_Degree = new int[7] { 0, 0, 0, 90, 0, 0, 0 };
+        int[] Arm_Init_Degree = new int[7] { 0, 0, 0, 90, -90, 0, 4 };
 
         string objFilePath = "./model_Robot/";
         string[] objName = { "hand_left", "hand_right", "third_arm", "rotate_arm", "first_arm", "second_arm", "cargo", "body" };
@@ -73,10 +73,12 @@ namespace Bluetooth
             string data = spl.ReadExisting();
             serialPort1.DiscardInBuffer();
 
-            foreach (char c in data)
-            {
-                Console.WriteLine(String.Format("int = {0} char = {1}", Convert.ToInt32(c), c));
-            }
+            //Master 端要把所有的printf關掉 否則PC端會收到
+            Console.WriteLine(data);
+            //foreach (char c in data)
+            //{
+            //    Console.WriteLine(String.Format("int = {0} char = {1}", Convert.ToInt32(c), c));
+            //}
 
             //Console.WriteLine("\n");
 
@@ -351,9 +353,9 @@ namespace Bluetooth
 
         private void update_Degree(int rotate_arm, int first_arm, int second_arm, int third_arm, int hand_left, int cargo)
         {
-            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 + rotate_arm;
+            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 - rotate_arm;
             robot.rotateDegree[robot.Idx("first_arm")] = 90 - first_arm;
-            robot.rotateDegree[robot.Idx("second_arm")] = -second_arm;
+            robot.rotateDegree[robot.Idx("second_arm")] = -90 - second_arm;
             robot.rotateDegree[robot.Idx("third_arm")] = third_arm;
             robot.rotateDegree[robot.Idx("hand_left")] = hand_left;
             robot.rotateDegree[robot.Idx("hand_right")] = -hand_left;
@@ -367,19 +369,21 @@ namespace Bluetooth
         private void trackBar_rotateArm_Scroll(object sender, EventArgs e)
         {
             textBox_rotateArm.Text = trackBar_rotateArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 2, deg2Byte(trackBar_rotateArm.Value), SERVO_ENDING);
-            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 + trackBar_rotateArm.Value;
+            robot.rotateDegree[robot.Idx("rotate_arm")] = 90 - trackBar_rotateArm.Value;
 
             robot.updateMatrix();
             model_sideView_Draw();
             model_topView_Draw();
+        }
 
+        private void trackBar_rotateArm_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 2, deg2Byte(trackBar_rotateArm.Value), SERVO_ENDING);
         }
 
         private void trackBar_1stArm_Scroll(object sender, EventArgs e)
         {
             textBox_1stArm.Text = trackBar_1stArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 3, deg2Byte(trackBar_1stArm.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("first_arm")] = 90 - trackBar_1stArm.Value;
 
             robot.updateMatrix();
@@ -387,21 +391,30 @@ namespace Bluetooth
             model_topView_Draw();
         }
 
+        private void trackBar_1stArm_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 3, deg2Byte(trackBar_1stArm.Value), SERVO_ENDING);
+        }
+
         private void trackBar_2ndArm_Scroll(object sender, EventArgs e)
         {
             textBox_2ndArm.Text = trackBar_2ndArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 4, deg2Byte(trackBar_2ndArm.Value), SERVO_ENDING);
-            robot.rotateDegree[robot.Idx("second_arm")] = -trackBar_2ndArm.Value;
+            robot.rotateDegree[robot.Idx("second_arm")] = -90 - trackBar_2ndArm.Value;
 
             robot.updateMatrix();
             model_sideView_Draw();
             model_topView_Draw();
         }
 
+        private void trackBar_2ndArm_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 4, deg2Byte(trackBar_2ndArm.Value), SERVO_ENDING);
+        }
+
         private void trackBar_3rdArm_Scroll(object sender, EventArgs e)
         {
             textBox_3rdArm.Text = trackBar_3rdArm.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 5, deg2Byte(trackBar_3rdArm.Value), SERVO_ENDING);
+
             robot.rotateDegree[robot.Idx("third_arm")] = -trackBar_3rdArm.Value;
 
             robot.updateMatrix();
@@ -409,10 +422,14 @@ namespace Bluetooth
             model_topView_Draw();
         }
 
+        private void trackBar_3rdArm_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 5, deg2Byte(trackBar_3rdArm.Value), SERVO_ENDING);
+        }
+
         private void trackBar_hand_Scroll(object sender, EventArgs e)
         {
             textBox_hand.Text = trackBar_hand.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 6, deg2Byte(trackBar_hand.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("hand_left")] = trackBar_hand.Value;
             robot.rotateDegree[robot.Idx("hand_right")] = -robot.rotateDegree[robot.Idx("hand_left")];
 
@@ -421,15 +438,24 @@ namespace Bluetooth
             model_topView_Draw();
         }
 
+        private void trackBar_hand_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 6, deg2Byte(trackBar_hand.Value), SERVO_ENDING);
+        }
+
         private void trackBar_cargo_Scroll(object sender, EventArgs e)
         {
             textBox_cargo.Text = trackBar_cargo.Value.ToString();
-            SendData(Mode_HRDE, SERVO_HEADER, 0, deg2Byte(trackBar_cargo.Value), SERVO_ENDING);
             robot.rotateDegree[robot.Idx("cargo")] = trackBar_cargo.Value;
 
             robot.updateMatrix();
             model_sideView_Draw();
             model_topView_Draw();
+        }
+
+        private void trackBar_cargo_MouseUp(object sender, MouseEventArgs e)
+        {
+            SendData(Mode_HRDE, SERVO_HEADER, 0, deg2Byte(trackBar_cargo.Value), SERVO_ENDING);
         }
 
         private byte deg2Byte(int num)
