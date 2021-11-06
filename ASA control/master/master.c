@@ -22,30 +22,46 @@
 // 看要不要把Include 合併進car.h
 // slave端程式化簡
 
+// findstr 0xAA || 0xB0系列 介於90~255 之間 findstr 會找到資料
+
 int main()
 {
+    // MicroUSB通訊初始化
     C4M_STDIO_init();
+
+    // UART0通訊初始化 -> 開啟USART0_RX中斷
     UART0_init();
+
+    // UART1通訊初始化 -> Master/Slave通訊
+    UART1_init();
+
     // sensor_init();
-    task_init();
-    servo_init();
+
+    // 車斗/輪子禁能初始化
+    // task_init();
     sei();
 
-    _delay_ms(100); //等待擴充版初始化
+    Buffer_init();
+    _delay_ms(10); //等待擴充版初始化
+
+    servo_init();
+
     printf("Start\n");
-    servo_Power(ENABLE);
-    servo_Enable(0, ENABLE);
 
     while (1)
     {
-        // DataDisplay();
-        servo_str_split();
-        servo_enable_str_split();
-        movement_str_split();
-        str_Remove();
-
-        if (DataLength() == 0)
+        if (DataLength() > 0)
+        {
+            DataDisplay();
+            servo_str_split();
+            servo_enable_str_split();
+            movement_str_split();
+            str_Remove();
+        }
+        else
+        {
             _delay_ms(20);
+        }
     }
 
     return 0;

@@ -9,24 +9,30 @@
 #include <stdio.h>
 
 uint16_t Servo_Value[11];
-uint16_t Servo_U_Limit[11];
-uint16_t Servo_L_Limit[11];
-uint8_t Servo_Enable_Power;
-uint16_t Servo_Enable_Channel;
+// uint16_t Servo_U_Limit[11];
+// uint16_t Servo_L_Limit[11];
+uint8_t Servo_Enable_Power = 0;
+uint16_t Servo_Enable_Channel = 0;
 // uint16_t servo_Enable_Protect;
+
+void Buffer_init()
+{
+    printf("Clear\n");
+    uint8_t Clear = 1;
+    UART1_trm(RegAdd_Clear_Buffer, sizeof(Clear), sizeof(uint8_t), &Clear);
+}
 
 void servo_init()
 {
-    UART1_init();
+    printf(" servo_Power(DISABLE)\n");
+    servo_Power(DISABLE);
+    printf(" servo_All_Enable(DISABLE)\n");
+    servo_All_Enable(DISABLE);
 
-    for (int i = 0; i < sizeof(Servo_U_Limit) / sizeof(Servo_U_Limit[0]); i++)
-    {
-        Servo_L_Limit[i] = SERVO_LIMIT_MIN;
-        Servo_U_Limit[i] = SERVO_LIMIT_MAX;
-    }
+    for (int channel = 0; channel < Servo_num; channel++)
+        Servo_Value[channel] = SERVO_VAL_INIT;
 
-    // servo_Enable_Protect = 0x7ff;
-    Servo_Enable_Channel = 0x7ff;
+    UART1_trm(RegAdd_Multi_Val, sizeof(Servo_Value), sizeof(Servo_Value[0]), &Servo_Value);
 }
 
 void servo_Power(uint8_t Enable)
@@ -39,6 +45,20 @@ void servo_Enable(uint8_t channel, uint8_t Enable)
 {
     printf("channel = %d En = %d\n", channel, Enable);
     BIT_PUT(Enable, Servo_Enable_Channel, channel);
+    UART1_trm(RegAdd_Enable_Channel, sizeof(Servo_Enable_Channel), sizeof(uint16_t), &Servo_Enable_Channel);
+}
+
+void servo_All_Enable(uint8_t Enable)
+{
+    if (Enable > 1)
+        return;
+
+    if (Enable == ENABLE)
+        Servo_Enable_Channel = 0x7ff;
+
+    if (Enable == DISABLE)
+        Servo_Enable_Channel = 0;
+
     UART1_trm(RegAdd_Enable_Channel, sizeof(Servo_Enable_Channel), sizeof(uint16_t), &Servo_Enable_Channel);
 }
 
@@ -84,6 +104,7 @@ void servo_update(uint8_t channel, float val)
     printf("Servo_Value = %d\n", Servo_Value[channel]);
 
     // UART1_trm(RegAdd_Multi_Val, sizeof(Servo_Value), sizeof(Servo_Value[0]), &Servo_Value);
+
     UART1_trm(RegAdd_Single_Val + channel, sizeof(Servo_Value[0]), sizeof(Servo_Value[0]), &Servo_Value[channel]);
 }
 

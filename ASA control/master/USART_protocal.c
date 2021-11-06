@@ -37,8 +37,10 @@ uint8_t findStr(uint8_t Length, uint8_t start_idx, uint8_t find, void *Data_p)
 
 void servo_str_split()
 {
-    if (receiveDataLength == 0)
-        return;
+    /*
+     * Correct form
+     * [SERVO_HEADER] [RegAdd] [Data] [SERVO_ENDING]
+     */
 
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
@@ -49,14 +51,6 @@ void servo_str_split()
         return;
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
-
-    /*
-     * Correct form
-     * [SERVO_HEADER] [RegAdd] [Data] [SERVO_ENDING]
-     *
-     * Error form
-     * [SERVO_HEADER] [SERVO_ENDING]
-     */
 
     if (StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER))
     {
@@ -93,8 +87,10 @@ void servo_str_split()
 
 void servo_enable_str_split()
 {
-    if (receiveDataLength == 0)
-        return;
+    /*
+     * Correct form
+     * [SERVO_EN_HEADER] [RegAdd] [Data] [SERVO_EN_ENDING]
+     */
 
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_EN_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
@@ -105,14 +101,6 @@ void servo_enable_str_split()
         return;
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
-
-    /*
-     * Correct form
-     * [SERVO_EN_HEADER] [RegAdd] [Data] [SERVO_EN_ENDING]
-     *
-     * Error form
-     * [SERVO_EN_HEADER] [SERVO_EN_ENDING]
-     */
 
     if (StrLength != (SERVO_EN_POS_ENDING - SERVO_EN_POS_HEADER))
     {
@@ -153,8 +141,10 @@ void servo_enable_str_concat(uint8_t RegAdd, uint8_t Enable)
 
 void movement_str_split()
 {
-    if (receiveDataLength == 0)
-        return;
+    /*
+     * Correct form
+     * [MOVEMENT_HEADER] [Data] [MOVEMENT_ENDING]
+     */
 
     uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, MOVEMENT_HEADER, receiveData);
     if (Idx_Header_1 == ERR_NFIND)
@@ -165,13 +155,6 @@ void movement_str_split()
         return;
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
-    /*
-     * Correct form
-     * [MOVEMENT_HEADER] [Data] [MOVEMENT_ENDING]
-     *
-     * Error form
-     * [MOVEMENT_HEADER] [MOVEMENT_ENDING]
-     */
 
     if (StrLength != 2)
     {
@@ -198,9 +181,6 @@ void movement_str_split()
 // TODO LIST 我沒有替指令以外的清除 因為基本不會傳到指令以外的資料
 void str_Remove()
 {
-    if (receiveDataLength == 0)
-        return;
-
     uint8_t Idx_Header_1, Idx_Header_2;
     uint8_t chk_sum = 0;
 

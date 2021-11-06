@@ -1,6 +1,12 @@
 #include <stdint.h>
 
 /**
+ * @brief 初始化擴充版接收暫存區函式
+ * 
+ */
+void Buffer_init();
+
+/**
  * @brief 初始化擴充版硬體PWM函式
  *
  */
@@ -14,7 +20,7 @@ void servo_init();
 void servo_Power(uint8_t Enable);
 
 /**
- * @brief 設定PWM通道致能調整函式
+ * @brief 調整PWM通道禁致能函式
  *
  * @param channel 設定通道0~11
  * 0 ~  6為手臂伺服機
@@ -22,6 +28,13 @@ void servo_Power(uint8_t Enable);
  * @param Enable 禁致能參數，1: 致能，0:禁能
  */
 void servo_Enable(uint8_t channel, uint8_t Enable);
+
+/**
+ * @brief 調整PWM全通道禁致能函式
+ *
+ * @param Enable 禁致能參數，1: 致能，0:禁能
+ */
+void servo_All_Enable(uint8_t Enable);
 
 /**
  * @brief 更新PWM單一通道函式
@@ -38,7 +51,7 @@ void servo_update(uint8_t channel, float val);
  *  - 0.50 [ms] ->   0 等份。
  *  - 2.50 [ms] -> 410 等份。
  * @param PWM 波寬調變數值
- * @return uint16_t Tick數值 0 ~ 410 
+ * @return uint16_t Tick數值 0 ~ 410
  */
 uint16_t PWM2Tick(float PWM);
 

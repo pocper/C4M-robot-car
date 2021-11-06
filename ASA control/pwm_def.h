@@ -1,13 +1,13 @@
 // Global
 
-#define SERVO_HEADER 0xB0
-#define SERVO_ENDING 0xB0
-#define SERVO_EN_HEADER 0xB1
-#define SERVO_EN_ENDING 0xB1
-#define MOVEMENT_HEADER 0xB2
-#define MOVEMENT_ENDING 0xB2
-#define SENSOR_HEADER 0xB3
-#define SENSOR_ENDING 0xB3
+#define SERVO_HEADER 0xF0
+#define SERVO_ENDING 0xF0
+#define SERVO_EN_HEADER 0xF1
+#define SERVO_EN_ENDING 0xF1
+#define MOVEMENT_HEADER 0xF2
+#define MOVEMENT_ENDING 0xF2
+#define SENSOR_HEADER 0xF3
+#define SENSOR_ENDING 0xF3
 
 #define ERR_HEADER 0xFF
 
@@ -18,11 +18,15 @@
 #define RegAdd_Enable_Power 5
 #define RegAdd_Enable_Protect 6
 
+#define RegAdd_Clear_Buffer 7
+
 #define RegAdd_Single_Val 10
 
 #define Servo_num 11
 #define SERVO_LIMIT_MIN 72
 #define SERVO_LIMIT_MAX 338
+
+#define SERVO_VAL_INIT 205
 
 #define maxReceieveBuffer 200
 

@@ -7,8 +7,6 @@
 
 #include "src/stdio.h"
 
-#define SERVO_VAL_INIT 205
-
 uint16_t Servo_Output_Value[16];
 uint16_t Servo_Value[16];
 uint16_t Servo_U_Limit[16] = {338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338, 338};
@@ -64,6 +62,10 @@ void PCA9685_update()
 
 void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *Data_p)
 {
+    printf("RegAdd = %d\n", RegAdd);
+    printf("Byte = %d\n", Bytes);
+    printf("SingleDataBytes = %d\n", SingleDataBytes);
+
     uint8_t *data_p = Data_p;
     uint8_t dataCount;
 
@@ -75,12 +77,15 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
         if (SingleDataBytes != sizeof(uint16_t))
             return;
 
+        printf("ch = %d val = %d\n", RegAdd - RegAdd_Single_Val, (data_p[0] << 8) + data_p[1]);
+
         Servo_Value[RegAdd - RegAdd_Single_Val] = (data_p[0] << 8) + data_p[1];
     }
 
     switch (RegAdd)
     {
     case RegAdd_Multi_Val:
+        printf("RegAdd_Multi_Val\n");
         if (Bytes != 22)
             return;
 
@@ -97,6 +102,8 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
                 //高位元先處理
                 Servo_Value[dataNum] += (uint16_t)(data_p[dataNum * SingleDataBytes + Byte]) << 8 * (SingleDataBytes - Byte - 1);
             }
+
+            printf("Servo_Value[%d]=%d\n", dataNum, Servo_Value[dataNum]);
         }
         break;
 
@@ -142,6 +149,7 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
         break;
 
     case RegAdd_Enable_Channel:
+        printf("RegAdd_Enable_Channel\n");
         if (Bytes != 2)
             return;
 
@@ -154,9 +162,12 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
             Servo_Enable_Channel += (uint16_t)(data_p[Byte]) << 8 * (SingleDataBytes - Byte - 1);
         }
 
+        printf("Servo_Enable_Channel = %d\n", Servo_Enable_Channel);
+
         break;
 
     case RegAdd_Enable_Power:
+        printf("RegAdd_Enable_Power\n");
         if (Bytes != 1)
             return;
 
@@ -164,6 +175,7 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
             return;
 
         Servo_Enable_Power = data_p[0];
+        printf("Servo_Enable_Power = %d\n", Servo_Enable_Power);
         break;
 
     case RegAdd_Enable_Protect:
@@ -180,12 +192,5 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
             Servo_Enable_Protect += (uint16_t)(data_p[Byte]) << 8 * (SingleDataBytes - Byte - 1);
         }
         break;
-
-    case RegAdd_Single_Val:
-        if (Bytes != 2)
-            return;
-
-        if (SingleDataBytes != sizeof(uint16_t))
-            return;
     }
 }

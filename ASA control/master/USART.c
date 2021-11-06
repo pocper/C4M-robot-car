@@ -3,6 +3,9 @@
 #include "pwm_def.h"
 
 #include <avr/io.h>
+#include <stdio.h>
+
+#define F_CPU 11059200UL
 
 void UART0_init()
 {

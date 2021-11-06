@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#define WAITTICK 10
+#define WAITTICK 50
 
 #define ERR_TIMEOUT 255
 
