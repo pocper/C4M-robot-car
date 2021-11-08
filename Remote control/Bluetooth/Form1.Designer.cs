@@ -143,6 +143,9 @@ namespace Bluetooth
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.btn_chooseActionListFolder = new System.Windows.Forms.Button();
             this.textBox_ActionListFolder = new System.Windows.Forms.TextBox();
+            this.Sensor_hand_front = new System.Windows.Forms.Button();
+            this.label39 = new System.Windows.Forms.Label();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox_connect.SuspendLayout();
             this.groupBox_control.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_rotateArm)).BeginInit();
@@ -165,6 +168,7 @@ namespace Bluetooth
             this.groupBox8.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_open
@@ -1127,6 +1131,7 @@ namespace Bluetooth
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.groupBox15);
             this.groupBox7.Controls.Add(this.groupBox13);
             this.groupBox7.Controls.Add(this.groupBox11);
             this.groupBox7.Controls.Add(this.groupBox10);
@@ -1148,7 +1153,7 @@ namespace Bluetooth
             this.groupBox13.Controls.Add(this.label25);
             this.groupBox13.Controls.Add(this.label24);
             this.groupBox13.Controls.Add(this.Example_Green);
-            this.groupBox13.Location = new System.Drawing.Point(51, 85);
+            this.groupBox13.Location = new System.Drawing.Point(46, 45);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(444, 150);
             this.groupBox13.TabIndex = 44;
@@ -1210,7 +1215,7 @@ namespace Bluetooth
             this.groupBox11.Controls.Add(this.label29);
             this.groupBox11.Controls.Add(this.Sensor_right_behind_behind);
             this.groupBox11.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox11.Location = new System.Drawing.Point(287, 579);
+            this.groupBox11.Location = new System.Drawing.Point(282, 484);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1283,7 +1288,7 @@ namespace Bluetooth
             this.groupBox10.Controls.Add(this.label22);
             this.groupBox10.Controls.Add(this.Sensor_left_behind_behind);
             this.groupBox10.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox10.Location = new System.Drawing.Point(51, 579);
+            this.groupBox10.Location = new System.Drawing.Point(46, 484);
             this.groupBox10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1356,7 +1361,7 @@ namespace Bluetooth
             this.groupBox9.Controls.Add(this.Sensor_right_front_front);
             this.groupBox9.Controls.Add(this.Sensor_right_front_right);
             this.groupBox9.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox9.Location = new System.Drawing.Point(287, 280);
+            this.groupBox9.Location = new System.Drawing.Point(282, 213);
             this.groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1415,7 +1420,7 @@ namespace Bluetooth
             this.groupBox8.Controls.Add(this.label16);
             this.groupBox8.Controls.Add(this.label17);
             this.groupBox8.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox8.Location = new System.Drawing.Point(51, 280);
+            this.groupBox8.Location = new System.Drawing.Point(46, 213);
             this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1561,6 +1566,40 @@ namespace Bluetooth
             this.textBox_ActionListFolder.TabIndex = 3;
             this.textBox_ActionListFolder.TabStop = false;
             // 
+            // Sensor_hand_front
+            // 
+            this.Sensor_hand_front.BackColor = System.Drawing.Color.Green;
+            this.Sensor_hand_front.Enabled = false;
+            this.Sensor_hand_front.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.Sensor_hand_front.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Sensor_hand_front.Location = new System.Drawing.Point(268, 40);
+            this.Sensor_hand_front.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Sensor_hand_front.Name = "Sensor_hand_front";
+            this.Sensor_hand_front.Size = new System.Drawing.Size(69, 45);
+            this.Sensor_hand_front.TabIndex = 13;
+            this.Sensor_hand_front.TabStop = false;
+            this.Sensor_hand_front.UseVisualStyleBackColor = false;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(97, 41);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(77, 38);
+            this.label39.TabIndex = 13;
+            this.label39.Text = "朝前";
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.label39);
+            this.groupBox15.Controls.Add(this.Sensor_hand_front);
+            this.groupBox15.Location = new System.Drawing.Point(46, 742);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(444, 107);
+            this.groupBox15.TabIndex = 46;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "手臂";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
@@ -1617,6 +1656,8 @@ namespace Bluetooth
             this.groupBox12.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1735,6 +1776,9 @@ namespace Bluetooth
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Button Sensor_hand_front;
+        private System.Windows.Forms.GroupBox groupBox15;
     }
 }
 

@@ -21,7 +21,7 @@ namespace Bluetooth
         const byte MOVEMENT_HEADER = 0xF2;
         const byte MOVEMENT_ENDING = 0xF2;
         const byte SENSOR_HEADER = 0xF3;
-        const byte SENSOR_ENDING = 0xF3;
+        const byte SENSOR_ENDING = 0xF4;
 
         const int Mode_HRDE = 0;
         const int Mode_HDE = 1;
@@ -43,6 +43,10 @@ namespace Bluetooth
         int data_num;
 
         bool isEntercsvFileName = false;
+
+        bool isReceivingSensorData = false;
+        int sensorData;
+        int sensorData_counter;
 
         class Canvas
         {
@@ -69,60 +73,103 @@ namespace Bluetooth
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            SerialPort spl = (SerialPort)sender;
-            string data = spl.ReadExisting();
-            serialPort1.DiscardInBuffer();
-
             //Master 端要把所有的printf關掉 否則PC端會收到
-            Console.WriteLine(data);
-            //foreach (char c in data)
-            //{
-            //    Console.WriteLine(String.Format("int = {0} char = {1}", Convert.ToInt32(c), c));
-            //}
 
-            //Console.WriteLine("\n");
+            SerialPort spl = (SerialPort)sender;
+            int data_Byte = spl.ReadByte();
 
-            if (data.Length == 4 && data[0] == SENSOR_HEADER && data[2] == SENSOR_ENDING)
+            if (isReceivingSensorData == true && sensorData_counter < 2)
             {
-                updateSensorColor(Convert.ToInt32(data[1]));
+                sensorData += data_Byte << 8 * (1 - sensorData_counter);
+                sensorData_counter++;
+            }
+
+
+            if (data_Byte == SENSOR_HEADER && isReceivingSensorData == false)
+            {
+                isReceivingSensorData = true;
+                sensorData = 0;
+                sensorData_counter = 0;
+            }
+
+            if (data_Byte == SENSOR_ENDING && isReceivingSensorData == true && sensorData_counter == 2)
+            {
+                isReceivingSensorData = false;
+                updateSensorColor();
             }
         }
 
-        //ERROR 還沒修正 15個Sensor
-        private void updateSensorColor(int num)
+        private bool checkBit(int pos)
         {
-            string SensorData = Convert.ToString(num, 2);
-            string SensorData_bin = SensorData.PadLeft(6, '0');
+            return (sensorData & (1 << pos)) != 0;
+        }
 
-            if (SensorData_bin[0] == '1')
-                Sensor_right_front_right.BackColor = Color.Red;
+        private void updateSensorColor()
+        {
+            if (checkBit(14))
+                Sensor_right_behind_ground.BackColor = Color.Red;
             else
-                Sensor_right_front_right.BackColor = Color.Green;
+                Sensor_right_behind_ground.BackColor = Color.Green;
 
-            if (SensorData_bin[1] == '1')
-                Sensor_right_front_front.BackColor = Color.Red;
+            if (checkBit(13))
+                Sensor_right_behind_right.BackColor = Color.Red;
             else
-                Sensor_right_front_front.BackColor = Color.Green;
+                Sensor_right_behind_right.BackColor = Color.Green;
 
-            if (SensorData_bin[2] == '1')
+            if (checkBit(12))
                 Sensor_right_behind_behind.BackColor = Color.Red;
             else
                 Sensor_right_behind_behind.BackColor = Color.Green;
 
-            if (SensorData_bin[3] == '1')
+            if (checkBit(11))
+                Sensor_left_behind_ground.BackColor = Color.Red;
+            else
+                Sensor_left_behind_ground.BackColor = Color.Green;
+
+            if (checkBit(10))
+                Sensor_left_behind_left.BackColor = Color.Red;
+            else
+                Sensor_left_behind_left.BackColor = Color.Green;
+
+            if (checkBit(9))
                 Sensor_left_behind_behind.BackColor = Color.Red;
             else
                 Sensor_left_behind_behind.BackColor = Color.Green;
 
-            if (SensorData_bin[4] == '1')
-                Sensor_left_front_front.BackColor = Color.Red;
+            if (checkBit(8))
+                Sensor_right_front_ground.BackColor = Color.Red;
             else
-                Sensor_left_front_front.BackColor = Color.Green;
+                Sensor_right_front_ground.BackColor = Color.Green;
 
-            if (SensorData_bin[5] == '1')
+            if (checkBit(7))
+                Sensor_right_front_right.BackColor = Color.Red;
+            else
+                Sensor_right_front_right.BackColor = Color.Green;
+
+            if (checkBit(6))
+                Sensor_right_front_front.BackColor = Color.Red;
+            else
+                Sensor_right_front_front.BackColor = Color.Green;
+
+            if (checkBit(4))
+                Sensor_hand_front.BackColor = Color.Red;
+            else
+                Sensor_hand_front.BackColor = Color.Green;
+
+            if (checkBit(2))
+                Sensor_left_front_ground.BackColor = Color.Red;
+            else
+                Sensor_left_front_ground.BackColor = Color.Green;
+
+            if (checkBit(1))
                 Sensor_left_front_left.BackColor = Color.Red;
             else
                 Sensor_left_front_left.BackColor = Color.Green;
+
+            if (checkBit(0))
+                Sensor_left_front_front.BackColor = Color.Red;
+            else
+                Sensor_left_front_front.BackColor = Color.Green;
         }
 
         public void SendData(int Mode, byte Header, byte RegAdd, byte Data, byte Ending)
@@ -276,6 +323,8 @@ namespace Bluetooth
                 serialPort1.BaudRate = 38400;
                 serialPort1.DataBits = 8;
                 serialPort1.StopBits = StopBits.One;
+                serialPort1.DtrEnable = true;
+                serialPort1.RtsEnable = true;
                 serialPort1.WriteTimeout = 500;
                 serialPort1.ReadTimeout = 500;
 
@@ -283,12 +332,14 @@ namespace Bluetooth
                 {
                     if (!serialPort1.IsOpen)
                     {
+                        serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
+
                         serialPort1.Open();
 
                         btn_open.Enabled = false;
                         btn_close.Enabled = true;
-
-                        serialPort1.DataReceived += new SerialDataReceivedEventHandler(DataReceived);
+                        comboBox_port.Enabled = false;
+                        isReceivingSensorData = false;
                     }
                 }
                 catch (Exception ex)
@@ -301,6 +352,8 @@ namespace Bluetooth
         {
             try
             {
+                comboBox_port.Enabled = true;
+
                 if (serialPort1.IsOpen)
                 {
                     serialPort1.Close();
@@ -316,7 +369,9 @@ namespace Bluetooth
         {
             btn_open.Enabled = true;
             btn_close.Enabled = false;
+            isReceivingSensorData = false;
 
+            serialPort1.DataReceived -= DataReceived;
             close_comPort();
         }
 
@@ -338,7 +393,8 @@ namespace Bluetooth
 
         private void button_connection_refresh_Click(object sender, EventArgs e)
         {
-            RefreshComport();
+            if (!serialPort1.IsOpen)
+                RefreshComport();
         }
 
         private void Init_textBox_value()
@@ -864,7 +920,6 @@ namespace Bluetooth
                         if (line_num == 1)
                             continue;
 
-
                         for (int i = 0; i < split_line.Length; i++)
                         {
                             //Index 欄位
@@ -876,6 +931,7 @@ namespace Bluetooth
                         }
 
                         update_Degree(val[2], val[3], val[4], val[5], val[6], val[1]);
+                        Thread.Sleep(500);
                     }
 
                     sw.Close();
