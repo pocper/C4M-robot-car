@@ -46,26 +46,19 @@ void servo_str_split()
     if (Idx_Header_1 == ERR_NFIND)
         return;
 
-    printf("Idx_Header_1 = %d\n", Idx_Header_1);
-
     uint8_t Idx_Header_2 = Idx_Header_1 + SERVO_POS_ENDING;
-
-    printf("receiveData[%d] = %d\n", Idx_Header_2, receiveData[Idx_Header_2]);
 
     if (receiveData[Idx_Header_2] != SERVO_ENDING)
     {
-        printf("receiveData[Idx_Header_2] != SERVO_EN_ENDING\n");
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
     }
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
-    printf("StrLength = %d\n", StrLength);
 
     if (StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER))
     {
-        printf("StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER\n");
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
     }

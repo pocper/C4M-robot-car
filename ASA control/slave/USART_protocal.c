@@ -59,7 +59,6 @@ void handle_rec_str()
     if (!(Bytes == 1 || Bytes == 2 || Bytes == 22))
     {
         // ERROR 有些從Master -> Slave 的Header或Ending 會是M2S_HEADER +- 5 (171 169...)
-        // printf("Bytes != 1 || Bytes != 2 | Bytes != 22\n");
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
     }

@@ -19,17 +19,14 @@ ISR(TIMER2_COMP_vect)
     if (counter == 10)
     {
         uint16_t sensorData = sensor_rec();
-        // printf("sensorData = %d\n", sensorData);
 
         UART0_buf_trm(SENSOR_HEADER);
+
         //資料高位元組先送 -> 由高到低送
-        for (int Byte = sizeof(sensorData); Byte > -1; Byte--)
-            UART0_buf_trm(sensorData >> Byte);
+        for (int Byte = sizeof(sensorData); Byte > 0; Byte--)
+            UART0_buf_trm(sensorData >> (8 * (Byte - 1)));
         UART0_buf_trm(SENSOR_ENDING);
 
-        // for (int i = 14; i > -1; i--)
-        //     printf("%d ", CheckBit(sensorData, i));
-        // printf("\n");
         counter = 0;
     }
     counter++;
@@ -115,14 +112,16 @@ uint16_t sensor_rec()
     // 向左/右   0b100
 
     //資料由高到低儲存 PX3:PX1
-    uint8_t sensor[5];
+    uint8_t sensor[sensor_num];
     uint8_t temp;
 
     // sensorA1:A3 | PE2:PE4
+    temp = 0;
     REGFGT(&PINE, 0x1c, 2, &temp);
     sensor[0] = temp;
 
     // sensorB1:B3 | PD7 + PF0:PF1
+    temp = 0;
     REGFGT(&PIND, 0x80, 7, &temp);
     sensor[1] = temp;
     REGFGT(&PINF, 0x03, 0, &temp);
@@ -133,28 +132,25 @@ uint16_t sensor_rec()
     // sensor[2] = temp;
 
     // sensorD1:D3 | PB4:PB6
+    temp = 0;
     REGFGT(&PINB, 0x70, 4, &temp);
     sensor[2] = temp;
 
     // sensorE1:E3 | PF2:PF3 + PB7
+    temp = 0;
     REGFGT(&PINF, 0x0c, 2, &temp);
     sensor[3] = temp;
     REGFGT(&PINB, 0x80, 7, &temp);
     sensor[3] += temp << 2;
 
     // sensorF1:F3 | PD4:PD6
+    temp = 0;
     REGFGT(&PIND, 0x70, 4, &temp);
     sensor[4] = temp;
 
-    for (int i = 0; i < 5; i++)
-        printf("sensor[%d]=%d\n", i, sensor[i]);
-    printf("\n");
-
-    // printf("sensor[%d]=%d\n", 3, sensor[3]);
-
     // 111 111 111 111 111
     uint16_t Data = 0;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < sensor_num; i++)
     {
         Data += sensor[i] << 3 * (4 - i);
     }

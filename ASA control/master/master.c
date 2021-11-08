@@ -11,18 +11,8 @@
 #include <stdio.h>
 
 // TODO
-// Movement Master -> Slave RPM = -58 PWM =0.5 [ms]
+// Movement Master -> Slave RPM = -58 PWM = 0.5 [ms]
 // 擴充版範圍為0.85ms -> 2.15 ms
-
-//  手臂初始化位置
-//  1) 將手臂歸位置特定位置
-//  2) 先伸展到不會撞到任何牆壁
-//  3) 再伸到比賽要求位置
-
-// 看要不要把Include 合併進car.h
-// slave端程式化簡
-
-// findstr 0xAA || 0xB0系列 介於90~255 之間 findstr 會找到資料
 
 int main()
 {
@@ -35,18 +25,23 @@ int main()
     // UART1通訊初始化 -> Master/Slave通訊
     UART1_init();
 
-    // sensor_init();
+    // 感應器初始化
+    sensor_init();
 
     // 車斗/輪子禁能初始化
-    // task_init();
+    task_init();
     sei();
 
+    // 擴充版Buffer初始化
     Buffer_init();
-    _delay_ms(30); //等待擴充版初始化
 
+    //等待擴充版初始化
+    _delay_ms(30);
+
+    // 16軸伺服機初始化
     servo_init();
 
-    printf("Start\n");
+    printf("Start Master\n");
 
     while (1)
     {

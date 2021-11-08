@@ -17,16 +17,13 @@ uint16_t Servo_Enable_Channel = 0;
 
 void Buffer_init()
 {
-    printf("Clear\n");
     uint8_t Clear = 1;
     UART1_trm(RegAdd_Clear_Buffer, sizeof(Clear), sizeof(uint8_t), &Clear);
 }
 
 void servo_init()
 {
-    printf(" servo_Power(DISABLE)\n");
     servo_Power(DISABLE);
-    printf(" servo_All_Enable(DISABLE)\n");
     servo_All_Enable(DISABLE);
 
     for (int channel = 0; channel < Servo_num; channel++)
@@ -43,7 +40,7 @@ void servo_Power(uint8_t Enable)
 
 void servo_Enable(uint8_t channel, uint8_t Enable)
 {
-    printf("channel = %d En = %d\n", channel, Enable);
+    // printf("channel = %d En = %d\n", channel, Enable);
     BIT_PUT(Enable, Servo_Enable_Channel, channel);
     UART1_trm(RegAdd_Enable_Channel, sizeof(Servo_Enable_Channel), sizeof(uint16_t), &Servo_Enable_Channel);
 }
@@ -67,7 +64,7 @@ void servo_update(uint8_t channel, float val)
     if (channel > 10)
         return;
 
-    printf("channel = %d val = %f\n", channel, val);
+    // printf("channel = %d val = %f\n", channel, val);
 
     if (Servo_Enable_Power == DISABLE)
         servo_Power(ENABLE);
@@ -94,16 +91,14 @@ void servo_update(uint8_t channel, float val)
         PWM = RPM2PWM(val);
     }
 
-    printf("PWM_Tick = %f\n", PWM);
+    // printf("PWM_Tick = %f\n", PWM);
 
     if (PWM > 2.5 || PWM < 0.5)
         return;
 
     Servo_Value[channel] = PWM2Tick(PWM);
 
-    printf("Servo_Value = %d\n", Servo_Value[channel]);
-
-    // UART1_trm(RegAdd_Multi_Val, sizeof(Servo_Value), sizeof(Servo_Value[0]), &Servo_Value);
+    // printf("Servo_Value = %d\n", Servo_Value[channel]);
 
     UART1_trm(RegAdd_Single_Val + channel, sizeof(Servo_Value[0]), sizeof(Servo_Value[0]), &Servo_Value[channel]);
 }

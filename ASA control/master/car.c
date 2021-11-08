@@ -59,7 +59,7 @@ void task_init()
 
 void Movement_condition(uint8_t Dir)
 {
-    printf("Dir =%d\n", Dir);
+    // printf("Dir =%d\n", Dir);
 
     switch (Dir)
     {
@@ -161,7 +161,7 @@ void Movement_update()
 
 void Rotation_update(uint8_t channel, int8_t Degree)
 {
-    printf("channel = %d val = %d\n", channel, Degree);
+    // printf("channel = %d val = %d\n", channel, Degree);
 
     if (channel == 0 || channel == 1)
     {

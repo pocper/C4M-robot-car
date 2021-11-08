@@ -11,7 +11,7 @@ int main()
 {
     C4M_STDIO_init();
     UART0_init();
-    // PCA9685_init();
+    PCA9685_init();
     sei();
     printf("Start Slave\n");
 
@@ -19,9 +19,9 @@ int main()
     {
         if (DataLength() > 0)
         {
-            DataDisplay();
+            // DataDisplay();
             handle_rec_str();
-            // PCA9685_update();
+            PCA9685_update();
             str_Remove();
         }
         else

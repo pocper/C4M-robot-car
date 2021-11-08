@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+#define sensor_num 5
 /**
  * @brief 初始化感應器暫存器，
  *  目前使用
