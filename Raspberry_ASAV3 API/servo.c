@@ -61,8 +61,8 @@ void UART_servo_trm(int fd, int *data_p)
     char sendData[SERVO_POS_ENDING + 1];
     for (int i = 0; i < ARMDATA_LEN; i++)
     {
-        sprintf(sendData, "%02X%02X%02X%02X", SERVO_HEADER, i, deg2Byte(data_p[i]), SERVO_ENDING);
-        write(fd, sendData, sizeof(sendData));
+        dprintf(fd, "%02X%02X%02X%02X", SERVO_HEADER, i, deg2Byte(data_p[i]), SERVO_ENDING);
+        // write(fd, sendData, sizeof(sendData));
     }
 }
 
