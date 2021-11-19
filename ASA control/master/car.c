@@ -47,13 +47,15 @@ void task_init()
     timer1_init();
 
     // 車斗
-    //經過時間 : 1.129393 [s]
-    task.Target[0] = 10;
+    //待測 - 經過時間
+    //估計時間 : 0.528399 [s]
+    task.Target[0] = 5;
     task.Counter[0] = task.Target[0] + 1; //初始化
 
     // 車輪
-    //經過時間 : 2.113597 [s]
-    task.Target[1] = 20;
+    //待測 - 經過時間
+    //估計時間 : 0.528399 [s]
+    task.Target[1] = 5;
     task.Counter[1] = task.Target[1] + 1; //初始化
 }
 
