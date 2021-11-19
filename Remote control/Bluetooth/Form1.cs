@@ -67,7 +67,7 @@ namespace Bluetooth
         private void Form1_Load(object sender, EventArgs e)
         {
             RefreshComport();
-            Init_textBox_value();
+            update_textBox_value();
             update_Degree(trackBar_rotateArm.Value, trackBar_1stArm.Value, trackBar_2ndArm.Value, trackBar_3rdArm.Value, trackBar_hand.Value, trackBar_cargo.Value);
         }
 
@@ -397,7 +397,17 @@ namespace Bluetooth
                 RefreshComport();
         }
 
-        private void Init_textBox_value()
+        private void update_trackBar_value(int rotate_arm, int first_arm, int second_arm, int third_arm, int hand_left, int cargo)
+        {
+            trackBar_cargo.Value = cargo;
+            trackBar_rotateArm.Value = rotate_arm;
+            trackBar_1stArm.Value = first_arm;
+            trackBar_2ndArm.Value = second_arm;
+            trackBar_3rdArm.Value = third_arm;
+            trackBar_hand.Value = hand_left;
+        }
+
+        private void update_textBox_value()
         {
             textBox_cargo.Text = trackBar_cargo.Value.ToString();
             textBox_rotateArm.Text = trackBar_rotateArm.Value.ToString();
@@ -530,15 +540,8 @@ namespace Bluetooth
                 SendData(Mode_HRDE, SERVO_HEADER, i, deg2Byte(Arm_Init_Degree[i]), SERVO_ENDING);
             }
 
-
-            trackBar_cargo.Value = Arm_Init_Degree[0];
-            trackBar_rotateArm.Value = Arm_Init_Degree[2];
-            trackBar_1stArm.Value = Arm_Init_Degree[3];
-            trackBar_2ndArm.Value = Arm_Init_Degree[4];
-            trackBar_3rdArm.Value = Arm_Init_Degree[5];
-            trackBar_hand.Value = Arm_Init_Degree[6];
-
-            Init_textBox_value();
+            update_trackBar_value(Arm_Init_Degree[2], Arm_Init_Degree[3], Arm_Init_Degree[4], Arm_Init_Degree[5], Arm_Init_Degree[6], Arm_Init_Degree[0]);
+            update_textBox_value();
             update_Degree(trackBar_rotateArm.Value, trackBar_1stArm.Value, trackBar_2ndArm.Value, trackBar_3rdArm.Value, trackBar_hand.Value, trackBar_cargo.Value);
         }
 
@@ -904,6 +907,8 @@ namespace Bluetooth
                             SendData(Mode_HRDE, SERVO_HEADER, Convert.ToByte(i), deg2Byte(int.Parse(split_line[i])), SERVO_ENDING);
                         }
 
+                        update_trackBar_value(val[2], val[3], val[4], val[5], val[6], val[1]);
+                        update_textBox_value();
                         update_Degree(val[2], val[3], val[4], val[5], val[6], val[1]);
                         Thread.Sleep(500);
                     }
