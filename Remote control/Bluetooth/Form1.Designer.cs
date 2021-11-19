@@ -108,6 +108,9 @@ namespace Bluetooth
             this.label10 = new System.Windows.Forms.Label();
             this.textBox_data_num = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.Sensor_hand_front = new System.Windows.Forms.Button();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.Example_Red = new System.Windows.Forms.Button();
             this.label25 = new System.Windows.Forms.Label();
@@ -143,9 +146,6 @@ namespace Bluetooth
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.btn_chooseActionListFolder = new System.Windows.Forms.Button();
             this.textBox_ActionListFolder = new System.Windows.Forms.TextBox();
-            this.Sensor_hand_front = new System.Windows.Forms.Button();
-            this.label39 = new System.Windows.Forms.Label();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.groupBox_connect.SuspendLayout();
             this.groupBox_control.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_rotateArm)).BeginInit();
@@ -161,6 +161,7 @@ namespace Bluetooth
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.groupBox15.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox10.SuspendLayout();
@@ -168,7 +169,6 @@ namespace Bluetooth
             this.groupBox8.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox14.SuspendLayout();
-            this.groupBox15.SuspendLayout();
             this.SuspendLayout();
             // 
             // btn_open
@@ -1147,6 +1147,40 @@ namespace Bluetooth
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Sensor";
             // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.label39);
+            this.groupBox15.Controls.Add(this.Sensor_hand_front);
+            this.groupBox15.Location = new System.Drawing.Point(46, 742);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(444, 107);
+            this.groupBox15.TabIndex = 46;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "手臂";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(97, 41);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(77, 38);
+            this.label39.TabIndex = 13;
+            this.label39.Text = "朝前";
+            // 
+            // Sensor_hand_front
+            // 
+            this.Sensor_hand_front.BackColor = System.Drawing.Color.Green;
+            this.Sensor_hand_front.Enabled = false;
+            this.Sensor_hand_front.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.Sensor_hand_front.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Sensor_hand_front.Location = new System.Drawing.Point(268, 40);
+            this.Sensor_hand_front.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Sensor_hand_front.Name = "Sensor_hand_front";
+            this.Sensor_hand_front.Size = new System.Drawing.Size(69, 45);
+            this.Sensor_hand_front.TabIndex = 13;
+            this.Sensor_hand_front.TabStop = false;
+            this.Sensor_hand_front.UseVisualStyleBackColor = false;
+            // 
             // groupBox13
             // 
             this.groupBox13.Controls.Add(this.Example_Red);
@@ -1566,40 +1600,6 @@ namespace Bluetooth
             this.textBox_ActionListFolder.TabIndex = 3;
             this.textBox_ActionListFolder.TabStop = false;
             // 
-            // Sensor_hand_front
-            // 
-            this.Sensor_hand_front.BackColor = System.Drawing.Color.Green;
-            this.Sensor_hand_front.Enabled = false;
-            this.Sensor_hand_front.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
-            this.Sensor_hand_front.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Sensor_hand_front.Location = new System.Drawing.Point(268, 40);
-            this.Sensor_hand_front.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Sensor_hand_front.Name = "Sensor_hand_front";
-            this.Sensor_hand_front.Size = new System.Drawing.Size(69, 45);
-            this.Sensor_hand_front.TabIndex = 13;
-            this.Sensor_hand_front.TabStop = false;
-            this.Sensor_hand_front.UseVisualStyleBackColor = false;
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(97, 41);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(77, 38);
-            this.label39.TabIndex = 13;
-            this.label39.Text = "朝前";
-            // 
-            // groupBox15
-            // 
-            this.groupBox15.Controls.Add(this.label39);
-            this.groupBox15.Controls.Add(this.Sensor_hand_front);
-            this.groupBox15.Location = new System.Drawing.Point(46, 742);
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(444, 107);
-            this.groupBox15.TabIndex = 46;
-            this.groupBox15.TabStop = false;
-            this.groupBox15.Text = "手臂";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 30F);
@@ -1643,6 +1643,8 @@ namespace Bluetooth
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox7.ResumeLayout(false);
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1656,8 +1658,6 @@ namespace Bluetooth
             this.groupBox12.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
-            this.groupBox15.ResumeLayout(false);
-            this.groupBox15.PerformLayout();
             this.ResumeLayout(false);
 
         }

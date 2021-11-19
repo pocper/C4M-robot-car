@@ -815,32 +815,6 @@ namespace Bluetooth
             isEntercsvFileName = false;
         }
 
-        private void btn_delete_Click_1(object sender, EventArgs e)
-        {
-            if (!String.IsNullOrEmpty(csvFile))
-            {
-                bool isDeleted = false;
-                try
-                {
-                    File.Delete(csvFile);
-                    isDeleted = true;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    isDeleted = false;
-                }
-
-                if (isDeleted)
-                {
-                    csvFile = string.Empty;
-                    textBox_FileName.Text = string.Empty;
-                    textBox_FilePath.Text = string.Empty;
-                    textBox_data_num.Text = string.Empty;
-                }
-            }
-        }
-
         private void btn_chooseActionListFolder_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
@@ -922,11 +896,11 @@ namespace Bluetooth
 
                         for (int i = 0; i < split_line.Length; i++)
                         {
-                            //Index 欄位
-                            if (i == 0)
-                                continue;
-
                             val[i] = int.Parse(split_line[i]);
+                        }
+
+                        for (int i = split_line.Length - 1; i > 0; i--)
+                        {
                             SendData(Mode_HRDE, SERVO_HEADER, Convert.ToByte(i), deg2Byte(int.Parse(split_line[i])), SERVO_ENDING);
                         }
 
@@ -936,6 +910,32 @@ namespace Bluetooth
 
                     sw.Close();
                     fs.Close();
+                }
+            }
+        }
+
+        private void btn_delete_Click_1(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(csvFile))
+            {
+                bool isDeleted = false;
+                try
+                {
+                    File.Delete(csvFile);
+                    isDeleted = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    isDeleted = false;
+                }
+
+                if (isDeleted)
+                {
+                    csvFile = string.Empty;
+                    textBox_FileName.Text = string.Empty;
+                    textBox_FilePath.Text = string.Empty;
+                    textBox_data_num.Text = string.Empty;
                 }
             }
         }
