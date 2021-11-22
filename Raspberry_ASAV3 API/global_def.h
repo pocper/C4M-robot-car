@@ -1,3 +1,6 @@
+#ifndef GLOBAL_DEF_H
+#define GLOBAL_DEF_H
+
 #define ENABLE 1
 #define DISABLE 0
 
@@ -14,3 +17,5 @@
 
 //檢查data的第bit位元是否為1
 #define CheckBit(data, bit) ((data & (1 << bit)) == (1 << bit))
+
+#endif

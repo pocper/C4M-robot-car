@@ -1,3 +1,5 @@
+#ifndef PWM_DEF_H
+#define PWM_DEF_H
 // Global
 
 #define SERVO_HEADER 0xF0
@@ -57,3 +59,5 @@
 #define SLAVE_POS_SINGLEBYTES 3
 #define SLAVE_POS_DATA 4
 #define SLAVE_POS_ENDING 5
+
+#endif

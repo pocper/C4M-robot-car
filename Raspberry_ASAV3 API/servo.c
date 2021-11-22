@@ -1,7 +1,8 @@
 #include "servo.h"
 #include "pwm_def.h"
 // Windows
-#include <stdio.h>
+
+#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -20,7 +21,7 @@ void read_csv(int fd, char *fileName)
         return;
 
     int ArmData[ARMDATA_LEN];
-    int line_counter = 0;
+    uint8_t line_counter = 0;
 
     char line[FGETS_MAX_LEN];
     char *element = NULL;
@@ -49,23 +50,37 @@ void read_csv(int fd, char *fileName)
             element = strtok(NULL, ",");
         }
 
-        UART_servo_trm(fd, ArmData);
+        arm_trm(fd, ArmData);
         line_counter++;
+        usleep(500000);
     }
 
     fclose(fp);
 }
 
-void UART_servo_trm(int fd, int *data_p)
+void arm_trm(int fd, int *data_p)
 {
-    char sendData[SERVO_POS_ENDING + 1];
+    // char sendData[SERVO_POS_ENDING + 1];
     for (int i = 0; i < ARMDATA_LEN; i++)
     {
         dprintf(fd, "%02X%02X%02X%02X", SERVO_HEADER, i, deg2Byte(data_p[i]), SERVO_ENDING);
         // write(fd, sendData, sizeof(sendData));
     }
+    // usleep(500000);
 }
 
+void MOTION_ENABLE_ALL(int fd)
+{
+    // dprintf(fd, "%02X%02X%02X%02X", SERVO_EN_HEADER, , SERVO_EN_ENDING);
+}
+void motion_trm(int fd, char data_p)
+{
+    // char sendData[SERVO_POS_DATA + 1];
+    dprintf(fd, "%02X%c%02X", MOVEMENT_HEADER, data_p, MOVEMENT_HEADER);
+    // write(fd, sendData, sizeof(sendData));
+
+    // usleep(500000);
+}
 int deg2Byte(int num)
 {
     return num + 128;
