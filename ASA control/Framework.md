@@ -12,7 +12,17 @@
 
   [SERVO_EN_HEADER] [RegAdd] [Data] [SERVO_EN_ENDING]
 
-  
+ - 伺服機通道禁能
+
+   - 輪子
+
+     [SERVO_WHEEL_DISEN_HEADER] [RegAdd] [Data] [SERVO_WHEEL_DISEN_ENDING]
+
+   - 手臂
+
+     [SERVO_ARM_DISEN_HEADER] [RegAdd] [Data] [SERVO_ARM_DISEN_ENDING]
+
+     
 
 - 無限轉伺服機移動方向
 
@@ -33,11 +43,13 @@
 
 ## 標頭標尾
 
-|    標頭名稱     | 格式 [hex] |    標尾名稱     | 格式 [hex] |         說明         |
-| :-------------: | :--------: | :-------------: | :--------: | :------------------: |
-|  SERVO_HEADER   |     F0     |  SERVO_ENDING   |     F0     | 有限角伺服機手臂數值 |
-| SERVO_EN_HEADER |     F1     | SERVO_EN_ENDING |     F1     |    伺服機通道致能    |
-| MOVEMENT_HEADER |     F2     | MOVEMENT_ENDING |     F2     | 無限轉伺服機移動方向 |
+|         標頭名稱         | 格式 [hex] |         標尾名稱         | 格式 [hex] |         說明         |
+| :----------------------: | :--------: | :----------------------: | :--------: | :------------------: |
+|       SERVO_HEADER       |     F0     |       SERVO_ENDING       |     F0     | 有限角伺服機手臂數值 |
+|     SERVO_EN_HEADER      |     F1     |     SERVO_EN_ENDING      |     F1     |    伺服機通道致能    |
+|     MOVEMENT_HEADER      |     F2     |     MOVEMENT_ENDING      |     F2     | 無限轉伺服機移動方向 |
+| SERVO_WHEEL_DISEN_HEADER |     F5     | SERVO_WHEEL_DISEN_ENDING |     F5     |     輪子通道禁能     |
+|  SERVO_ARM_DISEN_HEADER  |     F6     |  SERVO_ARM_DISEN_ENDING  |     F6     |     手臂通道禁能     |
 
 
 
@@ -63,11 +75,13 @@
 
 ## 測試範例
 
-|   名稱   | 範例 [hex]  |         意義         |
-| :------: | :---------: | :------------------: |
-|  SERVO   | F0 00 80 F0 | 設定PWM 通道一 數值0 |
-| SERVO_EN | F1 01 01 F1 | 設定PWM 通道一 致能  |
-| MOVEMENT |  F2 57 F2   |        W 前進        |
+|       名稱        | 範例 [hex]  |         意義          |
+| :---------------: | :---------: | :-------------------: |
+|       SERVO       | F0 00 80 F0 | 設定PWM 通道一 數值0  |
+|     SERVO_EN      | F1 01 01 F1 |  設定PWM 通道一 致能  |
+|     MOVEMENT      |  F2 57 F2   |        W 前進         |
+| SERVO_WHEEL_DISEN |  F5 00 F5   | 設定 PWM 輪子通道禁能 |
+|  SERVO_ARM_DISEN  |  F6 00 F6   | 設定 PWM 手臂通道禁能 |
 
 # Master -> PC
 
