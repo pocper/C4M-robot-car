@@ -45,8 +45,8 @@ namespace Bluetooth
         bool isEntercsvFileName = false;
 
         bool isReceivingSensorData = false;
-        int sensorData;
-        int sensorData_counter;
+        int sensorData=0;
+        int sensorData_counter=0;
 
         class Canvas
         {
@@ -75,27 +75,32 @@ namespace Bluetooth
         {
             //Master 端要把所有的printf關掉 否則PC端會收到
 
-            SerialPort spl = (SerialPort)sender;
-            int data_Byte = spl.ReadByte();
 
-            if (isReceivingSensorData == true && sensorData_counter < 2)
+            if ((sender as SerialPort).BytesToRead > 0)
             {
-                sensorData += data_Byte << 8 * (1 - sensorData_counter);
-                sensorData_counter++;
-            }
+                SerialPort spl = (SerialPort)sender;
+
+                int data_Byte = spl.ReadByte();
+
+                if (isReceivingSensorData == true && sensorData_counter < 2)
+                {
+                    sensorData += data_Byte << 8 * (1 - sensorData_counter);
+                    sensorData_counter++;
+                }
 
 
-            if (data_Byte == SENSOR_HEADER && isReceivingSensorData == false)
-            {
-                isReceivingSensorData = true;
-                sensorData = 0;
-                sensorData_counter = 0;
-            }
+                if (data_Byte == SENSOR_HEADER && isReceivingSensorData == false)
+                {
+                    isReceivingSensorData = true;
+                    sensorData = 0;
+                    sensorData_counter = 0;
+                }
 
-            if (data_Byte == SENSOR_ENDING && isReceivingSensorData == true && sensorData_counter == 2)
-            {
-                isReceivingSensorData = false;
-                updateSensorColor();
+                if (data_Byte == SENSOR_ENDING && isReceivingSensorData == true && sensorData_counter == 2)
+                {
+                    isReceivingSensorData = false;
+                    updateSensorColor();
+                }
             }
         }
 
@@ -172,6 +177,14 @@ namespace Bluetooth
                 Sensor_left_front_front.BackColor = Color.Green;
         }
 
+        private void resetSensorData()
+        {
+            isReceivingSensorData = false;
+            sensorData = 0;
+            sensorData_counter = 0;
+            updateSensorColor();
+        }
+
         public void SendData(int Mode, byte Header, byte RegAdd, byte Data, byte Ending)
         {
             if (serialPort1.IsOpen)
@@ -205,6 +218,7 @@ namespace Bluetooth
                 {
                     btn_open.Enabled = true;
                     btn_close.Enabled = false;
+                    btn_connection_refresh.Enabled = true;
 
                     close_comPort();
 
@@ -338,6 +352,7 @@ namespace Bluetooth
 
                         btn_open.Enabled = false;
                         btn_close.Enabled = true;
+                        btn_connection_refresh.Enabled = false;
                         comboBox_port.Enabled = false;
                         isReceivingSensorData = false;
                     }
@@ -369,10 +384,13 @@ namespace Bluetooth
         {
             btn_open.Enabled = true;
             btn_close.Enabled = false;
+            btn_connection_refresh.Enabled = true;
             isReceivingSensorData = false;
 
             serialPort1.DataReceived -= DataReceived;
             close_comPort();
+
+            resetSensorData();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)

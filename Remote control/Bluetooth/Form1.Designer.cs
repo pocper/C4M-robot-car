@@ -32,7 +32,7 @@ namespace Bluetooth
             this.components = new System.ComponentModel.Container();
             this.btn_open = new System.Windows.Forms.Button();
             this.groupBox_connect = new System.Windows.Forms.GroupBox();
-            this.button_connection_refresh = new System.Windows.Forms.Button();
+            this.btn_connection_refresh = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox_port = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
@@ -185,7 +185,7 @@ namespace Bluetooth
             // 
             // groupBox_connect
             // 
-            this.groupBox_connect.Controls.Add(this.button_connection_refresh);
+            this.groupBox_connect.Controls.Add(this.btn_connection_refresh);
             this.groupBox_connect.Controls.Add(this.label1);
             this.groupBox_connect.Controls.Add(this.comboBox_port);
             this.groupBox_connect.Controls.Add(this.btn_close);
@@ -200,17 +200,17 @@ namespace Bluetooth
             this.groupBox_connect.TabStop = false;
             this.groupBox_connect.Text = "Bluetooth Connection";
             // 
-            // button_connection_refresh
+            // btn_connection_refresh
             // 
-            this.button_connection_refresh.Location = new System.Drawing.Point(373, 210);
-            this.button_connection_refresh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button_connection_refresh.Name = "button_connection_refresh";
-            this.button_connection_refresh.Size = new System.Drawing.Size(165, 80);
-            this.button_connection_refresh.TabIndex = 9;
-            this.button_connection_refresh.TabStop = false;
-            this.button_connection_refresh.Text = "Refresh";
-            this.button_connection_refresh.UseVisualStyleBackColor = true;
-            this.button_connection_refresh.Click += new System.EventHandler(this.button_connection_refresh_Click);
+            this.btn_connection_refresh.Location = new System.Drawing.Point(373, 210);
+            this.btn_connection_refresh.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_connection_refresh.Name = "btn_connection_refresh";
+            this.btn_connection_refresh.Size = new System.Drawing.Size(165, 80);
+            this.btn_connection_refresh.TabIndex = 9;
+            this.btn_connection_refresh.TabStop = false;
+            this.btn_connection_refresh.Text = "Refresh";
+            this.btn_connection_refresh.UseVisualStyleBackColor = true;
+            this.btn_connection_refresh.Click += new System.EventHandler(this.button_connection_refresh_Click);
             // 
             // label1
             // 
@@ -1673,7 +1673,7 @@ namespace Bluetooth
         private System.Windows.Forms.Button btn_D;
         private System.Windows.Forms.GroupBox groupBox_control;
         private System.IO.Ports.SerialPort serialPort1;
-        private System.Windows.Forms.Button button_connection_refresh;
+        private System.Windows.Forms.Button btn_connection_refresh;
         private System.Windows.Forms.ComboBox comboBox_port;
         private System.Windows.Forms.Button btn_Z;
         private System.Windows.Forms.Button btn_C;
