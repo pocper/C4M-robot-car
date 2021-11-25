@@ -8,9 +8,9 @@
 
 #include <stdio.h>
 
-uint16_t Servo_Value[11];
-// uint16_t Servo_U_Limit[11];
-// uint16_t Servo_L_Limit[11];
+uint16_t Servo_Value[Servo_num];
+// uint16_t Servo_U_Limit[Servo_num];
+// uint16_t Servo_L_Limit[Servo_num];
 uint8_t Servo_Enable_Power = 0;
 uint16_t Servo_Enable_Channel = 0;
 // uint16_t servo_Enable_Protect;
@@ -51,7 +51,10 @@ void servo_All_Enable(uint8_t Enable)
         return;
 
     if (Enable == ENABLE)
-        Servo_Enable_Channel = 0x7ff;
+    {
+        for (int i = 0; i < Servo_num; i++)
+            BIT_SET(Servo_Enable_Channel, i);
+    }
 
     if (Enable == DISABLE)
         Servo_Enable_Channel = 0;
@@ -61,7 +64,7 @@ void servo_All_Enable(uint8_t Enable)
 
 void servo_update(uint8_t channel, float val)
 {
-    if (channel > 10)
+    if (channel > (Servo_num - 1))
         return;
 
     // printf("channel = %d val = %f\n", channel, val);
@@ -73,14 +76,14 @@ void servo_update(uint8_t channel, float val)
         servo_Enable(channel, ENABLE);
 
     float PWM;
-    if (channel < 7)
+    if (channel < 7 || channel == 11 || channel == 12)
     {
         if (val > 90 || val < -90)
             return;
 
         PWM = Deg2PWM(val);
     }
-    else if (channel < 11)
+    else if (channel > 6 && channel < 11)
     {
         if (val == 0)
         {

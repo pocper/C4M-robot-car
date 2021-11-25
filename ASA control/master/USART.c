@@ -40,7 +40,6 @@ void UART0_buf_trm(uint8_t data)
     while (!(UCSR0A & (1 << UDRE0)))
         ;
     UDR0 = data;
-    // DELAY(WAITTICK);
 }
 
 void UART1_buf_trm(uint8_t data)
@@ -48,7 +47,6 @@ void UART1_buf_trm(uint8_t data)
     while (!(UCSR1A & (1 << UDRE1)))
         ;
     UDR1 = data;
-    // DELAY(WAITTICK);
 }
 
 void UART1_trm(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataSize, void *Data_p)

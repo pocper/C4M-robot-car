@@ -6,7 +6,7 @@ uint8_t findStr(uint8_t Length, uint8_t start_idx, uint8_t find, void *Data_p);
  * @brief 處理字串中手臂動作函式
  *
  * 格式 : [SERVO_HEADER] [RegAdd] [Data] [SERVO_ENDING]
- * 範例 :      0xB0        0x01    0x9E       0xB0
+ * 範例 :      0xF0        0x01    0x9E       0xF0
  * 意義 : Servo 1  轉到 +30度
  *
  * 資料大小
@@ -32,7 +32,7 @@ void servo_str_split();
  * @brief 處理字串中PWM通道禁致能函式
  *
  * 格式 : [SERVO_EN_HEADER] [RegAdd] [Data] [SERVO_EN_ENDING]
- * 範例 :       0xB1          0x01    0x01         0xB1
+ * 範例 :       0xF1          0x01    0x01         0xF1
  * 意義 : Servo 1 致能
  *
  * 資料大小
@@ -54,13 +54,31 @@ void servo_str_split();
  */
 void servo_enable_str_split();
 
+/**
+ * @brief 處理字串中PWM通道輪子禁能函式
+ *
+ * 格式 : [SERVO_WHEEL_DISEN_POS_HEADER] [Data] [SERVO_WHEEL_DISEN_POS_ENDING]
+ * 範例 :              0xF1               0x01                0xF1
+ * 意義 : Servo 2 ~ 6 禁能
+ *
+ * 資料大小
+ * Header : uint8_t
+ * Data   : uint8_t
+ * Ending : uint8_t
+ *
+ * 資料範圍(Data)
+ * 接收範圍 : 1
+ * 禁能 : 1
+ */
+void servo_wheel_disable_str_split();
+
 void servo_enable_str_concat(uint8_t RegAdd, uint8_t Enable);
 
 /**
  * @brief 處理字串中輪子動作函式
  *
  * 格式 : [MOVEMENT_HEADER] [Data] [MOVEMENT_ENDING]
- * 範例 :        0xB2        0x57         0xB2
+ * 範例 :        0xF2        0x57         0xF2
  * 意義 : Servo 7 ~ 10 向前移動
  *
  * 資料大小

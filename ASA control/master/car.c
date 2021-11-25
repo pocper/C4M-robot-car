@@ -49,13 +49,13 @@ void task_init()
     // 車斗
     //待測 - 經過時間
     //估計時間 : 0.528399 [s]
-    task.Target[0] = 5;
+    task.Target[0] = 1;
     task.Counter[0] = task.Target[0] + 1; //初始化
 
     // 車輪
     //待測 - 經過時間
     //估計時間 : 0.528399 [s]
-    task.Target[1] = 5;
+    task.Target[1] = 1;
     task.Counter[1] = task.Target[1] + 1; //初始化
 }
 
@@ -171,6 +171,16 @@ void Rotation_update(uint8_t channel, int8_t Degree)
         servo_update(1, Degree);
 
         task.Counter[0] = 0;
+    }
+    else if (channel == 3)
+    {
+        servo_update(3, Degree);
+        servo_update(11, Degree);
+    }
+    else if (channel == 4)
+    {
+        servo_update(4, Degree);
+        servo_update(12, Degree);
     }
     else
     {

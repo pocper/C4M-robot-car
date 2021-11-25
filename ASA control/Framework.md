@@ -49,7 +49,6 @@
 |     SERVO_EN_HEADER      |     F1     |     SERVO_EN_ENDING      |     F1     |    伺服機通道致能    |
 |     MOVEMENT_HEADER      |     F2     |     MOVEMENT_ENDING      |     F2     | 無限轉伺服機移動方向 |
 | SERVO_WHEEL_DISEN_HEADER |     F5     | SERVO_WHEEL_DISEN_ENDING |     F5     |     輪子通道禁能     |
-|  SERVO_ARM_DISEN_HEADER  |     F6     |  SERVO_ARM_DISEN_ENDING  |     F6     |     手臂通道禁能     |
 
 
 
@@ -81,7 +80,6 @@
 |     SERVO_EN      | F1 01 01 F1 |  設定PWM 通道一 致能  |
 |     MOVEMENT      |  F2 57 F2   |        W 前進         |
 | SERVO_WHEEL_DISEN |  F5 00 F5   | 設定 PWM 輪子通道禁能 |
-|  SERVO_ARM_DISEN  |  F6 00 F6   | 設定 PWM 手臂通道禁能 |
 
 # Master -> PC
 

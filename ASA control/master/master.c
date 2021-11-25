@@ -47,9 +47,10 @@ int main()
     {
         if (DataLength() > 0)
         {
-            DataDisplay();
+            // DataDisplay();
             servo_str_split();
             servo_enable_str_split();
+            servo_wheel_disable_str_split();
             movement_str_split();
             str_Remove();
         }

@@ -26,8 +26,7 @@ int main()
         }
         else
         {
-            // 用輪詢卡DELAY做50HZ的定週期檢查及輸出更新
-            _delay_ms(20);
+            _delay_ms(10);
         }
     }
 

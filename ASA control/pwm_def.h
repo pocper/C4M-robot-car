@@ -9,6 +9,9 @@
 #define SENSOR_HEADER 0xF3
 #define SENSOR_ENDING 0xF4
 
+#define SERVO_WHEEL_DISEN_HEADER 0xF5
+#define SERVO_WHEEL_DISEN_ENDING 0xF5
+
 #define ERR_HEADER 0xFF
 
 #define RegAdd_Multi_Val 1
@@ -22,13 +25,13 @@
 
 #define RegAdd_Single_Val 10
 
-#define Servo_num 11
+#define Servo_num 13
 #define SERVO_LIMIT_MIN 72
 #define SERVO_LIMIT_MAX 338
 
 #define SERVO_VAL_INIT 205
 
-#define maxReceieveBuffer 200
+#define maxReceieveBuffer 500
 
 // Master
 
@@ -41,6 +44,14 @@
 #define SERVO_EN_POS_REGADD 1
 #define SERVO_EN_POS_DATA 2
 #define SERVO_EN_POS_ENDING 3
+
+#define SERVO_WHEEL_DISEN_POS_HEADER 0
+#define SERVO_WHEEL_DISEN_POS_DATA 1
+#define SERVO_WHEEL_DISEN_POS_ENDING 2
+
+#define SERVO_ARM_DISEN_POS_HEADER 0
+#define SERVO_ARM_DISEN_POS_DATA 1
+#define SERVO_ARM_DISEN_POS_ENDING 2
 
 #define MOVEMENT_POS_HEADER 0
 #define MOVEMENT_POS_DATA 1

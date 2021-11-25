@@ -85,7 +85,7 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
     switch (RegAdd)
     {
     case RegAdd_Multi_Val:
-        if (Bytes != 22)
+        if (Bytes != sizeof(uint16_t) * Servo_num)
             return;
 
         if (SingleDataBytes != sizeof(uint16_t))
@@ -105,7 +105,7 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
         break;
 
     case RegAdd_L_Lim:
-        if (Bytes != 22)
+        if (Bytes != sizeof(uint16_t) * Servo_num)
             return;
 
         if (SingleDataBytes != sizeof(uint16_t))
@@ -126,7 +126,7 @@ void PCA9685_mode(uint8_t RegAdd, uint8_t Bytes, uint8_t SingleDataBytes, void *
         break;
 
     case RegAdd_U_Lim:
-        if (Bytes != 22)
+        if (Bytes != sizeof(uint16_t) * Servo_num)
             return;
 
         if (SingleDataBytes != sizeof(uint16_t))

@@ -56,9 +56,8 @@ void handle_rec_str()
     uint8_t RegAdd = receiveData[Idx_Header_1 + SLAVE_POS_REGADD];
     uint8_t Bytes = receiveData[Idx_Header_1 + SLAVE_POS_BYTES];
 
-    if (!(Bytes == 1 || Bytes == 2 || Bytes == 22))
+    if (!(Bytes == 1 || Bytes == 2 || Bytes == (sizeof(uint16_t) * Servo_num)))
     {
-        // ERROR 有些從Master -> Slave 的Header或Ending 會是M2S_HEADER +- 5 (171 169...)
         receiveData[Idx_Header_1] = ERR_HEADER;
         return;
     }

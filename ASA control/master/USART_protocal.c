@@ -56,7 +56,6 @@ void servo_str_split()
 
     uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
 
-
     if (StrLength != (SERVO_POS_ENDING - SERVO_POS_HEADER))
     {
         receiveData[Idx_Header_1] = ERR_HEADER;
@@ -76,7 +75,7 @@ void servo_str_split()
     {
         Rotation_update(RegAdd, (int16_t)(Data)-128);
     }
-    else if (RegAdd < Servo_num)
+    else if (RegAdd < (Servo_num - 2))
     {
         Movement_update(RegAdd, (int16_t)(Data)-128);
     }
@@ -132,6 +131,46 @@ void servo_enable_str_split()
     }
 
     servo_Enable(RegAdd, Data);
+
+    memmove(receiveData + Idx_Header_1, receiveData + Idx_Header_2 + 1, receiveDataLength - Idx_Header_2);
+    receiveDataLength -= StrLength + 1;
+}
+
+void servo_wheel_disable_str_split()
+{
+    /*
+     * Correct form
+     * [SERVO_WHEEL_DISEN_HEADER] [RegAdd] [Data] [SERVO_WHEEL_DISEN_ENDING]
+     */
+
+    uint8_t Idx_Header_1 = findStr(receiveDataLength, 0, SERVO_WHEEL_DISEN_HEADER, receiveData);
+    if (Idx_Header_1 == ERR_NFIND)
+        return;
+
+    uint8_t Idx_Header_2 = Idx_Header_1 + SERVO_WHEEL_DISEN_POS_ENDING;
+    if (receiveData[Idx_Header_2] != SERVO_WHEEL_DISEN_ENDING)
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
+        return;
+    }
+
+    uint8_t StrLength = Idx_Header_2 - Idx_Header_1;
+
+    if (StrLength != (SERVO_WHEEL_DISEN_POS_ENDING - SERVO_WHEEL_DISEN_POS_HEADER))
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
+        return;
+    }
+
+    uint8_t Data = receiveData[Idx_Header_1 + SERVO_WHEEL_DISEN_POS_DATA];
+    if (Data > DISABLE)
+    {
+        receiveData[Idx_Header_1] = ERR_HEADER;
+        return;
+    }
+
+    for (int i = 7; i < 11; i++)
+        servo_Enable(i, Data);
 
     memmove(receiveData + Idx_Header_1, receiveData + Idx_Header_2 + 1, receiveDataLength - Idx_Header_2);
     receiveDataLength -= StrLength + 1;
