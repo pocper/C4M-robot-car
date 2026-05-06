@@ -1,12 +1,12 @@
 # C4M-robot-car
 
-## 目錄
+## 目錄 | Content
 - [C4M-robot-car](#c4m-robot-car)
-  - [目錄](#目錄)
-  - [專案起源與背景](#專案起源與背景)
+  - [目錄 | Content](#目錄--content)
+  - [專案起源與背景 | Background](#專案起源與背景--background)
     - [專案起源](#專案起源)
-    - [競賽規則](#競賽規則)
     - [專案背景](#專案背景)
+    - [競賽規則](#競賽規則)
   - [賽道任務流程 | Mission Workflow](#賽道任務流程--mission-workflow)
   - [實現邏輯 | Implementation](#實現邏輯--implementation)
     - [1. 前置設定 (Setup)](#1-前置設定-setup)
@@ -31,31 +31,33 @@
   - [專案結果 | Project Results](#專案結果--project-results)
   - [參考專案與資源 | References](#參考專案與資源--references)
 
-
 ---
-## 專案起源與背景
+
+## 專案起源與背景 | Background
 ### 專案起源
 本專案實作 **2021 東京威力科創機器人大賽-鋼鐵擂台** 之競賽任務，並針對上半場「智慧賽道」的自動化導引進行特化開發。
-
-### 競賽規則
-**官方規則參考**：[2021 TEL Robot Combat 競賽規則 (PDF)](https://cdn.bountyhunter.co/file/c47dcc6c-9e44-54ce-84c1-6cf93e437aab.pdf)
 
 ### 專案背景
 本專案 Fork 自原始競賽專案：[void110916/C4M-robot-car](https://github.com/void110916/C4M-robot-car)。
 原始專案是由本人、 **void110916** 與另外一位組員 共同協作完成的參賽專案。為了進一步優化 **自動化光學檢測 (AOI)** 與 **精準顏色辨識** 技術，我將原專案進行延伸開發，專門針對「關卡一：直線行走」之挑戰進行硬體特化，並將其獨立為目前這個 Repo。
 
+### 競賽規則
+**官方規則參考**：[2021 TEL Robot Combat 競賽規則 (PDF)](https://cdn.bountyhunter.co/file/c47dcc6c-9e44-54ce-84c1-6cf93e437aab.pdf)
+
 ## 賽道任務流程 | Mission Workflow
-> [!IMPORTANT] 智慧賽道 - 關卡一：直線行走
-機器人需利用影像處理技術，自主辨識並通過指定顏色的拱門。
+> [!IMPORTANT]
+> 智慧賽道 - 關卡一：直線行走
+> 機器人需利用影像處理技術，自主辨識並通過指定顏色的拱門。
+
 * **設計規範與場地布置**
     * 動態顏色判定：三道關卡的通過順序由現場抽籤決定。
     * 賽道規格：總長 **350cm**，寬 **100cm**。
     * 障礙間隔：拱門間距 **95cm**。
     * 辨識目標：色板下緣離地高度為 **22cm**。
 
-|關卡設計規範                              |場地布置實景                         |
-|:---------------------------------------:|:----------------------------------:|
 |<img src="./image/course_spec.jpg" height="250">|<img src="./image/course.png" height="250">|
+|:----------------------------------------------:|:-----------------------------------------:|
+|圖：關卡設計規範                                 |圖：場地布置實景                             |
 
 
 
@@ -99,10 +101,9 @@
 *   **規格**：8.4V 降壓至 5V，可並聯 9 顆 18650 鋰電池並整合訊號接頭至 ASA Bus 40-pin。
 
 ### 硬體照片
-| 原始賽事版本                                       | AOI 課程特化版本                                          |
-| :-----------------------------------------------: | :------------------------------------------------------: |
 | <img src="./image/car_original.png" height="250"> | <img src="./image/car_aoi_specialized.png" height="250"> |
-|完整競賽配置（含手臂與貨斗）                          |精簡化架構                                                |
+| :-----------------------------------------------: | :------------------------------------------------------: |
+|原始賽事版本：完整競賽配置（含手臂與貨斗）             |AOI 課程特化版本：精簡化架構                                |
 
 ## 系統架構 | System Architecture
 ```
@@ -193,8 +194,9 @@ set PATH=%PATH%;%CD%\avr8-gnu-toolchain-win32_x86_64\bin
 
 ### 2. 樹梅派影像辨識 (Raspberry Control)
 處理 OpenCV 顏色偵測與自動化導引邏輯：
-  1.  **連線**：需先透過 **RealVNC** 遠端連入樹梅派桌面環境。
-  2.  **執行指令**：
+  1.  **連線**：  
+        需先透過 **RealVNC** 遠端連入樹梅派桌面環境。
+  2.  **執行指令**：  
         ```bash
         # 環境安裝
         sudo apt-get update && sudo apt-get install -y libopencv-dev python3-opencv
@@ -203,36 +205,37 @@ set PATH=%PATH%;%CD%\avr8-gnu-toolchain-win32_x86_64\bin
         # 啟動辨識程式
         python raspberry_control/color.py
         ```
-  3.  通訊邏輯(上半場 - 關卡一)：
-    電腦 (監控) $\rightarrow$ RealVNC (WiFi) $\rightarrow$ 樹梅派 (RPi 4) $\rightarrow$ Micro-USB (Data) $\rightarrow$ M128 $\rightarrow$ Extension Board
+  3.  **通訊邏輯(上半場 - 關卡一)**：  
+        電腦 (監控) $\rightarrow$ RealVNC (WiFi) $\rightarrow$ 樹梅派 (RPi 4) $\rightarrow$ Micro-USB (Data) $\rightarrow$ M128 $\rightarrow$ Extension Board
 
 ### 3. 遠端控制端 (Remote Control Interface) - *Competition Official*
 > [!TIP]
 > 此介面為「東京威力科創機器人大賽-鋼鐵擂台」下半場任務專用的正式操控終端。
 
-1. **功能定位**：
+1. **功能定位**：  
    * 操控整合：提供操作員即時控制麥克納姆輪、5 軸機械手臂、以及監控避障感測器狀態的功能。
    * 即時狀態可視化：介面右側區域可即時顯示車斗及機械手臂相對於車體的空間位置（Side/Top View），輔助操作員精準抓取目標。
    * 注意：由於車體機構並非本人繪製，為尊重原創者，本專案不提供相關機構模型（.obj）。因此，在運行此控制介面時，側視圖與頂視圖（Side/Top View）區域將無法正常顯示模型，但不影響其他遙控功能。
 
-2.  **開發環境與編譯**：
+2.  **開發環境與編譯**：  
     若需重新編譯該控制介面，請確保環境具備 .NET SDK並透過Visual Studio 執行：
     ```bash
     cp model_Robot/* remote_control/Bluetooth/model_Robot/
     dotnet build "remote_control/Bluetooth.sln"
     ```
 
-    |<img src="./image/robot_control_gui.png" height="250">|
-    |:--:|
-    |圖：正式賽事所使用的 C# GUI 操控面板|
+    <img src="./image/robot_control_gui.png" height="250">
 
-3. 通訊邏輯(下半場模式)：
+    圖：正式賽事所使用的 C# GUI 操控面板
+
+3. 通訊邏輯(下半場模式)：  
     電腦 $\rightarrow$ 藍牙 (Bluetooth) $\rightarrow$ Extension Board $\rightarrow$ M128。
 
 ## 專案結果 | Project Results
-|[![專案演示影片](https://img.youtube.com/vi/AP3a90r8Y54/hqdefault.jpg)](https://www.youtube.com/watch?v=AP3a90r8Y54) |
-| :--:|
-|點擊上方圖片跳轉至 YouTube 觀看實作演示|
+[![專案演示影片](https://img.youtube.com/vi/AP3a90r8Y54/hqdefault.jpg)](https://www.youtube.com/watch?v=AP3a90r8Y54)
+
+點擊上方圖片跳轉至 YouTube 觀看實作演示
+
 
 ## 參考專案與資源 | References
 * [Original Competition Repo](https://github.com/void110916/C4M-robot-car) - 包含上半場及下半場的程式控制邏輯。
