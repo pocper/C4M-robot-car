@@ -1,0 +1,17 @@
+.vs/
+.vscode/
+bin/
+obj/
+*.csproj.user
+remote_control/Bluetooth/model_Robot/*
+!remote_control/Bluetooth/model_Robot/.gitkeep
+
+c4mlib/
+RS232terminal/
+avr8-gnu*
+avrdude*
+
+*.hex
+*.exe
+*.o
+*.eep

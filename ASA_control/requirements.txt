@@ -1,0 +1,4 @@
+numpy>=1.19.0
+progressbar2
+wheel
+#asaloader>=0.5.8
