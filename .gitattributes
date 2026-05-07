@@ -1,0 +1,6 @@
+image/car_aoi_specialized.png filter=lfs diff=lfs merge=lfs -text
+image/car_original.png filter=lfs diff=lfs merge=lfs -text
+image/course.png filter=lfs diff=lfs merge=lfs -text
+image/robot_control_gui.png filter=lfs diff=lfs merge=lfs -text
+image/vnc_terminal_interface.png filter=lfs diff=lfs merge=lfs -text
+image/course_spec.jpg filter=lfs diff=lfs merge=lfs -text
